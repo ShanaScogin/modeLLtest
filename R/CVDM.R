@@ -1,7 +1,6 @@
 ### Functions for the Computation of Vuong and the Cross-Validated Johnson's t-test with OLS and MR ###
 
 # Create function to compute skewness ---------------------------
-
 mu3hat <- function(x){
   n <- length(x)
   ns <- n * 1 / (n - 1) * 1 / (n - 2)
@@ -9,7 +8,6 @@ mu3hat <- function(x){
 }
 
 # Create function for Johnson's t ---------------------------
-
 johnsons_t <- function(x){
   m3 <- mu3hat(x)
   s <- sd(x)
@@ -18,7 +16,6 @@ johnsons_t <- function(x){
 }
 
 # Create function for centered Laplace density ---------------------------
-
 dlapl <- function(x, b){
   return(1 / (2 * b) * exp(-abs(x / b)))
 }
@@ -37,7 +34,6 @@ desingular <- function(x, y){
 }
 
 # lls for MR and OLS ---------------------------
-
 ll2 <- function(formula, data){
   ls <- lm(formula, data = data)
   mr <- rq(formula, data = data)
@@ -50,7 +46,6 @@ ll2 <- function(formula, data){
 }
 
 # cvlls for MR and OLS ---------------------------
-
 cvll2 <- function(formula, data){
   devtools::use_package("MASS")
   devtools::use_package("quantreg")
@@ -77,10 +72,9 @@ cvll2 <- function(formula, data){
 }
 
 # Create function for computing the CVJT ---------------------------
-# Takes formula and data frame arguments
-# Returns cvjt and vuong -- respective t-statistics, can be used as t or z stats.
-# both tests are fit(OLS)-fit(MR), such that negative values suport MR
-
+## Takes formula and data frame arguments
+## Returns cvjt and vuong -- respective t-statistics, can be used as t or z stats.
+## both tests are fit(OLS)-fit(MR), such that negative values suport MR
 CVDM <- function(formula, data){
   devtools::use_package("quantreg")
   model <- lm(formula, data = data)
