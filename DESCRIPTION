@@ -1,0 +1,18 @@
+Package: modeLLtest
+Type: Package
+Title: Compare models with Cross-Validated Difference in Means (CVDM) test, MORE
+Version: 0.1.0
+Date: 2018-05-20
+Author: Shana Scogin, Sarah Petersen, Jeff Harden, Bruce A. Desmarais
+Maintainer: Shana Scogin <shanarscogin at gmail.com>
+Description: TBD
+URL: https://github.com/ShanaScogin/modeLLtest
+License: TBD
+Imports:
+    quantreg,
+    MASS
+Encoding: UTF-8
+LazyData: true
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
