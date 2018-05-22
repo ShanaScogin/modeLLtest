@@ -1,13 +1,13 @@
 Package: modeLLtest
 Type: Package
-Title: Compare models with Cross-Validated Difference in Means (CVDM) test, MORE
+Title: Compare models with cross-validated difference in means (CVDM) test, cross-validated median fit (CVMF) test, and bias corrected Vuong tests.
 Version: 0.1.0
 Date: 2018-05-20
-Author: Shana Scogin, Sarah Petersen, Jeff Harden, Bruce A. Desmarais
-Maintainer: Shana Scogin <shanarscogin at gmail.com>
-Description: TBD
+Author: Shana Scogin <shanarscogin@gmail.com>, Sarah Petersen <sarahllpetersen@gmail.com>, Jeff Harden <jeff.harden@nd.edu>, Bruce A. Desmarais <bdesmarais@psu.edu>
+Maintainer: Shana Scogin <shanarscogin@gmail.com>
+Description: An R Package which implements model comparison tests using cross-validated log likelihood (CVLL) values.
 URL: https://github.com/ShanaScogin/modeLLtest
-License: TBD
+License: GPL-3
 Imports:
     quantreg,
     MASS
