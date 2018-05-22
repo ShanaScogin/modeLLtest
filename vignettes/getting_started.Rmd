@@ -7,6 +7,7 @@ vignette: >
   %\VignetteIndexEntry{Getting Started with ModeLLtest}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include = FALSE}
@@ -29,11 +30,11 @@ This vignette introduces you to the modeLLtest R package. The modeLLtest name po
 
 See also the following:
 
-* Smyth, P. 2000. Model selection for probabilistic clustering using cross-validated likelihood. Statistics and Computing 10: 63–72.
+* Clarke, K. (2007). A simple distribution-free test for nonnested hypotheses. Political Analysis 15(3):347–63.
+
+* Smyth, P. (2000). Model selection for probabilistic clustering using cross-validated likelihood. Statistics and Computing 10: 63–72.
 
 * Vuong, Q. H. (1989). Likelihood ratio tests for model selection and non-nested hypotheses. Econometrica, 57, 307-333. <DOI:10.2307/1912557>
-
-* Add clarke 2007?
 
 ## Basic Usage
 
