@@ -1,0 +1,40 @@
+---
+title: "Getting Started with ModeLLtest"
+author: "Shana Scogin"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with ModeLLtest}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+This vignette introduces you to the modeLLtest R package. The modeLLtest name points to the use of cross-validated log likelihood (CVLL) values as a way to compare the fit of different coefficients within a model This can be compared across competing models to choose the model which will produce coefficient estimates closest to the true coefficient values. The tests include the cross-validated difference in means (CVDM) test, the cross-validated median fit (CVMF) test, and bias corrected Vuong tests. The CVMD and CVMF tests employ leave-one-out cross-validation, an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). More on the bias corrected Vuong tests here (Harden and Desmarais 2013).
+
+* Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers: Choosing between Conditional-Mean and Conditional-Median Methods. State Politics & Policy Quarterly, 11(4), 371-389.
+
+* Desmarais, B. A., & Harden, J. J. (2012). Comparing partial likelihood and robust estimation methods for the Cox regression model. Political Analysis, 20(1), 113-135.
+
+* Desmarais, B. A., & Harden, J. J. (2013). Testing for zero inflation in count models: Bias correction for the Vuong test. The Stata Journal, 13(4), 810-835.
+
+* Desmarais, B. A., & Harden, J. J. (2014). An unbiased model comparison test using cross-validation. Quality & Quantity, 48(4), 2155-2173.
+
+See also the following:
+
+* Smyth, P. 2000. Model selection for probabilistic clustering using cross-validated likelihood. Statistics and Computing 10: 63–72.
+
+* Vuong, Q. H. (1989). Likelihood ratio tests for model selection and non-nested hypotheses. Econometrica, 57, 307-333. <DOI:10.2307/1912557>
+
+* Add clarke 2007?
+
+## Basic Usage
+
+## Common Problems and Errors
