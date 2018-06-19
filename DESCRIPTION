@@ -10,9 +10,13 @@ URL: https://github.com/ShanaScogin/modeLLtest
 License: GPL-3
 Imports:
     quantreg,
-    MASS
+    MASS,
+    survival,
+    coxrobust
 Encoding: UTF-8
-LazyData: true
+LazyData: TRUE
 Suggests: knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
+RoxygenNote: 6.0.1

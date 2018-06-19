@@ -36,7 +36,7 @@ desingular <- function(x, y){
 # lls for MR and OLS ---------------------------
 ll2 <- function(formula, data){
   ls <- lm(formula, data = data)
-  mr <- rq(formula, data = data)
+  mr <- quantreg::rq(formula, data = data)
   sig <- summary(ls)$sigma
   b <- mean(abs(residuals(mr)))
   ll_ls <- dnorm(residuals(ls), sd = sig,
@@ -47,8 +47,8 @@ ll2 <- function(formula, data){
 
 # cvlls for MR and OLS ---------------------------
 cvll2 <- function(formula, data){
-  devtools::use_package("MASS")
-  devtools::use_package("quantreg")
+  # want to take this out: devtools::use_package("MASS")
+  # want to take this out: devtools::use_package("quantreg")
   est <- lm(formula, data = data,
             x = TRUE,
             y = TRUE)
@@ -76,7 +76,7 @@ cvll2 <- function(formula, data){
 ## Returns cvjt and vuong -- respective t-statistics, can be used as t or z stats.
 ## both tests are fit(OLS)-fit(MR), such that negative values suport MR
 CVDM <- function(formula, data){
-  devtools::use_package("quantreg")
+  # want to take this out: devtools::use_package("quantreg")
   model <- lm(formula, data = data)
   lls <- ll2(formula, data)
   cvlls <- cvll2(formula, data)
