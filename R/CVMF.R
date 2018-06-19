@@ -18,18 +18,13 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
   ## "trunc" the proportion of observations to recveive positive weight in
   # the next round of IRR (i.e., M in Desmarais and Harden (XXXX)).
 
-  # Load standard survival analysis package
-  devtools::use_package("survival")
-  # Load package for IRR
-  devtools::use_package("coxrobust")
-
   # Estimate PLM
-  plm <- coxph(formula, data = data, method = method, y = TRUE, x = TRUE)
+  plm <- survival::coxph(formula, data = data, method = method, y = TRUE, x = TRUE)
   surv <- plm$y
   x <- plm$x
 
   # Estimate IRR
-  irr <- coxr(formula, data = data, trunc = trunc)
+  irr <- coxrobust::coxr(formula, data = data, trunc = trunc)
 
   # Prep for cross-validation
   n <- nrow(x)
@@ -44,8 +39,8 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
     xi <- as.matrix(x[-ind, ])
 
     # Estimate models without i
-    esti <- coxr(survi ~ xi, trunc = trunc)
-    pesti <- coxph(survi ~ xi, method = method)
+    esti <- coxrobust::coxr(survi ~ xi, trunc = trunc)
+    pesti <- survival::coxph(survi ~ xi, method = method)
 
     # Check if any parameters were undefined without observation i
     # This can happen with very sparse and/or very many covariates
@@ -66,13 +61,13 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
 
 
     # Compute the full and restrcicted partial likelihoods
-    full_ll_r <- coxph(surv ~ offset(as.matrix(x) %*% cbind(esti$coefficients)),
+    full_ll_r <- survival::coxph(surv ~ offset(as.matrix(x) %*% cbind(esti$coefficients)),
                        method = method)$loglik
-    full_ll_c <- coxph(surv ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
+    full_ll_c <- survival::coxph(surv ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
                        method = method)$loglik
-    esti_ll_r <- coxph(survi ~ offset(as.matrix(xi) %*% cbind(esti$coefficients)),
+    esti_ll_r <- survival::coxph(survi ~ offset(as.matrix(xi) %*% cbind(esti$coefficients)),
                        method = method)$loglik
-    esti_ll_c <- coxph(survi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
+    esti_ll_c <- survival::coxph(survi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
                        method = method)$loglik
 
     # Store
