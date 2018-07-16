@@ -4,10 +4,9 @@ author: "Shana Scogin"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with ModeLLtest}
+  %\VignetteIndexEntry{getting_started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  \usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include = FALSE}
@@ -18,7 +17,10 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-This vignette introduces you to the modeLLtest R package. The modeLLtest name points to the use of cross-validated log likelihood (CVLL) values as a way to compare the fit of different coefficients within a model This can be compared across competing models to choose the model which will produce coefficient estimates closest to the true coefficient values. The tests include the cross-validated difference in means (CVDM) test, the cross-validated median fit (CVMF) test, and bias corrected Vuong tests. The CVMD and CVMF tests employ leave-one-out cross-validation, an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). More on the bias corrected Vuong tests here (Harden and Desmarais 2013).
+This vignette introduces you to the modeLLtest R package. The modeLLtest name points to the use of cross-validated log likelihood (CVLL) values as a way to compare the fit of different coefficients within a model. This can be compared across competing models to choose the model which will produce coefficient estimates closest to the true coefficient values. The tests include the cross-validated difference in means (CVDM) test, the cross-validated median fit (CVMF) test, and bias corrected Vuong tests. The CVMD and CVMF tests employ leave-one-out cross-validation, an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). More on the bias corrected Vuong tests here (Harden and Desmarais 2013).
+
+"A likelihood function can be used to compute the likelihood of having observed the
+data on hand, given that the data were drawn from the model corresponding to that likelihood function and vector of parameters" (Appendix, Harden and Desmarais 2011)
 
 * Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers: Choosing between Conditional-Mean and Conditional-Median Methods. State Politics & Policy Quarterly, 11(4), 371-389.
 
@@ -31,6 +33,8 @@ This vignette introduces you to the modeLLtest R package. The modeLLtest name po
 See also the following:
 
 * Clarke, K. (2007). A simple distribution-free test for nonnested hypotheses. Political Analysis 15(3):347–63.
+
+* Johnson, Norman J. (1978). “Modified t Tests and Confidence Intervals for Asymmetrical Populations.” Journal of the American Statistical Association 73:536–44.
 
 * Smyth, P. (2000). Model selection for probabilistic clustering using cross-validated likelihood. Statistics and Computing 10: 63–72.
 

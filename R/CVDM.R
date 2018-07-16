@@ -1,21 +1,43 @@
-### Functions for the Computation of Vuong and the Cross-Validated Johnson's t-test with OLS and MR ###
+#' Create functions for the computation of Vuong and the Cross-Validated Johnson's t-test
+#'
+#' These are functions for the computation of
+#' Vuong and the Cross-Validated Johnson's t-test to test between OLS and MR
+#' @param mu3hat The object returned by the estimation of skewness.
+#' It is used in the estimation of the Johnson's t-test.
+#' @param johnsons_t The object returned by the t-statistic adjustment
+#' for skewness using the procedure suggested by Johnson (1978).
+#' It is estimated using the mu3hat object and used to compute the CVDM test.
+#' @param dlapl The object returned by the estimation of the centered Laplace density.
+#' It is used in the estimation of the ll2 and cvll2 objects.
+#' @param desingular The object returned by the estimation of MORE BOUT MATRIX.
+#' It is used in the estimation of the cvll2 object.
+#' @param ll2 The object returned by the estimation of the individual likelihood (or log likelihood).
+#' It is used in the construction of the CVDM test.
+#' @param cvll2 The object returned by the estimation of the cross-validated log likelihood.
+#' It is estimated using the desingular object and is used to construct the CVDM test.
+#' @param CVDM The objects returned by computing the cross validated Johnson's t-test
+#' and Vuong t-test. MORE ABOUT WHAT OBJECTS IT USES.
+#' Both tests are fit(OLS)-fit(MR), such that negative values suport MR.
+#' @return A function for the computation of Vuong
+#' and the Cross-Validated Johnson's t-test to test between OLS and MR
+#' @export
 
-# Create function to compute skewness ---------------------------
+# Create function to compute skewness
 mu3hat <- function(x){
   n <- length(x)
   ns <- n * 1 / (n - 1) * 1 / (n - 2)
-  ns * sum( (x - mean(x) )^3)
+  ns * sum( (x - mean(x) ) ^ 3)
 }
 
-# Create function for Johnson's t ---------------------------
+# Create function for Johnson's t
 johnsons_t <- function(x){
   m3 <- mu3hat(x)
   s <- sd(x)
   n <- length(x)
-  (mean(x) + m3 / (6 * s^2 * n) + m3 / (3 * s^4) * mean(x)^2) * sqrt(n) / s
+  (mean(x) + m3 / (6 * s ^ 2 * n) + m3 / (3 * s ^ 4) * mean(x) ^ 2) * sqrt(n) / s
 }
 
-# Create function for centered Laplace density ---------------------------
+# Create function for centered Laplace density
 dlapl <- function(x, b){
   return(1 / (2 * b) * exp(-abs(x / b)))
 }
@@ -33,7 +55,7 @@ desingular <- function(x, y){
   return(x)
 }
 
-# lls for MR and OLS ---------------------------
+# lls for MR and OLS
 ll2 <- function(formula, data){
   ls <- lm(formula, data = data)
   mr <- quantreg::rq(formula, data = data)
@@ -45,7 +67,7 @@ ll2 <- function(formula, data){
   return(list(LS = ll_ls, MR = ll_mr))
 }
 
-# cvlls for MR and OLS ---------------------------
+# cvlls for MR and OLS
 cvll2 <- function(formula, data){
   est <- lm(formula, data = data,
             x = TRUE,
@@ -69,7 +91,7 @@ cvll2 <- function(formula, data){
   return(list(LS = cvll_ls, MR = cvll_mr))
 }
 
-# Create function for computing the CVJT ---------------------------
+# Create function for computing the CVJT
 ## Takes formula and data frame arguments
 ## Returns cvjt and vuong -- respective t-statistics, can be used as t or z stats.
 ## both tests are fit(OLS)-fit(MR), such that negative values suport MR
@@ -89,3 +111,5 @@ CVDM <- function(formula, data){
       "Negative test statistics support MR", "\n")
   return(list(test_stat = test_stat, p_value = p_value))
 }
+
+# Need to fix this return message - it's pretty long and annoying
