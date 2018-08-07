@@ -10,7 +10,8 @@
 #'\code{CVDM} returns the cross-validated difference in means test
 #'
 #'These are functions for the computation of Vuong and the Cross-Validated
-#'Johnson's t-test. The main CVDM function tests between OLS and MR and returns
+#'Johnson's t-test as implemented by the CVDM test in Harden and Desmarais (2011).
+#'The main CVDM function tests between OLS and MR and returns
 #'the CVJT and Vuong test -- respective t-statistics, can be used as t or z
 #'stats. Both tests are fit(OLS)-fit(MR), such that negative values support MR.
 #'For this to work properly, the arguments MORE.

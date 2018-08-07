@@ -12,7 +12,8 @@ Imports:
     quantreg,
     MASS,
     survival,
-    coxrobust
+    coxrobust,
+    ggplot2
 Encoding: UTF-8
 LazyData: TRUE
 Suggests: knitr,

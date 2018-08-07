@@ -1,13 +1,19 @@
-#################################################################
-# The functions contained in this file implements               #
-# the cross-validated median fit (CVMF) test                    #
-# in Desmarais and Harden (Forthcoming, Political Analysis).    #
-# The computation of this test statistic may                    #
-# take several minutes. Given N observations in                 #
-# the data, the Cox model must be estimated N                   #
-# times by both PLM and IRR (2N estimations).                   #
-#################################################################
-
+#'Create function to compute the Cross-Validated Median Fit Test
+#'
+#'\code{CVMF} returns the cross-validated median fit test
+#'
+#'The functions contained in this file implement the cross-validated
+#'median fit (CVMF) test in Desmarais and Harden (2012).
+#'The computation of this test statistic may take several minutes.
+#'Given N observations in the data, the Cox model must be estimated N
+#'times by both PLM and IRR (2N estimations).
+#'
+#'@title A function to compute the cross-validated median fit test
+#'(CVMF).
+#'@description One of the main functions provided by the package.
+#'@param CVMF
+#'@return A function for the computation of cross-validated median fit test
+#' (CVMF)
 
 CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
   ## "formula" is a standard R formula representation of the model to be
@@ -16,7 +22,7 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
   ## "method" is the algorithm for handling ties in the PLM. Note that
   # only the Breslow method is available in the coxrobust implementation of IRR.
   ## "trunc" the proportion of observations to recveive positive weight in
-  # the next round of IRR (i.e., M in Desmarais and Harden (XXXX)).
+  # the next round of IRR (i.e., M in Desmarais and Harden (2012)).
 
   # Estimate PLM
   plm <- survival::coxph(formula, data = data, method = method, y = TRUE, x = TRUE)
