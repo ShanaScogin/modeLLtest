@@ -1,7 +1,27 @@
-#' Create functions for the computation of Vuong and the Cross-Validated Johnson's t-test
+# old name: Create function to compute Vuong and the Cross-Validated Johnson's t-test
+# vuong constitutes a z-test of the null hypothesis that E[δ] = 0
+# why is this computing vuong?
+# cvjt is nec because it is possible that there is significant skew
+# in the distribution of δ(cv), the t-statistic is adjusted for
+# skewness using the procedure suggested by Johnson (1978)
+# so this test just combines the two
+
+#' Create function to compute the Cross-Validated Difference in Means Test
 #'
-#' These are functions for the computation of
-#' Vuong and the Cross-Validated Johnson's t-test to test between OLS and MR
+#'\code{CVDM} returns the cross-validated difference in means test
+#'
+#' These are functions for the computation of Vuong and the Cross-Validated
+#' Johnson's t-test. The main CVDM function tests between OLS and MR and
+#' returns the CVJT and Vuong test -- respective t-statistics, can be used
+#' as t or z stats. Both tests are fit(OLS)-fit(MR), such that negative
+#' values support MR. For this to work properly, the arguments MORE.
+#'
+#' @title A function to compute the cross-validated difference in
+#' means test (CVDM).
+#' @description One of the main functions provided by the package.
+#' @param CVDM The objects returned by computing the cross validated Johnson's t-test
+#' and Vuong t-test. MORE ABOUT WHAT OBJECTS IT USES.
+#' Both tests are fit(OLS)-fit(MR), such that negative values suport MR.
 #' @param mu3hat The object returned by the estimation of skewness.
 #' It is used in the estimation of the Johnson's t-test.
 #' @param johnsons_t The object returned by the t-statistic adjustment
@@ -15,12 +35,35 @@
 #' It is used in the construction of the CVDM test.
 #' @param cvll2 The object returned by the estimation of the cross-validated log likelihood.
 #' It is estimated using the desingular object and is used to construct the CVDM test.
-#' @param CVDM The objects returned by computing the cross validated Johnson's t-test
-#' and Vuong t-test. MORE ABOUT WHAT OBJECTS IT USES.
-#' Both tests are fit(OLS)-fit(MR), such that negative values suport MR.
-#' @return A function for the computation of Vuong
-#' and the Cross-Validated Johnson's t-test to test between OLS and MR
-#' @export
+#' @return A function for the computation of Vuong and the Cross-Validated
+#' Johnson's t-test to test between OLS and MR
+
+# for later: Instead of including examples directly in the documentation, you can put
+# them in separate files and use @example path/relative/to/package/root to insert
+# them into the documentation.
+
+# Create function for computing the CVJT
+## Takes formula and data frame arguments
+## Returns cvjt and vuong -- respective t-statistics, can be used as t or z stats.
+## both tests are fit(OLS)-fit(MR), such that negative values support MR
+CVDM <- function(formula, data){
+  model <- lm(formula, data = data)
+  lls <- ll2(formula, data)
+  cvlls <- cvll2(formula, data)
+  lld <- lls[[1]] - lls[[2]]
+  cvlld <- cvlls[[1]] - cvlls[[2]]
+  test_stat <- johnsons_t(cvlld)
+  p_value <- ifelse(test_stat > 0,
+                    pt(test_stat, df = nrow(data) - model$rank,
+                       lower.tail = FALSE),
+                    pt(test_stat, df = nrow(data) - model$rank))
+  cat("Positive test statistics support OLS",
+      "\n",
+      "Negative test statistics support MR", "\n")
+  return(list(test_stat = test_stat, p_value = p_value))
+}
+
+# Need to fix this return message - it's pretty long and annoying
 
 # Create function to compute skewness
 mu3hat <- function(x){
@@ -90,26 +133,3 @@ cvll2 <- function(formula, data){
   }
   return(list(LS = cvll_ls, MR = cvll_mr))
 }
-
-# Create function for computing the CVJT
-## Takes formula and data frame arguments
-## Returns cvjt and vuong -- respective t-statistics, can be used as t or z stats.
-## both tests are fit(OLS)-fit(MR), such that negative values suport MR
-CVDM <- function(formula, data){
-  model <- lm(formula, data = data)
-  lls <- ll2(formula, data)
-  cvlls <- cvll2(formula, data)
-  lld <- lls[[1]] - lls[[2]]
-  cvlld <- cvlls[[1]] - cvlls[[2]]
-  test_stat <- johnsons_t(cvlld)
-  p_value <- ifelse(test_stat > 0,
-                    pt(test_stat, df = nrow(data) - model$rank,
-                       lower.tail = FALSE),
-                    pt(test_stat, df = nrow(data) - model$rank))
-  cat("Positive test statistics support OLS",
-      "\n",
-      "Negative test statistics support MR", "\n")
-  return(list(test_stat = test_stat, p_value = p_value))
-}
-
-# Need to fix this return message - it's pretty long and annoying
