@@ -20,9 +20,8 @@
 #'skewness using the procedure suggested by Johnson (1978). It is estimated
 #'using the mu3hat object and used to compute the CVDM test.
 #'@param dlapl The object returned by the estimation of the centered Laplace
-#'density. It is used in the estimation of the loglikes and cvloglikes objects.
-#'@param loglikes The object returned by the estimation of the individual
-#'likelihood (or log likelihood). It is used in the construction of the CVDM test.
+#'density. This is the laplace equivlant of dnorm() for the normal distribution.
+#'It is used in the estimation of the cvloglikes object.
 #'@param cvloglikes The object returned by the estimation of the
 #'cross-validated log likelihood for both the OLS and MR estimations.
 #'If the inverse of the X'X matrix does not exist for one or more observations,
@@ -37,9 +36,7 @@
 
 cvdm <- function(formula, data){
   model <- lm(formula, data = data)
-  lls <- loglikes(formula, data)
   cvlls <- cvloglikes(formula, data)
-  lldiff <- lls[[1]] - lls[[2]] # log likelihood difference
   cvlldiff <- cvlls[[1]] - cvlls[[2]] # cross-validated log likelihood difference
   test.stat <- johnsons_t(cvlldiff)
   p.value <- ifelse(test.stat > 0,
@@ -66,17 +63,6 @@ johnsons_t <- function(x){ # imput is cross-validated log likelihood difs
 
 dlapl <- function(x, b){
   return(1 / (2 * b) * exp(-abs(x / b)))
-}
-
-loglikes <- function(formula, data){ # log likelihood estimations of OLS and MR
-  ls <- lm(formula, data = data) # OLS model
-  mr <- quantreg::rq(formula, data = data) # MR model
-  sig <- summary(ls)$sigma # dispersion parameter for OLS
-  b <- mean(abs(residuals(mr))) # dispersion parameter for MR
-  ll_ls <- dnorm(residuals(ls), sd = sig,
-                 log = TRUE)
-  ll_mr <- log(dlapl(residuals(mr), b = b))
-  return(list(LS = ll_ls, MR = ll_mr))
 }
 
 cvloglikes <- function(formula, data){ # cross-validated log likelihoods
