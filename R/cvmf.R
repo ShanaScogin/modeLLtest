@@ -14,6 +14,13 @@
 #'@param cvmf
 #'@return A function for the computation of cross-validated median fit test
 #' (CVMF)
+#'
+# what each function does, in general terms;
+#the function arguments (inputs);
+#each function's return value;
+#conditions that may result in an error;
+#functions that need to be imported from external packages;
+#examples of each function's usage
 
 cvmf <- function(formula, data, method = "breslow", trunc = 0.95){
   ## "formula" is a standard R formula representation of the model to be

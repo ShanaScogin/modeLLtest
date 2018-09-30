@@ -14,21 +14,22 @@
 #'@param cvdm The objects returned by computing the cross validated Johnson's
 #'t-test (CVJT). MORE ABOUT WHAT OBJECTS IT USES. Negative values suport MR.
 #'@param mu3hat The object returned by the estimation of skewness. It is
-#'used in the estimation of the Johnson's t-test.
+#'used in the estimation of the Johnson's t-test. The imput is the
+#'object cvloglikes - the cross-validated log likelihood differences.
 #'@param johnsons_t The object returned by the t-statistic adjustment for
 #'skewness using the procedure suggested by Johnson (1978). It is estimated
 #'using the mu3hat object and used to compute the CVDM test.
 #'@param dlapl The object returned by the estimation of the centered Laplace
-#'  density. It is used in the estimation of the loglikes and cvloglikes objects.
-#'@param desingular The object returned by the estimation of MORE BOUT MATRIX.
-#'It is used in the estimation of the cvloglikes objects.
+#'density. It is used in the estimation of the loglikes and cvloglikes objects.
 #'@param loglikes The object returned by the estimation of the individual
 #'likelihood (or log likelihood). It is used in the construction of the CVDM test.
 #'@param cvloglikes The object returned by the estimation of the
-#'cross-validated log likelihood. It is estimated using the desingular object
-#'and is used to construct the CVDM test.
-#'@return A function for the computation of Vuong and the Cross-Validated
-#'Johnson's t-test to test between OLS and MR
+#'cross-validated log likelihood for both the OLS and MR estimations.
+#'If the inverse of the X'X matrix does not exist for one or more observations,
+#'returned object includes an error warning. Uses rq() function from quantreg package.
+#'Object is used to construct the CVDM test.
+#'@return A function for the computation of the Cross-Validated
+#'Johnson's t-test to test between OLS and MR.
 
 # for later: Instead of including examples directly in the documentation, you can put
 # them in separate files and use @example path/relative/to/package/root to insert
@@ -38,16 +39,16 @@ cvdm <- function(formula, data){
   model <- lm(formula, data = data)
   lls <- loglikes(formula, data)
   cvlls <- cvloglikes(formula, data)
-  lld <- lls[[1]] - lls[[2]] # log likelihood difference
-  cvlld <- cvlls[[1]] - cvlls[[2]] # cross-validated log likelihood difference
-  test_stat <- johnsons_t(cvlld)
-  p_value <- ifelse(test_stat > 0,
-                    pt(test_stat, df = nrow(data) - model$rank, # student t distrib
+  lldiff <- lls[[1]] - lls[[2]] # log likelihood difference
+  cvlldiff <- cvlls[[1]] - cvlls[[2]] # cross-validated log likelihood difference
+  test.stat <- johnsons_t(cvlldiff)
+  p.value <- ifelse(test.stat > 0,
+                    pt(test.stat, df = nrow(data) - model$rank, # student t distrib
                        lower.tail = FALSE),
-                    pt(test_stat, df = nrow(data) - model$rank)) # student t distrib
+                    pt(test.stat, df = nrow(data) - model$rank)) # student t distrib
   # Positive test statistics support OLS
   # Negative test statistics support MR
-  return(list(test_stat = test_stat, p_value = p_value))
+  return(list(test.stat = test.stat, p.value = p.value))
 }
 
 mu3hat <- function(x){
@@ -56,7 +57,7 @@ mu3hat <- function(x){
   ns * sum( (x - mean(x) ) ^ 3) # why split
 }
 
-johnsons_t <- function(x){ # x is the cross-validated log likelihood differences
+johnsons_t <- function(x){ # imput is cross-validated log likelihood difs
   m3 <- mu3hat(x)
   s <- sd(x)
   n <- length(x)
@@ -66,20 +67,6 @@ johnsons_t <- function(x){ # x is the cross-validated log likelihood differences
 dlapl <- function(x, b){
   return(1 / (2 * b) * exp(-abs(x / b)))
 }
-
-desingular <- function(x, y){ # add explanatory error message here?
-                              # better object name here?
-  inv <- try(solve(t(x) %*% x))
-  if (!is.matrix(inv)){
-    sdy <- sd(y)
-    for (i in 1:ncol(x)){
-      sdx <- sd(x[, i])
-      if (sdx > 0) x[, i] <- x[, i] + rnorm(length(x[, i]), sd = sdx / 10000)
-      if (sdx == 0) x[, i] <- x[, i] + rnorm(length(x[, i]), sd = sdy / 10000)
-    }
-  }
-  return(x)
-} ### This needs to change to throw the missing obs out or something
 
 loglikes <- function(formula, data){ # log likelihood estimations of OLS and MR
   ls <- lm(formula, data = data) # OLS model
@@ -93,16 +80,22 @@ loglikes <- function(formula, data){ # log likelihood estimations of OLS and MR
 }
 
 cvloglikes <- function(formula, data){ # cross-validated log likelihoods
+  cvll_ls <- numeric(length(y)) # empty vector for OLS cvlls
+  cvll_mr <- numeric(length(y)) # empty vector for MR cvlls
+  singular_count <- 0 # empty vector to count missing observations
   est <- lm(formula, data = data,
             x = TRUE,
             y = TRUE)
   x <- est$x
   y <- est$y
-  cvll_ls <- numeric(length(y))
-  cvll_mr <- numeric(length(y))
-  for (i in 1:length(y)){ # figure out another way besides for loop
+  for (i in 1:length(y)){
     yt <- y[-i]
-    xt <- desingular(x[-i, ], yt)
+    if (!is.matrix(try(solve(t(x) %*% x)))) { # determines if inv X'X exists ### Does this try() help here?####
+      singular_count <- singular_count + 1 # adds to a counter if doesn't exist
+      next # skips to next iteration
+      } else {
+        xt <- x[-i, ] # if inverse X'X exists, creates object
+        }
     yv <- y[i]
     xv <- x[i, ]
     ls <- lm(yt ~ -1 + xt)
@@ -113,4 +106,7 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
     cvll_mr[i] <- log(dlapl(yv - rbind(xv) %*% coef(mr), b = b))
   }
   return(list(LS = cvll_ls, MR = cvll_mr))
+  if (singular_count > 0) {
+    return("One or more observations were skipped")
+  }
 }
