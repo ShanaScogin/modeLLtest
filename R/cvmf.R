@@ -1,21 +1,21 @@
 #'Create function to compute the Cross-Validated Median Fit Test
 #'
-#'\code{CVMF} returns the cross-validated median fit test
+#'\code{cvmf} returns the cross-validated median fit test
 #'
 #'The functions contained in this file implement the cross-validated
-#'median fit (CVMF) test in Desmarais and Harden (2012).
-#'The computation of this test statistic may take several minutes.
-#'Given N observations in the data, the Cox model must be estimated N
-#'times by both PLM and IRR (2N estimations).
+#'median fit (CVMF) test. The function cvmf() tests between the partial
+#'likelihood maximization (PLM) and the iteratively reweighted robust
+#'(IRR) method of estimation for a given application of the Cox model.
 #'
 #'@title A function to compute the cross-validated median fit test
 #'(CVMF).
-#'@description One of the main functions provided by the package.
-#'@param CVMF
+#'@description One of the main functions of the package.
+#'Applies cross-validated log-likelihood to test between PLM and IRR.
+#'@param cvmf
 #'@return A function for the computation of cross-validated median fit test
 #' (CVMF)
 
-CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
+cvmf <- function(formula, data, method = "breslow", trunc = 0.95){
   ## "formula" is a standard R formula representation of the model to be
   # estimated, y ~ x1 + x2 + ... + xk. Note that y must be a "Surv" object
   ## "data" is the data frame containing the variables
@@ -33,6 +33,7 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
   irr <- coxrobust::coxr(formula, data = data, trunc = trunc)
 
   # Prep for cross-validation
+  # Making empty vectors
   n <- nrow(x)
   cvll_r <- numeric(n)
   cvll_c <- numeric(n)
@@ -40,13 +41,13 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
   # Loop through for cross-validation
   for (i in 1:n){
     # Remove current observation
-    ind <- i
+    ind <- i # why not just put -i in the below? ***************
     survi <- surv[-ind, ]
     xi <- as.matrix(x[-ind, ])
 
-    # Estimate models without i
-    esti <- coxrobust::coxr(survi ~ xi, trunc = trunc)
-    pesti <- survival::coxph(survi ~ xi, method = method)
+    # Estimate models without current observation i
+    esti <- coxrobust::coxr(survi ~ xi, trunc = trunc) #********* switch with below irr
+    pesti <- survival::coxph(survi ~ xi, method = method) ### plm - rename to something more descriptive
 
     # Check if any parameters were undefined without observation i
     # This can happen with very sparse and/or very many covariates
@@ -55,7 +56,7 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
 
     # Extract coefficients and covariates
     coef_p <- pesti$coefficients
-    x_p <- x
+    x_p <- x # unrestricted model???? is that what we could call it
     xi_p <- xi
 
     # Remove any covariates with undefined effects
@@ -66,25 +67,26 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
     }
 
 
-    # Compute the full and restrcicted partial likelihoods
+    # Compute the full and restricted partial likelihoods
     full_ll_r <- survival::coxph(surv ~ offset(as.matrix(x) %*% cbind(esti$coefficients)),
-                       method = method)$loglik
+                       method = method)$loglik # this is unrestricted - fix this _r and _c
     full_ll_c <- survival::coxph(surv ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
-                       method = method)$loglik
+                       method = method)$loglik # this is unrestricted with nas dropped - fix this _r and _c
     esti_ll_r <- survival::coxph(survi ~ offset(as.matrix(xi) %*% cbind(esti$coefficients)),
                        method = method)$loglik
     esti_ll_c <- survival::coxph(survi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
                        method = method)$loglik
+    ######### one of the above needs to be IRR right
 
     # Store
-    cvll_r[i] <- full_ll_r - esti_ll_r
+    cvll_r[i] <- full_ll_r - esti_ll_r ## why are we leaving out observations???
     cvll_c[i] <- full_ll_c - esti_ll_c
   }
 
   # Compute the test
   cvmf <- binom.test(sum(cvll_r > cvll_c), n, alternative = "two.sided")
   best <- ifelse(cvmf$statistic > n / 2, "IRR", "PLM")
-  p <- round(cvmf$p_value, digits = 3)
+  p <- round(cvmf$p.value, digits = 3)
   res_sum <- cat(best, " supported with a two-sided p-value of ",
                  p, sep = "", "\n")
 
@@ -102,34 +104,3 @@ CVMF <- function(formula, data, method = "breslow", trunc = 0.95){
   obj
 
 }
-
-### Toy Example. Delete the "#" before each line to run ##
-## Read in survival library
-# require(survival)
-#
-## Set the seed for replication purposes
-# set.seed(12345)
-#
-# Create two covariates with measurement error in the second
-# x1 <- rnorm(100)
-# x2 <- rnorm(100)
-# x2e <- x2 + rnorm(100, 0, 0.5)
-
-## Create the dependent variable with the unobserved x2 (no measurement error)
-## Each coefficient has a true value of 1
-# y <- rexp(100, exp(x1 + x2))
-# y <- Surv(y)
-#
-## Put the observed variables into a data frame
-# dat <- data.frame(y, x1, x2e)
-#
-## Define the formula
-# form <- y ~ x1 + x2e
-#
-# results <- CVMF(formula = form, data = dat)
-
-#
-## Take a look at results
-# results$irr
-## Now the test
-# results$cvmf
