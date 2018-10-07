@@ -11,28 +11,32 @@
 #'@title A function to compute the Cross-Validated Difference in Means Test.
 #'@description One of the main functions of the package.
 #'Applies cross-validated log-likelihood to test between OLS and MR.
-#'@param cvdm The objects returned by computing the cross validated Johnson's
-#'t-test (CVJT). MORE ABOUT WHAT OBJECTS IT USES. Negative values suport MR.
+#'@param cvdm The objects returned by computing the cross-validated difference
+#'in means test (CVDM). Uses rq() function from quantreg package and lm() from
+#'base R. Inputs include the model formula and the data as a dataframe.
+#'Uses the object from the johnsons_t() function and the cvloglikes()
+#'function. Negative values suport MR.
 #'@param mu3hat The object returned by the estimation of skewness. It is
-#'used in the estimation of the Johnson's t-test. The imput is the
-#'object cvloglikes - the cross-validated log likelihood differences.
+#'used in the estimation of the Johnson's t-test. The input is the
+#'object cvloglikes (cross-validated log likelihood difference) in the
+#'cvdm() function.
 #'@param johnsons_t The object returned by the t-statistic adjustment for
-#'skewness using the procedure suggested by Johnson (1978). It is estimated
-#'using the mu3hat object and used to compute the CVDM test.
+#'skewness using the procedure suggested by Johnson (1978). Input is the
+#'object cvlldiff (cross-validated log likelihood difference) within the
+#'cvdm() function. It is estimated using the mu3hat object and used to
+#'compute the CVDM test.
 #'@param dlapl The object returned by the estimation of the centered Laplace
-#'density. This is the laplace equivlant of dnorm() for the normal distribution.
-#'It is used in the estimation of the cvloglikes object.
+#'density. This is the Laplace equivlant of dnorm() for the normal
+#'distribution. It is used in the estimation of the cvloglikes object.
 #'@param cvloglikes The object returned by the estimation of the
 #'cross-validated log likelihood for both the OLS and MR estimations.
+#'Inputs include the model formula and the data as a dataframe.
 #'If the inverse of the X'X matrix does not exist for one or more observations,
-#'returned object includes an error warning. Uses rq() function from quantreg package.
-#'Object is used to construct the CVDM test.
+#'returned object includes an error warning. Uses rq() function from quantreg
+#'package and lm() from base R package. Also uses the object returned from
+#'dlapl(). Object is used to construct the CVDM test.
 #'@return A function for the computation of the Cross-Validated
 #'Johnson's t-test to test between OLS and MR.
-
-# for later: Instead of including examples directly in the documentation, you can put
-# them in separate files and use @example path/relative/to/package/root to insert
-# them into the documentation.
 
 cvdm <- function(formula, data){
   model <- lm(formula, data = data)
@@ -54,7 +58,7 @@ mu3hat <- function(x){
   ns * sum( (x - mean(x) ) ^ 3) # why split
 }
 
-johnsons_t <- function(x){ # imput is cross-validated log likelihood difs
+johnsons_t <- function(x){ # input is cross-validated log likelihood difs
   m3 <- mu3hat(x)
   s <- sd(x)
   n <- length(x)
@@ -71,28 +75,28 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
   singular_count <- 0 # empty vector to count missing observations
   est <- lm(formula, data = data,
             x = TRUE,
-            y = TRUE)
+            y = TRUE) # using lm() to format data
   x <- est$x
   y <- est$y
   for (i in 1:length(y)){
-    yt <- y[-i]
-    if (!is.matrix(try(solve(t(x) %*% x)))) { # determines if inv X'X exists ### Does this try() help here?####
-      singular_count <- singular_count + 1 # adds to a counter if doesn't exist
+    yt <- y[-i] # leaves out observation i
+    if (!is.matrix(try(solve(t(x) %*% x)))) { # returns TRUE if inv X'X does not exist
+      singular_count <- singular_count + 1 # adds to counter if singular
       next # skips to next iteration
       } else {
         xt <- x[-i, ] # if inverse X'X exists, creates object
         }
     yv <- y[i]
     xv <- x[i, ]
-    ls <- lm(yt ~ -1 + xt)
+    ls <- lm(yt ~ -1 + xt) # -1 takes out the intercept (1 is identifier)
     mr <- quantreg::rq(yt ~ -1 + xt)
-    sig <- summary(ls)$sigma
-    b <- mean(abs(residuals(mr)))
+    sig <- summary(ls)$sigma # dispersion parameter
+    b <- mean(abs(residuals(mr))) # dispersion parameter
     cvll_ls[i] <- dnorm(yv - rbind(xv) %*% coef(ls), sd = sig, log = TRUE)
     cvll_mr[i] <- log(dlapl(yv - rbind(xv) %*% coef(mr), b = b))
   }
-  return(list(LS = cvll_ls, MR = cvll_mr))
+  return(list(LS = cvll_ls, MR = cvll_mr)) # add number of observations, maybe missing?
   if (singular_count > 0) {
-    return("One or more observations were skipped")
+    return("One or more observations were skipped") # code as a warning and add spec number
   }
 }
