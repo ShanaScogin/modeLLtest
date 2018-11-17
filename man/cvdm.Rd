@@ -2,56 +2,34 @@
 % Please edit documentation in R/cvdm.R
 \name{cvdm}
 \alias{cvdm}
-\title{A function to compute the Cross-Validated Difference in Means Test.}
+\title{Cross-Validated Difference in Means (CVDM) Test}
 \usage{
 cvdm(formula, data)
 }
 \arguments{
-\item{cvdm}{The objects returned by computing the cross-validated difference
-in means test (CVDM). Uses rq() function from quantreg package and lm() from
-base R. Inputs include the model formula and the data as a dataframe.
-Uses the object from the johnsons_t() function and the cvloglikes()
-function. Negative values suport MR.}
+\item{formula}{An object of class "formula" (or one that can be coerced
+to that class): a symbolic description of the model to be fitted. The
+details of model specification are given under 'Details.'}
 
-\item{mu3hat}{The object returned by the estimation of skewness. It is
-used in the estimation of the Johnson's t-test. The input is the
-object cvloglikes (cross-validated log likelihood difference) in the
-cvdm() function.}
-
-\item{johnsons_t}{The object returned by the t-statistic adjustment for
-skewness using the procedure suggested by Johnson (1978). Input is the
-object cvlldiff (cross-validated log likelihood difference) within the
-cvdm() function. It is estimated using the mu3hat object and used to
-compute the CVDM test.}
-
-\item{dlapl}{The object returned by the estimation of the centered Laplace
-density. This is the Laplace equivlant of dnorm() for the normal
-distribution. It is used in the estimation of the cvloglikes object.}
-
-\item{cvloglikes}{The object returned by the estimation of the
-cross-validated log likelihood for both the OLS and MR estimations.
-Inputs include the model formula and the data as a dataframe.
-If the inverse of the X'X matrix does not exist for one or more observations,
-returned object includes an error warning. Uses rq() function from quantreg
-package and lm() from base R package. Also uses the object returned from
-dlapl(). Object is used to construct the CVDM test.}
+\item{data}{A data frame, list or environment (or object coercible by
+as.data.frame to a data frame) containing the variables in the model.}
 }
 \value{
-A function for the computation of the Cross-Validated
-Johnson's t-test to test between OLS and MR.
+An object to test whether a regression toward the mean, or
+Ordinary Least Squares (OLS), or median regression (MR) is more appropriate. The object is the
+Cross-Validated Johnson's t-test. A positive test statistics support OLS
+and a negative test statistics support MR.
 }
 \description{
-One of the main functions of the package.
-Applies cross-validated log-likelihood to test between OLS and MR.
+Applies cross-validated log-likelihood to test if
+a regression toward the mean (Ordinary Least Squares) or a
+median regression (MR) is a more appropriate model.
 }
 \details{
-Create function to compute the Cross-Validated Difference in Means (CVDM) Test
-
-\code{CVDM} returns the cross-validated difference in means test
-
-The functions contained in this file implement the cross-validated
-difference in means (CVDM) test. The function cvdm() tests between
+This function implements the cross-validated difference in means
+(CVDM) test. The function cvdm() tests between
 Ordinary Least Squares (OLS) and 'Median Regression (MR). It returns
-the Cross Validated Johnson's Test (CVJT).For this to work properly,
+the Cross Validated Johnson's Test (CVJT). MORE about why and how.
+For this to work properly,
 the arguments MORE.
 }

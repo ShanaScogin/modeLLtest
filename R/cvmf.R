@@ -1,23 +1,43 @@
-#'Create function to compute the Cross-Validated Median Fit Test
-#'
-#'\code{cvmf} returns the cross-validated median fit test
-#'
-#'The functions contained in this file implement the cross-validated
-#'median fit (CVMF) test. The function cvmf() tests between the partial
+#'This function implements the cross-validated median fit (CVMF) test.
+#'The function cvmf() tests between the partial
 #'likelihood maximization (PLM) and the iteratively reweighted robust
 #'(IRR) method of estimation for a given application of the Cox model.
-#'If outliers exist, the plm will be biased, but if no outliers exist,
-#'the irr will have high variance.
+#'The Cox model is a partial parametric model that does not make assumptions
+#'about the baseline hazard. It can be estimated via PLM, the standard
+#'estimator, or IRR, a robust estimator that identifies and downweights
+#'outliers. The choice between the two methods involves a trade-off
+#'between bias and efficiency. PLM is more efficient, but biased under
+#'specification problems. IRR reduces bias, but results in high
+#'variance due to the loss of efficiency. This function returns an
+#'object to distinguish the prefered estimation.
 #'
-#'@title A function to compute the cross-validated median fit test
-#'(CVMF).
-#'@description One of the main functions of the package.
-#'Applies cross-validated log-likelihood to test between PLM and IRR.
-#'@param cvmf The objects returned from computing the cross-validated median
-#'fit test (CVMF). Uses the coxph() function from the survival package and
-#'coxr() in the coxrobust package.
-#'@return A function for the computation of cross-validated median fit test
-#' (CVMF).
+#'See also coxph, coxr, Surv
+#'
+#'@title Cross-Validated Median Fit (CVMF) Test
+#'@description Applies cross-validated log-likelihood to test between
+#'partial likelihood maximization (PLM) and the iteratively reweighted
+#'robust (IRR) method of estimation for a given application of the Cox model.
+#'@param formula A formula object, with the response on the left of a ~
+#'operator, and the terms on the right. The response must be a survival
+#'object as returned by the Surv() function from the survival package.
+#'@param data A data frame, list or environment (or object coercible by
+#'as.data.frame to a data frame) containing the variables in the model
+#'or in the subset and the weights argument.
+#'@param method A character string specifying the method for tie handling.
+#'If there are no tied death times all the methods are equivalent.
+#'Following the coxph() function in the survival package, the Efron
+#'approximation is used as the default. The survival package justifies this
+#'due to the Efron method being is more accurate when dealing with tied death
+#'times, and is as efficient computationally than the common Breslow method.
+#'The "exact partial likelihood" is equivalent to a 'conditional logistic model,
+#'and is appropriate when the times are a small set of discrete values.
+#'See documentation from survival package for more.
+#'@param trunc Roughtly, quantile of the sample T_i exp(β'Z_i). It determines
+#'the trimming level for the robust estimator. An argument in the coxr() function
+#'in the coxrobust package.
+#'@param ties An alternate name for for the \code{methods} argument
+#'@return An object computed by the cross-validated median fit test
+#' (CVMF) to test between the PLM and IRR methods of estimating the Cox model.
 
 cvmf <- function(formula, data, method = "efron", trunc = 0.95){
   # Estimate PLM

@@ -13,11 +13,12 @@ Imports:
     MASS,
     survival,
     coxrobust,
-    ggplot2
+    ggplot2,
+    testthat
 Encoding: UTF-8
 LazyData: TRUE
 Suggests: knitr,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

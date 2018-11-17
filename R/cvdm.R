@@ -1,42 +1,23 @@
-#'Create function to compute the Cross-Validated Difference in Means (CVDM) Test
-#'
-#'\code{CVDM} returns the cross-validated difference in means test
-#'
-#'The functions contained in this file implement the cross-validated
-#'difference in means (CVDM) test. The function cvdm() tests between
+#'This function implements the cross-validated difference in means
+#'(CVDM) test. The function cvdm() tests between
 #'Ordinary Least Squares (OLS) and 'Median Regression (MR). It returns
-#'the Cross Validated Johnson's Test (CVJT).For this to work properly,
+#'the Cross Validated Johnson's Test (CVJT). MORE about why and how.
+#'For this to work properly,
 #'the arguments MORE.
 #'
-#'@title A function to compute the Cross-Validated Difference in Means Test.
-#'@description One of the main functions of the package.
-#'Applies cross-validated log-likelihood to test between OLS and MR.
-#'@param cvdm The objects returned by computing the cross-validated difference
-#'in means test (CVDM). Uses rq() function from quantreg package and lm() from
-#'base R. Inputs include the model formula and the data as a dataframe.
-#'Uses the object from the johnsons_t() function and the cvloglikes()
-#'function. Negative values suport MR.
-#'@param mu3hat The object returned by the estimation of skewness. It is
-#'used in the estimation of the Johnson's t-test. The input is the
-#'object cvloglikes (cross-validated log likelihood difference) in the
-#'cvdm() function.
-#'@param johnsons_t The object returned by the t-statistic adjustment for
-#'skewness using the procedure suggested by Johnson (1978). Input is the
-#'object cvlldiff (cross-validated log likelihood difference) within the
-#'cvdm() function. It is estimated using the mu3hat object and used to
-#'compute the CVDM test.
-#'@param dlapl The object returned by the estimation of the centered Laplace
-#'density. This is the Laplace equivlant of dnorm() for the normal
-#'distribution. It is used in the estimation of the cvloglikes object.
-#'@param cvloglikes The object returned by the estimation of the
-#'cross-validated log likelihood for both the OLS and MR estimations.
-#'Inputs include the model formula and the data as a dataframe.
-#'If the inverse of the X'X matrix does not exist for one or more observations,
-#'returned object includes an error warning. Uses rq() function from quantreg
-#'package and lm() from base R package. Also uses the object returned from
-#'dlapl(). Object is used to construct the CVDM test.
-#'@return A function for the computation of the Cross-Validated
-#'Johnson's t-test to test between OLS and MR.
+#'@title Cross-Validated Difference in Means (CVDM) Test
+#'@description Applies cross-validated log-likelihood to test if
+#'a regression toward the mean (Ordinary Least Squares) or a
+#'median regression (MR) is a more appropriate model.
+#'@param formula An object of class "formula" (or one that can be coerced
+#'to that class): a symbolic description of the model to be fitted. The
+#'details of model specification are given under 'Details.'
+#'@param data A data frame, list or environment (or object coercible by
+#'as.data.frame to a data frame) containing the variables in the model.
+#'@return An object to test whether a regression toward the mean, or
+#'Ordinary Least Squares (OLS), or median regression (MR) is more appropriate. The object is the
+#'Cross-Validated Johnson's t-test. A positive test statistics support OLS
+#' and a negative test statistics support MR.
 
 cvdm <- function(formula, data){
   model <- lm(formula, data = data)
@@ -70,14 +51,14 @@ dlapl <- function(x, b){
 }
 
 cvloglikes <- function(formula, data){ # cross-validated log likelihoods
-  cvll_ls <- numeric(length(y)) # empty vector for OLS cvlls
-  cvll_mr <- numeric(length(y)) # empty vector for MR cvlls
   singular_count <- 0 # empty vector to count missing observations
   est <- lm(formula, data = data,
             x = TRUE,
             y = TRUE) # using lm() to format data
   x <- est$x
   y <- est$y
+  cvll_ls <- NA # empty vector for OLS cvlls # changing this from numeric(length(y))
+  cvll_mr <- NA # empty vector for MR cvlls
   for (i in 1:length(y)){
     yt <- y[-i] # leaves out observation i
     if (!is.matrix(try(solve(t(x) %*% x)))) { # returns TRUE if inv X'X does not exist
@@ -93,10 +74,16 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
     sig <- summary(ls)$sigma # dispersion parameter
     b <- mean(abs(residuals(mr))) # dispersion parameter
     cvll_ls[i] <- dnorm(yv - rbind(xv) %*% coef(ls), sd = sig, log = TRUE)
+      # dnorm() sets mean = 0
+      # so dnorm(y = xBeta, mean = 0, sd = sigma) =
+      # dnorm(y, mean = xBeta, sd = sigma)
     cvll_mr[i] <- log(dlapl(yv - rbind(xv) %*% coef(mr), b = b))
   }
-  return(list(LS = cvll_ls, MR = cvll_mr)) # add number of observations, maybe missing?
+  return(list(LS = cvll_ls, MR = cvll_mr, n = length(y))) # add number of observations, maybe missing?
   if (singular_count > 0) {
     return("One or more observations were skipped") # code as a warning and add spec number
+    ## take out last two lines of code and put them in main function
+    ## could take out the counter and just add length(cvll_mr) and (ls) (would need both?)
+    ## then do length(y)-the above for any missing observations
   }
 }
