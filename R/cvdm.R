@@ -30,7 +30,8 @@ cvdm <- function(formula, data){
                     pt(test.stat, df = nrow(data) - model$rank)) # student t distrib
   # Positive test statistics support OLS
   # Negative test statistics support MR
-  return(list(test.stat = test.stat, p.value = p.value))
+  return(list(test.stat = test.stat, p.value = p.value,
+              n = cvlls[3]))
 }
 
 mu3hat <- function(x){
@@ -51,7 +52,6 @@ dlapl <- function(x, b){
 }
 
 cvloglikes <- function(formula, data){ # cross-validated log likelihoods
-  singular_count <- 0 # empty vector to count missing observations
   est <- lm(formula, data = data,
             x = TRUE,
             y = TRUE) # using lm() to format data
@@ -62,7 +62,6 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
   for (i in 1:length(y)){
     yt <- y[-i] # leaves out observation i
     if (!is.matrix(try(solve(t(x) %*% x)))) { # returns TRUE if inv X'X does not exist
-      singular_count <- singular_count + 1 # adds to counter if singular
       next # skips to next iteration
       } else {
         xt <- x[-i, ] # if inverse X'X exists, creates object
@@ -79,11 +78,7 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
       # dnorm(y, mean = xBeta, sd = sigma)
     cvll_mr[i] <- log(dlapl(yv - rbind(xv) %*% coef(mr), b = b))
   }
-  return(list(LS = cvll_ls, MR = cvll_mr, n = length(y))) # add number of observations, maybe missing?
-  if (singular_count > 0) {
-    return("One or more observations were skipped") # code as a warning and add spec number
-    ## take out last two lines of code and put them in main function
-    ## could take out the counter and just add length(cvll_mr) and (ls) (would need both?)
-    ## then do length(y)-the above for any missing observations
-  }
+  return(list(LS = cvll_ls, MR = cvll_mr,
+              n = length(y), # number of observations
+         m = (length(y) - length(cvll_ls)))) # number of missing observations
 }
