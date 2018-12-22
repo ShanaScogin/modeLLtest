@@ -20,18 +20,18 @@
 #' and a negative test statistics support MR.
 
 cvdm <- function(formula, data){
-  model <- lm(formula, data = data)
+  model <- lm(formula, data = data) # using lm() to format - consider redoing
   cvlls <- cvloglikes(formula, data)
   cvlldiff <- cvlls[[1]] - cvlls[[2]] # cross-validated log likelihood difference
   test.stat <- johnsons_t(cvlldiff)
-  p.value <- ifelse(test.stat > 0,
+  p.value <- ifelse (test.stat > 0,
                     pt(test.stat, df = nrow(data) - model$rank, # student t distrib
                        lower.tail = FALSE),
                     pt(test.stat, df = nrow(data) - model$rank)) # student t distrib
   # Positive test statistics support OLS
   # Negative test statistics support MR
   return(list(test.stat = test.stat, p.value = p.value,
-              n = cvlls[3]))
+              n = cvlls[3], missing.obs = cvlls[4]))
 }
 
 mu3hat <- function(x){
@@ -52,13 +52,14 @@ dlapl <- function(x, b){
 }
 
 cvloglikes <- function(formula, data){ # cross-validated log likelihoods
-  est <- lm(formula, data = data,
-            x = TRUE,
-            y = TRUE) # using lm() to format data
-  x <- est$x
-  y <- est$y
-  cvll_ls <- NA # empty vector for OLS cvlls # changing this from numeric(length(y))
+
+  mf <- model.frame(formula = formula, data = data)
+  x <- model.matrix(attr(mf, "terms"), data = mf)
+  y <- model.response(mf)
+
+  cvll_ls <- NA # empty vector for OLS cvlls
   cvll_mr <- NA # empty vector for MR cvlls
+
   for (i in 1:length(y)){
     yt <- y[-i] # leaves out observation i
     if (!is.matrix(try(solve(t(x) %*% x)))) { # returns TRUE if inv X'X does not exist
@@ -78,6 +79,7 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
       # dnorm(y, mean = xBeta, sd = sigma)
     cvll_mr[i] <- log(dlapl(yv - rbind(xv) %*% coef(mr), b = b))
   }
+
   return(list(LS = cvll_ls, MR = cvll_mr,
               n = length(y), # number of observations
          m = (length(y) - length(cvll_ls)))) # number of missing observations

@@ -31,6 +31,7 @@
 #'times, and is as efficient computationally than the common Breslow method.
 #'The "exact partial likelihood" is equivalent to a 'conditional logistic model,
 #'and is appropriate when the times are a small set of discrete values.
+#'This argument does not exist in the coxr() function in the coxrobust package.
 #'See documentation from survival package for more.
 #'@param trunc A value that determines the trimming level for the robust
 #'estimator. The default is 0.95. Roughtly, quantile of the sample T_i exp(β'Z_i).
@@ -53,9 +54,23 @@
 #'@return An object computed by the cross-validated median fit test
 #' (CVMF) to test between the PLM and IRR methods of estimating the Cox model.
 
-cvmf <- function(formula, data, method, trunc, na.action,
-                 f.weight, weights, init, control, singular.ok,
-                 model, subset){
+cvmf <- function(formula, data, method = "efron", trunc = 0.95, na.action,
+                 f.weight, weights, init, control,
+                 singular.ok, subset){
+
+  call <- match.call()
+
+  mf <- match.call(expand.dots = FALSE)
+  m <- match(c("formula", "data", "na.action", "f.weight", "weights",
+               "init", "control", "singular.ok", "subset"), names(mf),
+             nomatch = 0)
+  mf <- mf[c(1, m)]
+  mf[[1]] <- as.name("model.frame")
+  mf <- eval(mf, parent.frame())
+
+
+  ## Note: do we need to do match.call()?
+  ## How to do it with two functions in our function
 
   # method argument default
   if(missing(method)) {
@@ -73,75 +88,67 @@ cvmf <- function(formula, data, method, trunc, na.action,
 
   # na.action argument default
   if(missing(na.action)) {
-    na.action = NULL # need to check if na.action works for both
-                     # coxph and coxr
+    na.action = ""
+    # coxph and coxr
   } else {
     na.action = na.action
   }
 
   # f.weight argument default
   if(missing(f.weight)) {
-    f.weight = NULL
+    f.weight = NA
   } else {
     f.weight = f.weight
   }
 
   # weight argument default
   if(missing(weights)) { # is this the same as weight
-    weights = NULL
+    weights = NA
   } else {
     weights = weights
   }
 
   # init argument default
   if(missing(init)) {
-    init = NULL
+    init = NA
   } else {
     init = init
   }
 
   # control argument default
   if(missing(control)) {
-    control = NULL
+    control = NA
   } else {
     control = control
   }
 
   # singular.ok argument default
   if(missing(singular.ok)) {
-    singular.ok = NULL
+    singular.ok = NA
   } else {
     singular.ok = singular.ok
   }
 
-  # model argument default
-  if(missing(model)) {
-    model = NULL
-  } else {
-    model = model
-  }
-
   # subset argument default
   if(missing(subset)) {
-    subset = NULL
+    subset = NA
   } else {
     subset = subset
   }
 
   # Estimate IRR
-  irr <- coxrobust::coxr(formula = formula, data = data, method = method,
-                         trunc = trunc,
-                         na.action = na.action, f.weight = f.weight,
-                         singular.ok = singular.ok, model = model,
-                         subset = subset)
+  irr <- coxrobust::coxr(formula = formula, data = data, subset = subset,
+                         na.action = na.action, trunc = trunc,
+                         f.weight = f.weight,
+                         singular.ok = singular.ok)
+                                              # creating to return for comparison
 
   # Estimate PLM
-  plm <- survival::coxph(formula = formula, data = data, method = method,
-                         na.action = na.action, weights = weights,
-                         singular.ok = singular.ok, model = model,
-                         subset = subset,
+  plm <- survival::coxph(formula = formula, data = data, weights = weights,
+                         subset = subset, na.action = na.action,
                          init = init, control = control,
                          y = TRUE, x = TRUE) # using coxph() to format data
+                                              # also returning for comparison
   surv <- plm$y
   x <- plm$x
 
@@ -152,6 +159,7 @@ cvmf <- function(formula, data, method, trunc, na.action,
 
   # Loop through for cross-validation
   for (i in 1:n){
+
     # Remove current observation
     survi <- surv[-i, ]
     xi <- as.matrix(x[-i, ])
@@ -179,13 +187,13 @@ cvmf <- function(formula, data, method, trunc, na.action,
 
     # Compute the full and restricted partial likelihoods
     full_ll_r <- survival::coxph(surv ~ offset(as.matrix(x) %*% cbind(esti$coefficients)),
-                       method = method)$loglik # this is unrestricted - fix this _r and _c
+                                 method = method)$loglik # this is unrestricted - fix this _r and _c
     full_ll_c <- survival::coxph(surv ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
-                       method = method)$loglik # this is unrestricted with nas dropped - fix this _r and _c
+                                 method = method)$loglik # this is unrestricted with nas dropped - fix this _r and _c
     esti_ll_r <- survival::coxph(survi ~ offset(as.matrix(xi) %*% cbind(esti$coefficients)),
-                       method = method)$loglik
+                                 method = method)$loglik
     esti_ll_c <- survival::coxph(survi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
-                       method = method)$loglik
+                                 method = method)$loglik
     ### getting the likelihood - so just doesn't to be irr
     ### offset() is forcing it to that beta - that linear predictor
 
@@ -197,15 +205,12 @@ cvmf <- function(formula, data, method, trunc, na.action,
   # Compute the test
   cvmf <- binom.test(sum(cvll_r > cvll_c), n, alternative = "two.sided")
   best <- ifelse(cvmf$statistic > n / 2, "IRR", "PLM")
-    ## binomial test - null is just fair coin, n/2
+  ## binomial test - null is just fair coin, n/2
   p <- round(cvmf$p.value, digits = 3)
   res_sum <- cat(best, " supported with a two-sided p-value of ",
-                 p, sep = "", "\n") # need to cut this out for loops
+                 p, sep = "", "\n")
 
   # Construct the returned object
-  obj <- list(res_sum = res_sum, cvmf = cvmf,
-              cvpl_irr = cvll_r, cvpl_plm = cvll_c,
-              irr = irr)
-  res_sum
-  obj
+  obj <- list(res_sum = res_sum, cvmf = cvmf, irr = irr, plm = plm,
+              cvpl_irr = cvll_r, cvpl_plm = cvll_c, mf = mf, cl = cl)
 }
