@@ -23,7 +23,7 @@
 #'@param data A data frame, list or environment (or object coercible by
 #'as.data.frame to a data frame) containing the variables in the model
 #'or in the subset and the weights argument.
-#'@param method A character string specifying the method for tie handling.
+#'@param method A character string specifying the method for tie handling in coxph().
 #'If there are no tied death times all the methods are equivalent.
 #'Following the coxph() function in the survival package, the Efron
 #'approximation is used as the default. The survival package justifies this
@@ -32,125 +32,120 @@
 #'The "exact partial likelihood" is equivalent to a 'conditional logistic model,
 #'and is appropriate when the times are a small set of discrete values.
 #'This argument does not exist in the coxr() function in the coxrobust package.
-#'See documentation from survival package for more.
+#'For coxr(), method is based on a smooth modification of the partial likelihood.
+#'See documentation from survival package for more on coxph() method and
+#'coxrobust package for coxr() method.
 #'@param trunc A value that determines the trimming level for the robust
 #'estimator. The default is 0.95. Roughtly, quantile of the sample T_i exp(β'Z_i).
 #'It is an argument in the coxr() function in the coxrobust package.
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
 #'@param f.weight
-#'@param weight
-#'@param init
-#'@param control
+#'@param weights
 #'@param singular.ok Logical value indicating how to handle collinearity in the
 #'model matrix. If \code{TRUE}, the program will automatically skip over columns
 #'of the X matrix that are linear combinations of earlier columns. In this case
 #'the coefficients for such columns will be NA, and the variance matrix will contain
 #'zeros. For ancillary calculations, such as the linear predictor, the missing
 #'coefficients are treated as zeros.
-#'@param model
 #'@param subset Expression indicating which subset of the rows of data should be
 #'used in the fit. All observations are included by default.
 #'@return An object computed by the cross-validated median fit test
 #' (CVMF) to test between the PLM and IRR methods of estimating the Cox model.
 
-cvmf <- function(formula, data, method = "efron", trunc = 0.95, na.action,
-                 f.weight, weights, init, control,
-                 singular.ok, subset){
+cvmf <- function(formula, data, method = "efron",
+                 trunc = 0.95,
+                 subset,
+                 na.action,
+                 f.weight = c("linear", "quadratic", "exponential"),
+                 #weights,
+                 singular.ok = TRUE){
 
   call <- match.call()
 
   mf <- match.call(expand.dots = FALSE)
-  m <- match(c("formula", "data", "na.action", "f.weight", "weights",
-               "init", "control", "singular.ok", "subset"), names(mf),
-             nomatch = 0)
+  m  <- match(c("formula", "data", "subset", "na.action"), names(mf),
+              nomatch = 0)
   mf <- mf[c(1, m)]
   mf[[1]] <- as.name("model.frame")
   mf <- eval(mf, parent.frame())
-
-
-  ## Note: do we need to do match.call()?
-  ## How to do it with two functions in our function
-
-  # method argument default
-  if(missing(method)) {
-    method = "efron"
-  } else {
-    method = method
+  if (nrow(mf) == 0) {
+    stop("no (non-missing) observations")
   }
 
-  # trunc argument default
-  if(missing(trunc)) {
-    trunc = 0.95
+  mterms <- attr(mf, "terms")
+
+  y <- model.extract(mf, "response")
+  if ( !inherits(y, "Surv") ) {
+    stop("response must be a \"Surv\" object")
   } else {
-    trunc = trunc
+    type <- attr(y, "type")
+    if ( type != "right" ) {
+      stop(sprintf("\"%s\" type of survival data is not supported", type))
+    }
+  }
+
+  x <- model.matrix(mterms, mf)
+  x <- x[, -1, drop = FALSE]
+
+  # trunc argument default
+  if (missing(trunc)) {
+    trunc <- 0.95
+  }
+
+  # f.weight argument default
+  if (missing(f.weight)) {
+    f.weight <- "quadratic"
+  } else {
+    f.weight <- match.arg(f.weight)
+  }
+  f.weight = which(f.weight == c("linear", "quadratic", "exponential"))
+
+  # weights argument default
+  ny <- nrow(y)
+  if (missing(weights)|| is.null(weights))weights<- rep(1, ny)
+  else {
+    if (any(weights <= 0)) stop("Invalid weights, must be > 0")
+    weights <- weights[sorted]
   }
 
   # na.action argument default
   if(missing(na.action)) {
-    na.action = ""
+    na.action <- NULL
+  } else {
+    na.action <- na.action
     # coxph and coxr
-  } else {
-    na.action = na.action
-  }
-
-  # f.weight argument default
-  if(missing(f.weight)) {
-    f.weight = NA
-  } else {
-    f.weight = f.weight
-  }
-
-  # weight argument default
-  if(missing(weights)) { # is this the same as weight
-    weights = NA
-  } else {
-    weights = weights
-  }
-
-  # init argument default
-  if(missing(init)) {
-    init = NA
-  } else {
-    init = init
-  }
-
-  # control argument default
-  if(missing(control)) {
-    control = NA
-  } else {
-    control = control
-  }
-
-  # singular.ok argument default
-  if(missing(singular.ok)) {
-    singular.ok = NA
-  } else {
-    singular.ok = singular.ok
   }
 
   # subset argument default
   if(missing(subset)) {
-    subset = NA
+    subset <- NULL
   } else {
-    subset = subset
+    subset <- subset
+    # coxr and coxph
   }
 
   # Estimate IRR
-  irr <- coxrobust::coxr(formula = formula, data = data, subset = subset,
-                         na.action = na.action, trunc = trunc,
+  # creating to return for comparison
+  irr <- coxrobust::coxr(formula = formula, data = data,
+                         subset = subset, ##### need to test
+                         na.action = na.action,
+                         trunc = trunc,
                          f.weight = f.weight,
                          singular.ok = singular.ok)
-                                              # creating to return for comparison
 
   # Estimate PLM
-  plm <- survival::coxph(formula = formula, data = data, weights = weights,
-                         subset = subset, na.action = na.action,
-                         init = init, control = control,
-                         y = TRUE, x = TRUE) # using coxph() to format data
-                                              # also returning for comparison
-  surv <- plm$y
-  x <- plm$x
+  # creating to return for comparison
+  plm <- survival::coxph(formula = formula, data = data,
+                         method = method,
+                         weights = weights, ##### need to test
+                         subset = subset, ##### need to test
+                         na.action = na.action, ##### need to test
+                         #excluding init since coxr only allows defaut
+                         #excluding control
+                         singular.ok = singular.ok)
+  # can test subset by entering subset and do plm$x and plm$y
+  # with x = TRUE and y = TRUE in plm
 
   # Making empty vectors to prep for cross-validation
   n <- nrow(x)
@@ -161,12 +156,14 @@ cvmf <- function(formula, data, method = "efron", trunc = 0.95, na.action,
   for (i in 1:n){
 
     # Remove current observation
-    survi <- surv[-i, ]
+    yi <- y[-i, ]
     xi <- as.matrix(x[-i, ])
 
     # Estimate models without current observation i
-    pesti <- survival::coxph(survi ~ xi, method = method) ### plm - rename to something more descriptive
-    esti <- coxrobust::coxr(survi ~ xi, trunc = trunc)
+    pesti <- survival::coxph(yi ~ xi,
+                             method = method)
+    esti <- coxrobust::coxr(yi ~ xi,
+                            trunc = trunc)
 
     # Check if any parameters were undefined without observation i
     # This can happen with very sparse and/or very many covariates
@@ -175,7 +172,7 @@ cvmf <- function(formula, data, method = "efron", trunc = 0.95, na.action,
 
     # Extract coefficients and covariates
     coef_p <- pesti$coefficients
-    x_p <- x # unrestricted model???? is that what we could call it
+    x_p <- x
     xi_p <- xi
 
     # Remove any covariates with undefined effects
@@ -186,16 +183,16 @@ cvmf <- function(formula, data, method = "efron", trunc = 0.95, na.action,
     }
 
     # Compute the full and restricted partial likelihoods
-    full_ll_r <- survival::coxph(surv ~ offset(as.matrix(x) %*% cbind(esti$coefficients)),
+    full_ll_r <- survival::coxph(y ~ offset(as.matrix(x) %*% cbind(esti$coefficients)),
                                  method = method)$loglik # this is unrestricted - fix this _r and _c
-    full_ll_c <- survival::coxph(surv ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
+    full_ll_c <- survival::coxph(y ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
                                  method = method)$loglik # this is unrestricted with nas dropped - fix this _r and _c
-    esti_ll_r <- survival::coxph(survi ~ offset(as.matrix(xi) %*% cbind(esti$coefficients)),
+    esti_ll_r <- survival::coxph(yi ~ offset(as.matrix(xi) %*% cbind(esti$coefficients)),
                                  method = method)$loglik
-    esti_ll_c <- survival::coxph(survi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
+    esti_ll_c <- survival::coxph(yi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
                                  method = method)$loglik
-    ### getting the likelihood - so just doesn't to be irr
-    ### offset() is forcing it to that beta - that linear predictor
+    ### getting the likelihood - so just doesn't have to be irr
+    ### offset() is forcing it to beta - linear predictor
 
     # Store
     cvll_r[i] <- full_ll_r - esti_ll_r ## why are we leaving out observations???
@@ -212,5 +209,5 @@ cvmf <- function(formula, data, method = "efron", trunc = 0.95, na.action,
 
   # Construct the returned object
   obj <- list(res_sum = res_sum, cvmf = cvmf, irr = irr, plm = plm,
-              cvpl_irr = cvll_r, cvpl_plm = cvll_c, mf = mf, cl = cl)
+              cvpl_irr = cvll_r, cvpl_plm = cvll_c)
 }
