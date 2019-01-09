@@ -8,8 +8,8 @@
 #'outliers. The choice between the two methods involves a trade-off
 #'between bias and efficiency. PLM is more efficient, but biased under
 #'specification problems. IRR reduces bias, but results in high
-#'variance due to the loss of efficiency. This function returns an
-#'object to distinguish the prefered estimation.
+#'variance due to the loss of efficiency. The cvmf() function returns an
+#'object to identify the prefered estimation method.
 #'
 #'See also \code{\link{coxph}}, \code{\link{coxr}}, \code{\link{Surv}}
 #'
@@ -53,12 +53,13 @@
 #'@return An object computed by the cross-validated median fit test
 #' (CVMF) to test between the PLM and IRR methods of estimating the Cox model.
 
-cvmf <- function(formula, data, method = "efron",
+cvmf <- function(formula, data,
+                 method = c("exact","approximate", "efron", "breslow"),
                  trunc = 0.95,
                  subset,
                  na.action,
                  f.weight = c("linear", "quadratic", "exponential"),
-                 #weights,
+                 weights,
                  singular.ok = TRUE){
 
   call <- match.call()
@@ -66,6 +67,9 @@ cvmf <- function(formula, data, method = "efron",
   mf <- match.call(expand.dots = FALSE)
   m  <- match(c("formula", "data", "subset", "na.action"), names(mf),
               nomatch = 0)
+  if (m[1]==0) {
+    stop("A formula argument is required")
+  }
   mf <- mf[c(1, m)]
   mf[[1]] <- as.name("model.frame")
   mf <- eval(mf, parent.frame())
@@ -97,19 +101,28 @@ cvmf <- function(formula, data, method = "efron",
   if (missing(f.weight)) {
     f.weight <- "quadratic"
   } else {
-    f.weight <- match.arg(f.weight)
+    f.weight <- f.weight
   }
-  f.weight = which(f.weight == c("linear", "quadratic", "exponential"))
+
+  # f.weight argument default
+  if (missing(method)) {
+    method <- "efron"
+  } else {
+    method <- method
+  }
 
   # weights argument default
+  ## taken from coxph.fit.R() in survival package
   ny <- nrow(y)
-  if (missing(weights)|| is.null(weights))weights<- rep(1, ny)
-  else {
-    if (any(weights <= 0)) stop("Invalid weights, must be > 0")
-    weights <- weights[sorted]
+  if (missing(weights)) {
+    weights <- rep(1, ny)
+  } else {
+    weights <- weights
   }
 
   # na.action argument default
+  ######### this really needs to be tested
+  ######### might could take this out bc it's in match.call() above
   if(missing(na.action)) {
     na.action <- NULL
   } else {
@@ -117,35 +130,23 @@ cvmf <- function(formula, data, method = "efron",
     # coxph and coxr
   }
 
-  # subset argument default
-  if(missing(subset)) {
-    subset <- NULL
-  } else {
-    subset <- subset
-    # coxr and coxph
-  }
-
   # Estimate IRR
   # creating to return for comparison
-  irr <- coxrobust::coxr(formula = formula, data = data,
-                         subset = subset, ##### need to test
-                         na.action = na.action,
+  irr <- coxrobust::coxr(formula = y ~ x,
+                         na.action = na.action, ### need to test this
                          trunc = trunc,
-                         f.weight = f.weight,
+                         f.weight = f.weight, ### tested one round of this but more needed
                          singular.ok = singular.ok)
 
   # Estimate PLM
   # creating to return for comparison
-  plm <- survival::coxph(formula = formula, data = data,
+  plm <- survival::coxph(formula = y ~ x,
                          method = method,
                          weights = weights, ##### need to test
-                         subset = subset, ##### need to test
                          na.action = na.action, ##### need to test
                          #excluding init since coxr only allows defaut
                          #excluding control
                          singular.ok = singular.ok)
-  # can test subset by entering subset and do plm$x and plm$y
-  # with x = TRUE and y = TRUE in plm
 
   # Making empty vectors to prep for cross-validation
   n <- nrow(x)
@@ -158,12 +159,21 @@ cvmf <- function(formula, data, method = "efron",
     # Remove current observation
     yi <- y[-i, ]
     xi <- as.matrix(x[-i, ])
+    weightsi <- weights[-i]
 
     # Estimate models without current observation i
     pesti <- survival::coxph(yi ~ xi,
-                             method = method)
+                             method = method,
+                             weights = weightsi, ##### need to test
+                             na.action = na.action, ##### need to test
+                             #excluding init since coxr only allows defaut
+                             #excluding control
+                             singular.ok = singular.ok)
     esti <- coxrobust::coxr(yi ~ xi,
-                            trunc = trunc)
+                            na.action = na.action, ### need to test this
+                            trunc = trunc,
+                            f.weight = f.weight, ### tested one round of this but more needed
+                            singular.ok = singular.ok)
 
     # Check if any parameters were undefined without observation i
     # This can happen with very sparse and/or very many covariates
