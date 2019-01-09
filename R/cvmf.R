@@ -79,6 +79,8 @@ cvmf <- function(formula, data,
 
   mterms <- attr(mf, "terms")
 
+  #### perhaps add an error message for subset?
+
   y <- model.extract(mf, "response")
   if ( !inherits(y, "Surv") ) {
     stop("response must be a \"Surv\" object")
@@ -214,10 +216,21 @@ cvmf <- function(formula, data,
   best <- ifelse(cvmf$statistic > n / 2, "IRR", "PLM")
   ## binomial test - null is just fair coin, n/2
   p <- round(cvmf$p.value, digits = 3)
-  res_sum <- cat(best, " supported with a two-sided p-value of ",
-                 p, sep = "", "\n")
 
   # Construct the returned object
-  obj <- list(res_sum = res_sum, cvmf = cvmf, irr = irr, plm = plm,
-              cvpl_irr = cvll_r, cvpl_plm = cvll_c)
+  obj <- list(best = best,
+              p = p,
+              cvmf = cvmf,
+              irr = irr, # prints plm results
+              plm = plm,
+              cvpl_irr = cvll_r,
+              cvpl_plm = cvll_c,
+              x = x,
+              y = y,
+              call = call)
+
+  class(obj) <- "cvmf"
+
+  obj
+
 }
