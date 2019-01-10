@@ -20,18 +20,33 @@
 #' and a negative test statistics support MR.
 
 cvdm <- function(formula, data){
-  model <- lm(formula, data = data) # using lm() to format - consider redoing
+
+  call <- match.call() # this doesn't do anything now -will add more when add arguments
+
+  model <- lm(formula, data = data) # using lm() for rank - consider redoing
   cvlls <- cvloglikes(formula, data)
   cvlldiff <- cvlls[[1]] - cvlls[[2]] # cross-validated log likelihood difference
-  test.stat <- johnsons_t(cvlldiff)
-  p.value <- ifelse (test.stat > 0,
-                    pt(test.stat, df = nrow(data) - model$rank, # student t distrib
+  test_stat <- johnsons_t(cvlldiff)
+  p_value <- ifelse (test_stat > 0,
+                    pt(test_stat, df = nrow(data) - model$rank, # student t distrib
                        lower.tail = FALSE),
-                    pt(test.stat, df = nrow(data) - model$rank)) # student t distrib
+                    pt(test_stat, df = nrow(data) - model$rank)) # student t distrib
   # Positive test statistics support OLS
   # Negative test statistics support MR
-  return(list(test.stat = test.stat, p.value = p.value,
-              n = cvlls[3], missing.obs = cvlls[4]))
+  best <- ifelse(test_stat > 0, "OLS", "MR")
+  obj <- list(best = best,
+              test_stat = test_stat,
+              p_value = p_value,
+              n = cvlls[1],
+              ols_stat = cvlls[2],
+              mr_stat = cvlls[3],
+              missing_obs = cvlls[4],
+              call = call)
+
+  class(obj) <- "cvdm"
+
+  obj
+
 }
 
 mu3hat <- function(x){
@@ -80,7 +95,9 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
     cvll_mr[i] <- log(dlapl(yv - rbind(xv) %*% coef(mr), b = b))
   }
 
-  return(list(LS = cvll_ls, MR = cvll_mr,
+  return(list(LS = cvll_ls,
+              MR = cvll_mr,
               n = length(y), # number of observations
-         m = (length(y) - length(cvll_ls)))) # number of missing observations
+              m = (length(y) - length(cvll_ls)))) # number of missing observations
+
 }
