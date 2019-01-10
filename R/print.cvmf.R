@@ -11,7 +11,7 @@ print.cvmf <- function(x, digits = max(3, getOption("digits") - 4), ...) {
   cat("\nCall:\n", deparse(x$call), "\n\n", sep = "")
 
   cat(x$best, " supported with a two-sided p-value of ",
-      x$p, sep = "", "\n")
+      x$p_value, sep = "", "\n")
 
   invisible(x)
 

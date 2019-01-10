@@ -40,8 +40,10 @@
 #'It is an argument in the coxr() function in the coxrobust package.
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
-#'@param f.weight
-#'@param weights
+#'@param f.weight A type of weighting function for coxr() in the coxrobust package.
+#'The default is \code{quadratic}. See coxr() documentation for more.
+#'@param weights A vector of case weights for coxph() in the survival package.
+#'See coxph() documentation for more.
 #'@param singular.ok Logical value indicating how to handle collinearity in the
 #'model matrix. If \code{TRUE}, the program will automatically skip over columns
 #'of the X matrix that are linear combinations of earlier columns. In this case
@@ -50,8 +52,9 @@
 #'coefficients are treated as zeros.
 #'@param subset Expression indicating which subset of the rows of data should be
 #'used in the fit. All observations are included by default.
-#'@return An object computed by the cross-validated median fit test
+#'@return An object of class \code{cvmf} computed by the cross-validated median fit test
 #' (CVMF) to test between the PLM and IRR methods of estimating the Cox model.
+#' See \code{cvmf.object} for more details.
 
 cvmf <- function(formula, data,
                  method = c("exact","approximate", "efron", "breslow"),
@@ -219,8 +222,12 @@ cvmf <- function(formula, data,
 
   # Construct the returned object
   obj <- list(best = best,
-              p = p,
+              p_value = p,
               cvmf = cvmf,
+              cvmf_stat = cvmf[1],
+              cvmf_obs = cvmf[2],
+              cvmf_p = cvmf[3],
+              cvmf_ci = cvmf[4],
               irr = irr, # prints plm results
               plm = plm,
               cvpl_irr = cvll_r,
