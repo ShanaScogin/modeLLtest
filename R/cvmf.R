@@ -217,8 +217,9 @@ cvmf <- function(formula, data,
   # Compute the test
   cvmf <- binom.test(sum(cvll_r > cvll_c), n, alternative = "two.sided")
   best <- ifelse(cvmf$statistic > n / 2, "IRR", "PLM")
-  ## binomial test - null is just fair coin, n/2
+      ## binomial test - null is just fair coin, n/2
   p <- round(cvmf$p.value, digits = 3)
+  coef <- dimnames(x)[[2]]
 
   # Construct the returned object
   obj <- list(best = best,
@@ -228,8 +229,15 @@ cvmf <- function(formula, data,
               cvmf_obs = cvmf[2],
               cvmf_p = cvmf[3],
               cvmf_ci = cvmf[4],
-              irr = irr, # prints plm results
+              coef = coef,
+              irr = irr,
               plm = plm,
+              irr_coefs = irr[1],
+              plm_coefs = plm[1],
+              irr_var = irr[5],
+              plm_var = plm[2],
+              irr_wald = irr[8],
+              plm_wald = plm[14],
               cvpl_irr = cvll_r,
               cvpl_plm = cvll_c,
               x = x,
