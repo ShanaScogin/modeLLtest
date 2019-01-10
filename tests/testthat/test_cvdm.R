@@ -1,5 +1,6 @@
-test_that("CVDM runs", {
-  skip_on_cran()
+test_that("Simple model with cvdm runs", {
+  #skip_on_cran()
+  ## need to figure out why skip_on_cran() is skipping and failing crap
 
   set.seed(123456)
   b0 <- .2 # True value for the intercept
@@ -10,15 +11,16 @@ test_that("CVDM runs", {
   Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
 
   obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)))
-  test_stat <- obj_cvdm$test.stat
+  test_stat <- obj_cvdm$test_stat
   check_against <- c(3.45354)
   expect_equal(round(as.numeric(test_stat), 5),
                check_against)
 
-  test_pval <- obj_cvdm$p.value
+  test_pval <- obj_cvdm$p_value
   check_against <- c(0.0003002297)
   expect_equal(round(as.numeric(test_pval), 10),
                check_against)
+
 })
 
 

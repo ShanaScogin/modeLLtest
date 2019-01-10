@@ -4,7 +4,9 @@
 \alias{cvmf}
 \title{Cross-Validated Median Fit (CVMF) Test}
 \usage{
-cvmf(formula, data, method = "efron", trunc = 0.95)
+cvmf(formula, data, method = c("exact", "approximate", "efron",
+  "breslow"), trunc = 0.95, subset, na.action, f.weight = c("linear",
+  "quadratic", "exponential"), weights, singular.ok = TRUE)
 }
 \arguments{
 \item{formula}{A formula object, with the response on the left of a ~
@@ -15,7 +17,7 @@ object as returned by the Surv() function from the survival package.}
 as.data.frame to a data frame) containing the variables in the model
 or in the subset and the weights argument.}
 
-\item{method}{A character string specifying the method for tie handling.
+\item{method}{A character string specifying the method for tie handling in coxph().
 If there are no tied death times all the methods are equivalent.
 Following the coxph() function in the survival package, the Efron
 approximation is used as the default. The survival package justifies this
@@ -23,17 +25,38 @@ due to the Efron method being is more accurate when dealing with tied death
 times, and is as efficient computationally than the common Breslow method.
 The "exact partial likelihood" is equivalent to a 'conditional logistic model,
 and is appropriate when the times are a small set of discrete values.
-See documentation from survival package for more.}
+This argument does not exist in the coxr() function in the coxrobust package.
+For coxr(), method is based on a smooth modification of the partial likelihood.
+See documentation from survival package for more on coxph() method and
+coxrobust package for coxr() method.}
 
-\item{trunc}{Roughtly, quantile of the sample T_i exp(β'Z_i). It determines
-the trimming level for the robust estimator. An argument in the coxr() function
-in the coxrobust package.}
+\item{trunc}{A value that determines the trimming level for the robust
+estimator. The default is 0.95. Roughtly, quantile of the sample T_i exp(β'Z_i).
+It is an argument in the coxr() function in the coxrobust package.}
 
-\item{ties}{An alternate name for for the \code{methods} argument}
+\item{subset}{Expression indicating which subset of the rows of data should be
+used in the fit. All observations are included by default.}
+
+\item{na.action}{A missing-data filter function, applied to the model.frame,
+after any subset argument has been used.}
+
+\item{f.weight}{A type of weighting function for coxr() in the coxrobust package.
+The default is \code{quadratic}. See coxr() documentation for more.}
+
+\item{weights}{A vector of case weights for coxph() in the survival package.
+See coxph() documentation for more.}
+
+\item{singular.ok}{Logical value indicating how to handle collinearity in the
+model matrix. If \code{TRUE}, the program will automatically skip over columns
+of the X matrix that are linear combinations of earlier columns. In this case
+the coefficients for such columns will be NA, and the variance matrix will contain
+zeros. For ancillary calculations, such as the linear predictor, the missing
+coefficients are treated as zeros.}
 }
 \value{
-An object computed by the cross-validated median fit test
+An object of class \code{cvmf} computed by the cross-validated median fit test
 (CVMF) to test between the PLM and IRR methods of estimating the Cox model.
+See \code{cvmf.object} for more details.
 }
 \description{
 Applies cross-validated log-likelihood to test between
@@ -51,8 +74,8 @@ estimator, or IRR, a robust estimator that identifies and downweights
 outliers. The choice between the two methods involves a trade-off
 between bias and efficiency. PLM is more efficient, but biased under
 specification problems. IRR reduces bias, but results in high
-variance due to the loss of efficiency. This function returns an
-object to distinguish the prefered estimation.
+variance due to the loss of efficiency. The cvmf() function returns an
+object to identify the prefered estimation method.
 
 See also \code{\link{coxph}}, \code{\link{coxr}}, \code{\link{Surv}}
 }
