@@ -21,6 +21,10 @@
 
 cvdm <- function(formula, data){
 
+  ## include singular.ok??? - right now skips singular
+  ## include na.action?? - right now cannot handle NAs
+  ## include subset (easy)
+
   call <- match.call() # this doesn't do anything now -will add more when add arguments
 
   model <- lm(formula, data = data) # using lm() for rank - consider redoing
