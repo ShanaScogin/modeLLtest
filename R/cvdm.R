@@ -7,7 +7,7 @@
 #'
 #'@title Cross-Validated Difference in Means (CVDM) Test
 #'@description Applies cross-validated log-likelihood to test if
-#'a regression toward the mean (Ordinary Least Squares) or a
+#'a regression toward the mean - Ordinary Least Squares (OLS) - or a
 #'median regression (MR) is a more appropriate model.
 #'@param formula An object of class "formula" (or one that can be coerced
 #'to that class): a symbolic description of the model to be fitted. The

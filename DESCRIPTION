@@ -14,7 +14,8 @@ Imports:
     survival,
     coxrobust,
     ggplot2,
-    testthat
+    testthat,
+    Rcpp
 Encoding: UTF-8
 LazyData: TRUE
 Suggests: knitr,
@@ -22,3 +23,5 @@ Suggests: knitr,
     testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
+LinkingTo: 
+    Rcpp

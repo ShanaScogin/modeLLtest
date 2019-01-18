@@ -44,7 +44,7 @@ print.cvmf <- function(x, digits = max(3, getOption("digits") - 4), ...) {
   cat("\nRobust estimator\n")
   print(tmp)
   cat("\nExtended Wald test = ", x$irr_wald[[1]], " on ", df, " df,", " p = ",
-      1 - pchisq(x$irr_wald[[1]], df), "\n", sep="")
+      1 - pchisq(as.numeric(x$irr_wald[[1]]), df), "\n", sep="")
 
   invisible(x)
 
