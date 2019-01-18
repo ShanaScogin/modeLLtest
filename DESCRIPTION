@@ -10,14 +10,12 @@ URL: https://github.com/ShanaScogin/modeLLtest
 License: GPL-3
 Imports:
     quantreg,
-    MASS,
     survival,
     coxrobust,
-    ggplot2,
-    testthat,
-    Rcpp
+    ggplot2
 Encoding: UTF-8
 LazyData: TRUE
+LazyLoad: TRUE
 Suggests: knitr,
     rmarkdown,
     testthat

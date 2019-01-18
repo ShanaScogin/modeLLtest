@@ -34,7 +34,7 @@ print.cvmf <- function(x, digits = max(3, getOption("digits") - 4), ...) {
   cat("\nPartial likelihood estimator\n")
   print(tmp)
   cat("\nWald test = ", x$plm_wald[[1]], " on ", df, " df,", " p = ",
-      1 - pchisq(x$plm_wald[[1]], df), "\n", sep="")
+      1 - pchisq(as.numeric(x$plm_wald[[1]]), df), "\n", sep="")
 
   tmp <- cbind(as.numeric(x$irr_coefs[[1]]), exp(as.numeric(x$irr_coefs[[1]])), sd_irr,
                2 * (1 - pnorm(abs(as.numeric(x$irr_coefs[[1]]) / sd_irr))))
