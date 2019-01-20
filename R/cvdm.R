@@ -18,6 +18,7 @@
 #'Ordinary Least Squares (OLS), or median regression (MR) is more appropriate. The object is the
 #'Cross-Validated Johnson's t-test. A positive test statistics support OLS
 #' and a negative test statistics support MR.
+#' @export
 
 cvdm <- function(formula, data){
 

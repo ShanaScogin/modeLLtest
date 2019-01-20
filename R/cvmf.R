@@ -55,6 +55,7 @@
 #'@return An object of class \code{cvmf} computed by the cross-validated median fit test
 #' (CVMF) to test between the PLM and IRR methods of estimating the Cox model.
 #' See \code{cvmf.object} for more details.
+#' @export
 
 cvmf <- function(formula, data,
                  method = c("exact","approximate", "efron", "breslow"),

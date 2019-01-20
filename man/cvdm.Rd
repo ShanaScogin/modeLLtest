@@ -22,7 +22,7 @@ and a negative test statistics support MR.
 }
 \description{
 Applies cross-validated log-likelihood to test if
-a regression toward the mean (Ordinary Least Squares) or a
+a regression toward the mean - Ordinary Least Squares (OLS) - or a
 median regression (MR) is a more appropriate model.
 }
 \details{

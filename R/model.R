@@ -4,7 +4,6 @@ model <- function(object, ...) UseMethod("model")
 print.model <- function(x, ...)
 {
   cat("\nModel:", x$model, "\n")
-
   invisible(x)
 }
 

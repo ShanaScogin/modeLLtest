@@ -24,7 +24,9 @@
 #'@return An object of class \code{cvmf} computed by the cross-validated log likelihood
 #'test (CVLL). See \code{cvll.object} for more details.
 
-cvll <- function(formula, data,
+cvll <- function(formula,
+                 #formulaB, ## this can compare model fit with another form
+                 data,
                  model = c("OLS", "MR", "Poisson", "Bernoulli", "Logit", "Probit"),
                  subset,
                  na.action,
@@ -34,9 +36,12 @@ cvll <- function(formula, data,
   call <- match.call()
 
   ## Model
-  if(is.character(model))
+  if(is.character(model)) {
     model <- get(model, mode = "function", envir = parent.frame())
-  if(is.function(model)) model <- model()
+  }
+  if(is.function(model)) {
+    model()
+  }
   if(is.null(model$model)) {
     print(model)
     stop("'Model' not recognized")
@@ -67,13 +72,14 @@ cvll <- function(formula, data,
   x <- model.matrix(mterms, mf)
   x <- x[, -1, drop = FALSE]
 
+#  if(model == "OLS"){
+#    cvll <- cvll.ols(x, y)
+#  }
   # Get model functions:
   cvll <- model(x, y)
   cvll <- model$cvll
 
-  obj <- list(cvll = cvll,
-              x = x,
-              y = y)
+  obj <- list(cvll = cvll$LS)
 
   #class(obj) <- "cvll"
 
