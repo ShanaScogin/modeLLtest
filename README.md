@@ -1,4 +1,4 @@
-# modeLLtest
+# modeLLtest [![Build Status](https://travis-ci.com/ShanaScogin/modeLLtest.svg?branch=master)](https://travis-ci.com/ShanaScogin/modeLLtest)
 An R Package which implements model comparison tests using cross-validated log likelihood (CVLL) values. 
 
 # Test Overviews
