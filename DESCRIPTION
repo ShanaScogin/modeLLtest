@@ -1,6 +1,6 @@
 Package: modeLLtest
 Type: Package
-Title: Compare models with cross-validated difference in means (CVDM) test, cross-validated median fit (CVMF) test, and bias corrected Vuong tests.
+Title: Compare models with Cross Validated Log Likelihood (CVLL)
 Version: 0.1.0
 Date: 2018-05-20
 Author: Shana Scogin <shanarscogin@gmail.com>, Sarah Petersen <sarahllpetersen@gmail.com>, Jeff Harden <jeff.harden@nd.edu>, Bruce A. Desmarais <bdesmarais@psu.edu>

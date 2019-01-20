@@ -36,8 +36,9 @@
 #'See documentation from survival package for more on coxph() method and
 #'coxrobust package for coxr() method.
 #'@param trunc A value that determines the trimming level for the robust
-#'estimator. The default is 0.95. Roughtly, quantile of the sample T_i exp(\beta'Z_i).
-#'It is an argument in the coxr() function in the coxrobust package.
+#'estimator. The default is 0.95. Roughtly, quantile of the sample
+#'\eqn{T_i exp(\beta'Z_i)}. It is an argument in the coxr() function
+#'in the coxrobust package.
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
 #'@param f.weight A type of weighting function for coxr() in the coxrobust package.

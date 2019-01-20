@@ -31,8 +31,9 @@ See documentation from survival package for more on coxph() method and
 coxrobust package for coxr() method.}
 
 \item{trunc}{A value that determines the trimming level for the robust
-estimator. The default is 0.95. Roughtly, quantile of the sample T_i exp(\beta'Z_i).
-It is an argument in the coxr() function in the coxrobust package.}
+estimator. The default is 0.95. Roughtly, quantile of the sample
+\eqn{T_i exp(\beta'Z_i)}. It is an argument in the coxr() function
+in the coxrobust package.}
 
 \item{subset}{Expression indicating which subset of the rows of data should be
 used in the fit. All observations are included by default.}
