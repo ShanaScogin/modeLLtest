@@ -63,6 +63,9 @@ See \code{cvmf.object} for more details.
 Applies cross-validated log-likelihood to test between
 partial likelihood maximization (PLM) and the iteratively reweighted
 robust (IRR) method of estimation for a given application of the Cox model.
+For more, see: Desmarais, B. A., & Harden, J. J. (2012). Comparing partial
+likelihood and robust estimation methods for the Cox regression model.
+Political Analysis, 20(1), 113-135.
 }
 \details{
 This function implements the cross-validated median fit (CVMF) test.

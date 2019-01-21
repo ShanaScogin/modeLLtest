@@ -8,7 +8,10 @@
 #'@title Cross-Validated Difference in Means (CVDM) Test
 #'@description Applies cross-validated log-likelihood to test if
 #'a regression toward the mean - Ordinary Least Squares (OLS) - or a
-#'median regression (MR) is a more appropriate model.
+#'median regression (MR) is a more appropriate model. For more, see:
+#'Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
+#'Choosing between Conditional-Mean and Conditional-Median Methods.
+#'State Politics & Policy Quarterly, 11(4), 371-389.
 #'@param formula An object of class "formula" (or one that can be coerced
 #'to that class): a symbolic description of the model to be fitted. The
 #'details of model specification are given under 'Details.'
