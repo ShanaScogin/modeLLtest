@@ -13,10 +13,29 @@ An R package which implements model comparison tests. The tests include the cros
 * Desmarais, B. A., & Harden, J. J. (2014). An unbiased model comparison test using cross-validation. Quality & Quantity, 48(4), 2155-2173.
 
 # Installing The Package
+Currently the package can be downloaded with the devtools package in R from GitHub. To do this, install devtools by calling:
 
-# Basic Usage
+```
+install.packages("devtools")
+```
 
-# Examples
+Now we can install from GitHub with the following line:
+
+```
+devtools::install_github("ShanaScogin/modeLLtest")
+```
+
+Once you have installed the package, you can access it by calling:
+
+```
+library(modeLLtest)
+```
+
+After the package is loaded, check out the `?modeLLtest` to see a help file. You can also see the documentation for the functions with `?cvdm` or `?cvmf`. If you have issues, please email me.
+
+<!-- # Basic Usage -->
+
+<!-- # Examples -->
 
 # Contact
 Please contact sscogin@nd.edu with questions or comments.
