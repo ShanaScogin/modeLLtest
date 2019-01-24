@@ -38,7 +38,7 @@ After the package is loaded, check out the `?modeLLtest` to see a help file. You
 <!-- # Examples -->
 
 # What's Happening
-This is a beta version of the modeLLtest package. Currently, the functions cvdm() and cvmf() are functional, with more functions on the way.
+This is a beta version of the modeLLtest package. Currently, cvdm() and cvmf() are up and running, with more functions on the way.
 
 # Contact
 Please contact sscogin@nd.edu with questions or comments.
