@@ -25,9 +25,9 @@
 #'test (CVLL). See \code{cvll.object} for more details.
 
 cvll <- function(formula,
-                 #formulaB, ## this can compare model fit with another form
                  data,
-                 method = c("OLS", "MR", "Poisson", "Bernoulli", "Logit", "Probit"),
+                 method1 = c("OLS", "MR", "RR"), # can add , "Poisson", "Bernoulli", "Logit", "Probit"
+                 method2 = c("OLS", "MR", "RR"), # can add , "Poisson", "Bernoulli", "Logit", "Probit"
                  subset,
                  na.action,
                  singular.ok = TRUE, ## right now this isn't being used
@@ -60,9 +60,13 @@ cvll <- function(formula,
   x <- x[, -1, drop = FALSE]
 
   # Call the CVLLs
-  if(model == "OLS"){
-    cvll <- cvll_ols(x, y)
+  if (model1 == "OLS"){
+    cvll_1 <- cvll_ols(x, y)
   }
+  else (model1 == "MR"){
+    cvll_1 <- cvll_mr(x, y)
+  }
+
 
   # Find the difference
   cvlldiff <- cvll[[1]] - cvll[[2]] # cross-validated log likelihood difference

@@ -33,25 +33,26 @@ cvdm <- function(formula, data){
 
   call <- match.call() # this doesn't do anything now -will add more when add arguments
 
-  model <- lm(formula, data = data) # using lm() for rank - consider redoing
   cvlls <- cvloglikes(formula, data)
   cvlldiff <- cvlls[[1]] - cvlls[[2]] # cross-validated log likelihood difference
   test_stat <- johnsons_t(cvlldiff)
   p_value <- ifelse (test_stat > 0,
-                    pt(test_stat, df = nrow(data) - model$rank, # student t distrib
+                    pt(test_stat, df = cvlls[[5]], # student t distrib
                        lower.tail = FALSE),
-                    pt(test_stat, df = nrow(data) - model$rank)) # student t distrib
+                    pt(test_stat, df = cvlls[[5]])) # student t distrib
   # Positive test statistics support OLS
   # Negative test statistics support MR
   best <- ifelse(test_stat > 0, "OLS", "MR")
   obj <- list(best = best,
               test_stat = test_stat,
               p_value = p_value,
-              n = cvlls[1],
-              ols_stat = cvlls[2],
-              mr_stat = cvlls[3],
+              n = cvlls[3],
+              ols_stat = cvlls[1],
+              mr_stat = cvlls[2],
               missing_obs = cvlls[4],
-              call = call)
+              df = cvlls[5],
+              call = call,
+              model_matrix = cvlls[6])
 
   class(obj) <- "cvdm"
 
@@ -62,7 +63,7 @@ cvdm <- function(formula, data){
 mu3hat <- function(x){
   n <- length(x)
   ns <- n / ((n - 1) * (n - 2)) # change object name?
-  ns * sum( (x - mean(x) ) ^ 3) # why split
+  ns * sum( (x - mean(x) ) ^ 3)
 }
 
 johnsons_t <- function(x){ # input is cross-validated log likelihood difs
@@ -95,7 +96,7 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
     yv <- y[i]
     xv <- x[i, ]
     ls <- lm(yt ~ -1 + xt) # -1 takes out the intercept (1 is identifier)
-    mr <- quantreg::rq(yt ~ -1 + xt)
+    mr <- quantreg::rq(yt ~ -1 + xt) # -1 takes out the intercept (1 is identifier)
     sig <- summary(ls)$sigma # dispersion parameter
     b <- mean(abs(residuals(mr))) # dispersion parameter
     cvll_ls[i] <- dnorm(yv - rbind(xv) %*% coef(ls), sd = sig, log = TRUE)
@@ -108,6 +109,9 @@ cvloglikes <- function(formula, data){ # cross-validated log likelihoods
   return(list(LS = cvll_ls,
               MR = cvll_mr,
               n = length(y), # number of observations
-              m = (length(y) - length(cvll_ls)))) # number of missing observations
+              m = (length(y) - length(cvll_ls)), # number of missing observations
+              df = (length(cvll_ls) - ncol(x)), # degrees of freedom with missing observations as n
+                                                # consider redoing when incorporate na.action
+              model_matrix = x))
 
 }
