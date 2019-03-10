@@ -2,7 +2,7 @@ cvll_mr <- function(x, y){ # cross-validated log likelihoods
 #  mf <- model.frame(formula = formula, data = data)
 #  x <- model.matrix(attr(mf, "terms"), data = mf)
 #  y <- model.response(mf)
-  cvll_ls <- NA # empty vector for OLS cvlls
+  cvll_mr <- NA # empty vector for OLS cvlls
   for (i in 1:length(y)){
     yt <- y[-i] # leaves out observation i
     if (!is.matrix(try(solve(t(x) %*% x)))) { # returns TRUE if inv X'X does not exist
@@ -19,12 +19,10 @@ cvll_mr <- function(x, y){ # cross-validated log likelihoods
 
   return(list(MR = cvll_mr,
               n = length(y), # number of observations
-              m = (length(y) - length(cvll_mr)), # number of missing observations
-              df = (length(cvll_mr) - ncol(x)))) # degrees of freedom with missing observations as n
-                                                # consider redoing when incorporate na.action
-
+              m = (length(y) - length(cvll_mr)))) # number of missing observations
 }
 
-dlapl <- function(x, b){
-  return(1 / (2 * b) * exp(-abs(x / b)))
+dlapl <- function(a, b){
+  return(1 / (2 * b) * exp(-abs(a / b)))
 }
+

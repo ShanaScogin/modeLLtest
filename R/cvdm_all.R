@@ -21,10 +21,10 @@
 #'coefficients are treated as zeros.
 #'@param ... additional arguments passed to \code{zelig},
 #'relevant for the model to be estimated.
-#'@return An object of class \code{cvmf} computed by the cross-validated log likelihood
-#'test (CVLL). See \code{cvll.object} for more details.
+#'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
+#'difference in means test (CVDM). See \code{cvdm.object} for more details.
 
-cvll <- function(formula,
+cvdm_all <- function(formula,
                  data,
                  method1 = c("OLS", "MR", "RR"), # can add , "Poisson", "Bernoulli", "Logit", "Probit"
                  method2 = c("OLS", "MR", "RR"), # can add , "Poisson", "Bernoulli", "Logit", "Probit"
@@ -53,11 +53,12 @@ cvll <- function(formula,
   #### perhaps add an error message for subset?
 
   y <- model.response(mf, "any") # e.g. factors are allowed
+  x <- model.matrix(attr(mf, "terms"), data = mf)
 
   ##### look at glm() and look into null model support, check weights and offset, etc
 
-  x <- model.matrix(mterms, mf)
-  x <- x[, -1, drop = FALSE]
+#  x <- model.matrix(mterms, mf)
+#  x <- x[, -1, drop = FALSE]
 
   # Call the CVLL with first method
   if (method1 == "OLS"){
@@ -82,8 +83,8 @@ cvll <- function(formula,
   }
 
   # Find the difference
-  df <- length(x) - ncol(x)
-  cvlldiff <- cvll_1 - cvll_2 # cross-validated log likelihood difference
+  df <- length(y) - ncol(x)
+  cvlldiff <- cvll_1[[1]] - cvll_2[[1]] # cross-validated log likelihood difference
   test_stat <- johnsons_t(cvlldiff)
   p_value <- ifelse (test_stat > 0,
                      pt(test_stat, df = df, # student t distrib
@@ -95,15 +96,12 @@ cvll <- function(formula,
   obj <- list(best = best,
               test_stat = test_stat,
               p_value = p_value,
-              n = cvll[3],
-              model_1_stat = cvll[1],
-              model_2_stat = cvll[2],
-              missing_obs = cvll[4],
-              df = cvll[5],
+              n = length(y),
+              df = df,
               call = call,
               model_matrix = x)
 
-  class(obj) <- "cvll"
+  class(obj) <- "cvdm"
 
   obj
 

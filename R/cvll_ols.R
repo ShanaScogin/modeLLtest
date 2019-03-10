@@ -19,8 +19,5 @@ cvll_ols <- function(x, y){ # cross-validated log likelihoods
 
   return(list(LS = cvll_ls,
               n = length(y), # number of observations
-              m = (length(y) - length(cvll_ls)), # number of missing observations
-              df = (length(cvll_ls) - ncol(x)))) # degrees of freedom with missing observations as n
-                                                # consider redoing when incorporate na.action
-
+              m = (length(y) - length(cvll_ls)))) # number of missing observations
 }
