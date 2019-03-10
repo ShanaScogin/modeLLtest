@@ -62,9 +62,9 @@ cvll <- function(formula,
   # Call the CVLL with first method
   if (method1 == "OLS"){
     cvll_1 <- cvll_ols(x, y)
-  } else (method1 == "MR"){
+  } else if (method1 == "MR"){
     cvll_1 <- cvll_mr(x, y)
-  } else (method1 == "RR"){
+  } else if (method1 == "RR"){
     cvll_1 <- cvll_rr(x, y)
   } else {
     stop("First method unknown")
@@ -73,13 +73,14 @@ cvll <- function(formula,
   # Call the CVLL with second method
   if (method2 == "OLS"){
     cvll_2 <- cvll_ols(x, y)
-  } else (method2 == "MR"){
+  } else if (method2 == "MR"){
     cvll_2 <- cvll_mr(x, y)
-  } else (method2 == "RR"){
+  } else if (method2 == "RR"){
     cvll_2 <- cvll_rr(x, y)
   } else {
     stop("Second method unknown")
   }
+
   # Find the difference
   df <- length(x) - ncol(x)
   cvlldiff <- cvll_1 - cvll_2 # cross-validated log likelihood difference
