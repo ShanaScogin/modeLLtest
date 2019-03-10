@@ -59,22 +59,35 @@ cvll <- function(formula,
   x <- model.matrix(mterms, mf)
   x <- x[, -1, drop = FALSE]
 
-  # Call the CVLLs
-  if (model1 == "OLS"){
+  # Call the CVLL with first method
+  if (method1 == "OLS"){
     cvll_1 <- cvll_ols(x, y)
-  }
-  else (model1 == "MR"){
+  } else (method1 == "MR"){
     cvll_1 <- cvll_mr(x, y)
+  } else (method1 == "RR"){
+    cvll_1 <- cvll_rr(x, y)
+  } else {
+    stop("First method unknown")
   }
 
-
+  # Call the CVLL with second method
+  if (method2 == "OLS"){
+    cvll_2 <- cvll_ols(x, y)
+  } else (method2 == "MR"){
+    cvll_2 <- cvll_mr(x, y)
+  } else (method2 == "RR"){
+    cvll_2 <- cvll_rr(x, y)
+  } else {
+    stop("Second method unknown")
+  }
   # Find the difference
-  cvlldiff <- cvll[[1]] - cvll[[2]] # cross-validated log likelihood difference
+  df <- length(x) - ncol(x)
+  cvlldiff <- cvll_1 - cvll_2 # cross-validated log likelihood difference
   test_stat <- johnsons_t(cvlldiff)
   p_value <- ifelse (test_stat > 0,
-                     pt(test_stat, df = cvll[[5]], # student t distrib
+                     pt(test_stat, df = df, # student t distrib
                         lower.tail = FALSE),
-                     pt(test_stat, df = cvll[[5]])) # student t distrib
+                     pt(test_stat, df = df)) # student t distrib
   # Positive test statistics support model 1
   # Negative test statistics support model 2
   best <- ifelse(test_stat > 0, "Model 1", "Model 2")
