@@ -10,7 +10,7 @@ test_that("Simple model with cvll runs", {
 
   Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
 
-  obj_cvdm <- cvll(Y ~ X, data.frame(cbind(Y, X)), model = "OLS")
+  obj_cvdm <- cvdm_all(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
   test_stat <- obj_cvdm$test_stat
   check_against <- c(3.45354)
   expect_equal(round(as.numeric(test_stat), 5),

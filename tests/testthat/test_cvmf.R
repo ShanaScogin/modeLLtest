@@ -41,4 +41,34 @@ test_that("Simple model with two covariates runs with cvmf", {
 
 })
 
+test_that("Testing na.action", {
+  skip_on_cran()
+  ## need to figure out why skip_on_cran() is skipping and failing crap
+
+  set.seed(12345)
+  x1 <- rnorm(100)
+  x2 <- rnorm(100)
+  x2e <- x2 + rnorm(100, 0, 0.5)
+
+  y <- rexp(100, exp(x1 + x2))
+  y <- survival::Surv(y)
+
+  dat <- data.frame(y, x1, x2e)
+  set.seed(12345)
+  dat <- as.data.frame(lapply(dat,
+                       function(cc) cc[ sample(c(TRUE, NA), prob = c(0.85, 0.15),
+                                               size = length(cc), replace = TRUE) ]))
+  form <- y ~ x1 + x2e
+
+  results <- cvmf(formula = form, data = dat)
+
+  stat <- as.numeric(results$cvmf_stat[[1]])
+  check_against <- c(37)
+  expect_equal(stat, check_against)
+
+  best <- results$best[[1]]
+  check_against <- c("IRR")
+  expect_equal(best, check_against)
+
+})
 

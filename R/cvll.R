@@ -19,9 +19,7 @@
 #'the coefficients for such columns will be NA, and the variance matrix will contain
 #'zeros. For ancillary calculations, such as the linear predictor, the missing
 #'coefficients are treated as zeros.
-#'@param ... additional arguments passed to \code{zelig},
-#'relevant for the model to be estimated.
-#'@return An object of class \code{cvmf} computed by the cross-validated log likelihood
+#'@return An object of class \code{cvll} computed by the cross-validated log likelihood
 #'test (CVLL). See \code{cvll.object} for more details.
 
 cvll <- function(formula,

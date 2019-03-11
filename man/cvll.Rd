@@ -4,7 +4,7 @@
 \alias{cvll}
 \title{Cross-Validated Log Likelihood (CVLL) Test}
 \usage{
-cvll(formula, data, model = c("OLS", "MR", "Poisson", "Bernoulli",
+cvll(formula, data, method = c("OLS", "MR", "Poisson", "Bernoulli",
   "Logit", "Probit"), subset, na.action, singular.ok = TRUE, ...)
 }
 \arguments{
@@ -13,8 +13,6 @@ left of a ~ operator, and the independent variables on the right.}
 
 \item{data}{A data frame, list or environment (or object coercible by
 as.data.frame to a data frame) containing the variables in the model.}
-
-\item{model}{The name of a statistical model to estimate.}
 
 \item{subset}{Expression indicating which subset of the rows of data should be
 used in the fit. All observations are included by default.}
@@ -29,11 +27,10 @@ the coefficients for such columns will be NA, and the variance matrix will conta
 zeros. For ancillary calculations, such as the linear predictor, the missing
 coefficients are treated as zeros.}
 
-\item{...}{additional arguments passed to \code{zelig},
-relevant for the model to be estimated.}
+\item{model}{The name of a statistical model to estimate.}
 }
 \value{
-An object of class \code{cvmf} computed by the cross-validated log likelihood
+An object of class \code{cvll} computed by the cross-validated log likelihood
 test (CVLL). See \code{cvll.object} for more details.
 }
 \description{

@@ -1,14 +1,26 @@
-#'This function implements the cross-validated log likelihood (CVLL) test
-#'between two methods of estimating a formula.
+#'This function implements the cross-validated difference in means (CVDM)
+#'test between two methods of estimating a formula.
 #'
-#'@title Cross-Validated Log Likelihood (CVLL) Test
+#'@title Cross-Validated Difference in Means (CVDM) Test
 #'@description Applies cross-validated log-likelihood to test between
-#'two methods of estimating a formula.
+#'two methods of estimating a formula. The output identifies the more appropriate model.
+#'In choosing between OLS and MR, please cite:
+#'Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
+#'Choosing between Conditional-Mean and Conditional-Median Methods.
+#'State Politics & Policy Quarterly, 11(4), 371-389.
+#'In other applications of the CVDM test, please cite:
+#'Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
+#'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
 #'@param formula A formula object, with the dependent variable on the
 #'left of a ~ operator, and the independent variables on the right.
 #'@param data A data frame, list or environment (or object coercible by
 #'as.data.frame to a data frame) containing the variables in the model.
-#'@param model The name of a statistical model to estimate.
+#'@param method1 The name of a method to estimate the model. Currently takes
+#'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
+#'Regression ("RR").
+#'@param method2 The name of a method to estimate the model. Currently takes
+#'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
+#'Regression ("RR").
 #'@param subset Expression indicating which subset of the rows of data should be
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,
@@ -19,12 +31,13 @@
 #'the coefficients for such columns will be NA, and the variance matrix will contain
 #'zeros. For ancillary calculations, such as the linear predictor, the missing
 #'coefficients are treated as zeros.
-#'@param ... additional arguments passed to \code{zelig},
-#'relevant for the model to be estimated.
 #'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
-#'difference in means test (CVDM). See \code{cvdm.object} for more details.
+#'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
+#'A positive test statistic supports the first method and a negative test statistic supports
+#'the second. See \code{cvdm.object} for more details.
+#' @export
 
-cvdm_all <- function(formula,
+cvdm <- function(formula,
                  data,
                  method1 = c("OLS", "MR", "RR"), # can add , "Poisson", "Bernoulli", "Logit", "Probit"
                  method2 = c("OLS", "MR", "RR"), # can add , "Poisson", "Bernoulli", "Logit", "Probit"
@@ -63,10 +76,13 @@ cvdm_all <- function(formula,
   # Call the CVLL with first method
   if (method1 == "OLS"){
     cvll_1 <- cvll_ols(x, y)
+    m1 <- "OLS"
   } else if (method1 == "MR"){
     cvll_1 <- cvll_mr(x, y)
+    m1 <- "MR"
   } else if (method1 == "RR"){
     cvll_1 <- cvll_rr(x, y)
+    m1 <- "RR"
   } else {
     stop("First method unknown")
   }
@@ -74,10 +90,13 @@ cvdm_all <- function(formula,
   # Call the CVLL with second method
   if (method2 == "OLS"){
     cvll_2 <- cvll_ols(x, y)
+    m2 <- "OLS"
   } else if (method2 == "MR"){
     cvll_2 <- cvll_mr(x, y)
+    m2 <- "MR"
   } else if (method2 == "RR"){
     cvll_2 <- cvll_rr(x, y)
+    m2 <- "RR"
   } else {
     stop("Second method unknown")
   }
@@ -92,7 +111,7 @@ cvdm_all <- function(formula,
                      pt(test_stat, df = df)) # student t distrib
   # Positive test statistics support model 1
   # Negative test statistics support model 2
-  best <- ifelse(test_stat > 0, "Model 1", "Model 2")
+  best <- ifelse(test_stat > 0, m1, m2)
   obj <- list(best = best,
               test_stat = test_stat,
               p_value = p_value,

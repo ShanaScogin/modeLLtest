@@ -1,7 +1,7 @@
 #'This function implements the cross-validated difference in means
-#'(CVDM) test. The function cvdm() tests between
-#'Ordinary Least Squares (OLS) and 'Median Regression (MR). It returns
-#'the Cross Validated Johnson's Test (CVJT). MORE about why and how.
+#'(CVDM) test specifically for Ordinary Least Squares (OLS) and 'Median
+#'Regression (MR). It returns the Cross Validated Johnson's Test (CVJT).
+#'MORE about why and how.
 #'For this to work properly,
 #'the arguments MORE.
 #'
@@ -21,11 +21,10 @@
 #'as.data.frame to a data frame) containing the variables in the model.
 #'@return An object to test whether a regression toward the mean, or
 #'Ordinary Least Squares (OLS), or median regression (MR) is more appropriate. The object is the
-#'Cross-Validated Johnson's t-test. A positive test statistics support OLS
-#' and a negative test statistics support MR.
-#' @export
+#'Cross-Validated Johnson's t-test. A positive test statistic supports OLS
+#' and a negative test statistic supports MR.
 
-cvdm <- function(formula, data){
+cvdm_ols_mr <- function(formula, data){
 
   ## include singular.ok??? - right now skips singular
   ## include na.action?? - right now cannot handle NAs
