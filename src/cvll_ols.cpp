@@ -8,33 +8,39 @@
  * @return void
  */
 
-#include <Rcpp.h>
-using namespace Rcpp ; // should this be #include "xxx.h"?
+#include <math.h> // not sure if needed
+#include "R.h" // not sure if needed
+#include <RcppArmadillo.h>
+#include <RcppEigen.h> // for arma::solve
+//[[Rcpp::depends(RcppArmadillo)]]
+using namespace Rcpp;
+using namespace std; //not sure if needed
+using namespace arma;
 
-// [[Rcpp::exort}}]]
-// the above will be taken out after troubleshooting
+// [[Rcpp::export}}]]
 
-void cvll_ols(double *x, double *y, int *n_row) { //dmatrix for x?
+NumericVector cvll_ols(NumericMatrix *x, NumericVector *y, int *n_row) { //dmatrix for x?
+// need to add nrow to r file wrapper function
 
-  double cvll_ls ;
-  double yt ;
-  double xt ;
-  double yv ;
-  double xv ;
+  NumericVector cvll_ls ;
+  NumericVector yt ;
+  NumericMatrix xt ;
+  NumericVector yv ; // this is actually a double but cpp gets angry bc y is vector
+  NumericMatrix xv ; // should this be vector? it's vector of ivs
   double ls ;
   double sig ;
 
+  // resource: https://teuder.github.io/rcpp4everyone_en/100_matrix.html
   for (int i = 0; i <* n_row; i++) { //check <* rather than <
-    yt = y[-i]; // leaves out observation i
-    xt = x[-i, ];
-    yv = y[i];
-    xv = x[i, ];
-    ls = Rcpp::lm(yt ~ -1 + xt); // -1 takes out the intercept (1 is identifier)
-    sig = R::summary(ls)$sigma; // dispersion parameter
-    cvll_ls[i] = R::dnorm(yv - R::rbind(xv) %*% R::coef(ls),
-               sd = sig, log = TRUE);
+    yt = y[-i] ; // leaves out observation i for out of sample
+    xt =  x[-i] ; // leaves out observation i for out of sample
+    yv = y[i] ; // obs i
+    xv = x[-i] ; // obs i
+    ls = fastLm(xt, yt) ; // check the intercept here
+//    sig = R::summary(ls)$sigma ; // dispersion parameter
+//    cvll_ls[i] = R::dnorm(yv - R::rbind(xv) %*% R::coef(ls),
+//               sd = sig, log = TRUE) ;
   }
 
-  return list(LS = cvll_ls, // can one use list in cpp?
-              n = length(y); // number of observations
+  return cvll_ls ;
 }
