@@ -13,6 +13,7 @@ arma::dmat cvll_ols(arma::dmat x, NumericVector y, int n_row) {
 //  NumericVector cvll_ls(n_row) ;
   arma::dmat yt ; //change back to numericvector
   arma::dmat xt ;
+  arma::rowvec rowi ;
   NumericVector yv(1) ; // this is actually a double but cpp gets angry bc y is vector
   NumericVector xv ; // should this be vector? it's vector of ivs
 //  List ls ;
@@ -21,11 +22,11 @@ arma::dmat cvll_ols(arma::dmat x, NumericVector y, int n_row) {
   // resource: https://teuder.github.io/rcpp4everyone_en/100_matrix.html
   for (int i = 0; i < n_row; i++) {
 //    yt = y.shed_row(i) ; // leaves out observation i
-    arma::rowvec rowi = x.row(i) ;
+    xv = x.row(i) ; // defining obs i before change x
+    rowi = x.row(i) ;
     x.shed_row(i) ; // leaves out observation i
 //    cout << x << endl ;
-//    yv = y[i] ; // obs i
-//    xv = x.row(i) ; // obs i
+    yv = y[i] ; // obs i
 //    ls = fastLm(xt, yt) ; // check the intercept here
 //    sig = R::summary(ls)$sigma ; // dispersion parameter
 //    cvll_ls[i] = R::dnorm(yv - R::rbind(xv) %*% R::coef(ls),
