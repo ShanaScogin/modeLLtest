@@ -7,31 +7,32 @@ using namespace std;
 //using namespace arma;
 
 // [[Rcpp::export]]
-arma::dmat cvll_ols(arma::dmat x, NumericVector y, int n_row) {
+arma::dmat cvll_ols(arma::dmat x, arma::mat y, int n_row) {
 
-//  int n_row = y.size() ;
 //  NumericVector cvll_ls(n_row) ;
-  arma::dmat yt ; //change back to numericvector
-  arma::dmat xt ;
-  arma::rowvec rowi ;
-  NumericVector yv(1) ; // this is actually a double but cpp gets angry bc y is vector
-  NumericVector xv ; // should this be vector? it's vector of ivs
+//  arma::dmat yt ;
+//  arma::dmat xt ;
+  arma::rowvec rowxi ;
+  arma::rowvec rowyi ;
+  arma::dmat yv ; // this is actually a double but cpp gets angry bc y is vector
+  arma::dmat xv ; // should this be vector? it's vector of ivs
 //  List ls ;
 //  double sig ;
 
-  // resource: https://teuder.github.io/rcpp4everyone_en/100_matrix.html
   for (int i = 0; i < n_row; i++) {
-//    yt = y.shed_row(i) ; // leaves out observation i
+    yv = y.row(i) ; // defining obs i before change y
+    rowyi = y.row(i) ;
+    y.shed_row(i) ; // leaves out observation i
     xv = x.row(i) ; // defining obs i before change x
-    rowi = x.row(i) ;
-    x.shed_row(i) ; // leaves out observation i
+    rowxi = x.row(i) ;
+    x.shed_row(i) ; // leaves out observation i but changes x
 //    cout << x << endl ;
-    yv = y[i] ; // obs i
 //    ls = fastLm(xt, yt) ; // check the intercept here
 //    sig = R::summary(ls)$sigma ; // dispersion parameter
 //    cvll_ls[i] = R::dnorm(yv - R::rbind(xv) %*% R::coef(ls),
 //               sd = sig, log = TRUE) ;
-    x.insert_rows(i, rowi) ;
+    y.insert_rows(i, rowyi) ; // adding rest of y back in
+    x.insert_rows(i, rowxi) ; // adding rest of x back in
   }
 
   return x ;
