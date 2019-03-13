@@ -7,7 +7,7 @@ using namespace std;
 //using namespace arma;
 
 // [[Rcpp::export]]
-arma::dmat cvll_ols(arma::dmat x, arma::mat y, int n_row) {
+List cvll_ols(arma::dmat x, arma::mat y, int n_row) {
 
 //  NumericVector cvll_ls(n_row) ;
 //  arma::dmat yt ;
@@ -16,7 +16,7 @@ arma::dmat cvll_ols(arma::dmat x, arma::mat y, int n_row) {
   arma::rowvec rowyi ;
   arma::dmat yv ; // this is actually a double but cpp gets angry bc y is vector
   arma::dmat xv ; // should this be vector? it's vector of ivs
-//  List ls ;
+  List ls ;
 //  double sig ;
 
   for (int i = 0; i < n_row; i++) {
@@ -27,7 +27,7 @@ arma::dmat cvll_ols(arma::dmat x, arma::mat y, int n_row) {
     rowxi = x.row(i) ;
     x.shed_row(i) ; // leaves out observation i but changes x
 //    cout << x << endl ;
-//    ls = fastLm(xt, yt) ; // check the intercept here
+    ls = arma::solve(x, y) ; // check the intercept here
 //    sig = R::summary(ls)$sigma ; // dispersion parameter
 //    cvll_ls[i] = R::dnorm(yv - R::rbind(xv) %*% R::coef(ls),
 //               sd = sig, log = TRUE) ;
@@ -35,5 +35,5 @@ arma::dmat cvll_ols(arma::dmat x, arma::mat y, int n_row) {
     x.insert_rows(i, rowxi) ; // adding rest of x back in
   }
 
-  return x ;
+  return ls ;
 }
