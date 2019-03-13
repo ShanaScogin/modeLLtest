@@ -14,7 +14,8 @@ Imports:
     coxrobust,
     ggplot2,
     Rcpp,
-    RcppArmadillo
+    RcppArmadillo,
+    RcppEigen
 Encoding: UTF-8
 LazyData: TRUE
 LazyLoad: TRUE
@@ -25,4 +26,5 @@ VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 LinkingTo: 
     Rcpp,
-    RcppArmadillo
+    RcppArmadillo,
+    RcppEigen

@@ -67,6 +67,7 @@ cvdm <- function(formula,
 
   y <- model.response(mf, "any") # e.g. factors are allowed
   x <- model.matrix(attr(mf, "terms"), data = mf)
+  n_row <- length(y) # take out if unused
 
   ##### look at glm() and look into null model support, check weights and offset, etc
 
@@ -75,7 +76,7 @@ cvdm <- function(formula,
 
   # Call the CVLL with first method
   if (method1 == "OLS"){
-    cvll_1 <- cvll_ols(x, y)
+    cvll_1 <- cvll_ols(as.matrix(x), as.matrix(y)) # take out as.matrix if unused
     m1 <- "OLS"
   } else if (method1 == "MR"){
     cvll_1 <- cvll_mr(x, y)
