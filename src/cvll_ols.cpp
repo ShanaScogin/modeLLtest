@@ -26,7 +26,7 @@ List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
 //    cout << x << endl ;
-    coef = arma::solve(x, y); // fit model y ~ X
+    coef = arma::solve(x, y); // fit model y ~ x
     resid = y - x * coef; // residuals
     sig2 = arma::as_scalar( arma::trans(resid)*resid/(n - n_col) ); // SE of est
     // ?? does this k include the ones????
