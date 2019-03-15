@@ -1,7 +1,6 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 #include <math.h> // for log
-//#include <iostream> // for cout debugging
 using namespace Rcpp;
 using namespace std;
 
@@ -26,16 +25,10 @@ List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
     xv = x.row(i); // define obs i before change x
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
-//    cout << x << endl ;
     coef = arma::solve(x, y); // fit model y ~ x
     resid = y - x * coef; // residuals
     sig2 = arma::as_scalar( arma::trans(resid)*resid/(n - n_col) ); // SE of est
-    // ?? does this k include the ones????
     cvll_ls[i] = log(arma::normpdf(yv - xv * coef, 0, sig2));
-//    cvll_ls[i] = log( (1 / sqrt( 2 * M_PI * sig2 )) *
-//      exp( -((yv - xv * coef) * exp(2)) / (2 * sig2) ) );
-//    norm[i] = (yv - xv * coef);
-//    cvll_ls[i] = R::dnorm(yv - xv * coef, 0, sig2, TRUE); // doesn't run
     y.insert_rows(i, rowyi); // add y back in
     x.insert_rows(i, rowxi); // add x back in
   }
