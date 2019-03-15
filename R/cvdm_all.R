@@ -35,6 +35,18 @@
 #'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
 #'A positive test statistic supports the first method and a negative test statistic supports
 #'the second. See \code{cvdm.object} for more details.
+#' @examples
+#' \dontrun{
+#'   set.seed(123456)
+#'   b0 <- .2 # True value for the intercept
+#'   b1 <- .5 # True value for the slope
+#'   n <- 500 # Sample size
+#'   X <- runif(n, -1, 1)
+#'
+#'   Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+#'
+#'   obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
+#' }
 #' @export
 
 cvdm <- function(formula,
@@ -67,7 +79,8 @@ cvdm <- function(formula,
 
   y <- model.response(mf, "any") # e.g. factors are allowed
   x <- model.matrix(attr(mf, "terms"), data = mf)
-  n_row <- length(y) # take out if unused
+  n_row <- length(y)
+  n_col <- ncol(x)
 
   ##### look at glm() and look into null model support, check weights and offset, etc
 
@@ -76,7 +89,7 @@ cvdm <- function(formula,
 
   # Call the CVLL with first method
   if (method1 == "OLS"){
-    cvll_1 <- cvll_ols(as.matrix(x), as.matrix(y)) # take out as.matrix if unused
+    cvll_1 <- cvll_ols(as.matrix(x), as.matrix(y), n_row,  n_col)
     m1 <- "OLS"
   } else if (method1 == "MR"){
     cvll_1 <- cvll_mr(x, y)
@@ -90,7 +103,7 @@ cvdm <- function(formula,
 
   # Call the CVLL with second method
   if (method2 == "OLS"){
-    cvll_2 <- cvll_ols(x, y)
+    cvll_2 <- cvll_ols(as.matrix(x), as.matrix(y), n_row,  n_col)
     m2 <- "OLS"
   } else if (method2 == "MR"){
     cvll_2 <- cvll_mr(x, y)
@@ -104,14 +117,14 @@ cvdm <- function(formula,
 
   # Find the difference
   df <- length(y) - ncol(x)
-  cvlldiff <- cvll_1[[1]] - cvll_2[[1]] # cross-validated log likelihood difference
+  cvlldiff <- as.numeric(cvll_1) - cvll_2[[1]] # cross-validated log likelihood difference
   test_stat <- johnsons_t(cvlldiff)
   p_value <- ifelse (test_stat > 0,
                      pt(test_stat, df = df, # student t distrib
                         lower.tail = FALSE),
                      pt(test_stat, df = df)) # student t distrib
-  # Positive test statistics support model 1
-  # Negative test statistics support model 2
+  # Positive test statistics support method 1
+  # Negative test statistics support method 2
   best <- ifelse(test_stat > 0, m1, m2)
   obj <- list(best = best,
               test_stat = test_stat,

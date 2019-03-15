@@ -1,7 +1,7 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 #include <math.h> // for log
-#include <iostream> // for cout debugging
+//#include <iostream> // for cout debugging
 using namespace Rcpp;
 using namespace std;
 
@@ -42,24 +42,4 @@ List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
 
   return cvll_ls;
 }
-
-/*** R
-rcvll_ols <- function(x, y){ # cross-validated log likelihoods
-  cvll_ls <- NA # empty vector for OLS cvlls
-  for (i in 1:length(y)){
-    yt <- y[-i] # leaves out observation i
-    xt <- x[-i, ]
-    yv <- y[i]
-    xv <- x[i, ]
-    ls <- lm(yt ~ -1 + xt) # -1 takes out the intercept (1 is identifier)
-    sig <- summary(ls)$sigma # dispersion parameter
-#    norm <- (yv - rbind(xv) %*% coef(ls))
-    cvll_ls[i] <- dnorm(yv - rbind(xv) %*% coef(ls), sd = sig, log = TRUE)
-    #cvll_ls[i] = log((1 / sqrt(2 * 3.14 * sig)) *
-                       #exp(-((yv - xv * coef(ls)) * exp(2)) / (2 * sig)));
-  }
-
-  return(list(cvll_ls))
-}
-*/
 
