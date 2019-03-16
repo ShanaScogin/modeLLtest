@@ -6,21 +6,20 @@ using namespace Rcpp;
 using namespace std;
 
 // [[Rcpp::export]]
-List cvll_mr(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
+SEXP cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
-  int n = n_row - 1;
+//  int n = n_row - 1;
   arma::dmat yv;
   arma::dmat xv;
   arma::rowvec rowyi;
   arma::rowvec rowxi;
-  List mr;
+  SEXP mr;
   arma::dmat coef;
-  arma::colvec resid;
-  double b;
-  List norm(n_row);
+//  arma::colvec resid;
+//  double b;
   List cvll_mr(n_row);
 
-  Rcpp::Function rq = Environment("package:quantreg")["rq"];
+  Rcpp::Function rq = Environment("package:quantreg")["rq.fit"];
 
   for (int i = 0; i < n_row; i++) {
     yv = y.row(i); // define obs i before change y
@@ -29,23 +28,18 @@ List cvll_mr(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
     xv = x.row(i); // define obs i before change x
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
-    mr = rq(x, y).;
+    mr = rq(x, y);
+    coef = mr.coefficients;
 //    coef = arma::solve(x, y); // fit model y ~ x
 //    resid = y - x * coef; // residuals
-    b = arma::as_scalar( arma::trans(resid)*resid/(n - n_col) ); // dispersion param
-    cvll_mr[i] = log( (1 / (2 * b) ) *
-      exp( -abs( (yv - xv * coef) / b ) ) );
+//    b = arma::as_scalar( arma::trans(resid)*resid/(n - n_col) ); // dispersion param
+//    cvll_mr[i] = log( (1 / (2 * b) ) *
+//      exp( -abs( (yv - xv * coef) / b ) ) );
     y.insert_rows(i, rowyi); // add y back in
     x.insert_rows(i, rowxi); // add x back in
   }
 
-  return cvll_mr;
-}
-
-// [[Rcpp::export]]
-List rq(){
-  // calling rq()
-  Rcpp::Function rq = Environment("package:quantreg")["rq.fit"];
+  return mr;
 }
 
 
@@ -65,7 +59,7 @@ rcvll_mr <- function(x, y){ # cross-validated log likelihoods
       b <- mean(abs(residuals(mr))) # dispersion parameter
       cvll_mr[i] <- log(dlapl(yv - rbind(xv) %*% coef(mr), b = b))
   }
-  return(list(cvll_mr)) # number of missing observations
+  return(mr$coefficients) # number of missing observations
 }
 dlapl <- function(a, b){
   return(1 / (2 * b) * exp(-abs(a / b)))
