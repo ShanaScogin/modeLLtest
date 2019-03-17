@@ -5,9 +5,24 @@
 using namespace Rcpp;
 using namespace std;
 
+#include <Rcpp.h>
+using namespace Rcpp ;
 
 // [[Rcpp::export]]
-List cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
+NumericMatrix mat(List a){
+  NumericVector a1;
+  NumericVector a0;
+  NumericMatrix b;
+  a1 = a[1];
+  a0 = a[0];
+  b = Rcpp::cbind(a0, a1);
+  b = Rcpp::transpose(b);
+  return b;
+}
+
+
+// [[Rcpp::export]]
+NumericMatrix cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
   int n = n_row - 1;
   arma::dmat yv;
@@ -15,8 +30,8 @@ List cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   arma::rowvec rowyi;
   arma::rowvec rowxi;
   List mr;
-  List coef;
-  List resid;
+  NumericMatrix coef;
+  NumericMatrix resid;
   double b;
   List cvll_mr(n_row);
 
@@ -30,8 +45,8 @@ List cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
     mr = rq(x, y);
-    coef = mr("coefficients");
-    resid = mr("residuals"); // residuals
+    coef = mat(mr("coefficients"));
+    resid = mat(mr("residuals")); // residuals
     b = arma::as_scalar( arma::trans(resid) * resid / (n - n_col) ); // dispersion param
 //    cvll_mr[i] = log( (1 / (2 * b) ) *
 //      exp( -abs( (yv - xv * coef) / b ) ) );
@@ -39,7 +54,7 @@ List cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     x.insert_rows(i, rowxi); // add x back in
   }
 
-  return resid;
+  return coef;
 }
 
 
