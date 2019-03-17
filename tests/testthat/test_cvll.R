@@ -11,15 +11,14 @@ test_that("Simple model with cvll runs", {
   Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
 
   obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
-  # need to change to cvll when that's up and running
   test_stat <- obj_cvdm$test_stat
-  check_against <- c(3.45354)
+  check_against <- c(3.18686) # prev was 3.45354
   expect_equal(round(as.numeric(test_stat), 5),
                check_against)
 
   test_pval <- obj_cvdm$p_value
-  check_against <- c(0.0003002297)
-  expect_equal(round(as.numeric(test_pval), 10),
+  check_against <- c(0.000764)
+  expect_equal(round(as.numeric(test_pval), 6),
                check_against)
 
 })
