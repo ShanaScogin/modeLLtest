@@ -5,10 +5,13 @@
 #'@description Applies cross-validated log-likelihood to test between
 #'two methods of estimating a formula. The output identifies the more appropriate model.
 #'In choosing between OLS and MR, please cite:
+#'
 #'Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
 #'Choosing between Conditional-Mean and Conditional-Median Methods.
 #'State Politics & Policy Quarterly, 11(4), 371-389.
-#'In other applications of the CVDM test, please cite:
+#'
+#'For other applications of the CVDM test, please cite:
+#'
 #'Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
 #'@param formula A formula object, with the dependent variable on the
@@ -18,18 +21,15 @@
 #'@param method1 The name of a method to estimate the model. Currently takes
 #'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
 #'Regression ("RR"). The algorithm method used to compute the fit for the
-#'median regression defaults to quantreg's default: the modified version of the
-#'Barrodale and Roberts algorithm for l1-regression, used by l1fit in S. It is
-#'described in detail in Koenker and d’Orey(1987, 1994), default = "br".
-#'This is quite efficient for problems up to
-#'several thousand observations, and may be used to compute the full quantile
-#'60 rq regression process. It also implements a scheme for computing
-#'confidence intervals for the estimated parameters, based on inversion of a
-#'rank test described in Koenker(1994). For larger problems it is advantageous
-#'to use the Frisch–Newton interior point method "fn". MORE
+#'median regression is the modified version of the Barrodale and Roberts algorithm
+#'for l1-regression, which is the default by R package quantreg. See quantreg documentation
+#'for more deatils. MORE on RR.
 #'@param method2 The name of a method to estimate the model. Currently takes
 #'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
-#'Regression ("RR").
+#'Regression ("RR"). The algorithm method used to compute the fit for the
+#'median regression is the modified version of the Barrodale and Roberts algorithm
+#'for l1-regression, which is the default by R package quantreg. See quantreg documentation
+#'for more deatils. MORE on RR.
 #'@param subset Expression indicating which subset of the rows of data should be
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,

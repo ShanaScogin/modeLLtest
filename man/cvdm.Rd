@@ -16,11 +16,17 @@ as.data.frame to a data frame) containing the variables in the model.}
 
 \item{method1}{The name of a method to estimate the model. Currently takes
 Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
-Regression ("RR").}
+Regression ("RR"). The algorithm method used to compute the fit for the
+median regression is the modified version of the Barrodale and Roberts algorithm
+for l1-regression, which is the default by R package quantreg. See quantreg documentation
+for more deatils. MORE on RR.}
 
 \item{method2}{The name of a method to estimate the model. Currently takes
 Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
-Regression ("RR").}
+Regression ("RR"). The algorithm method used to compute the fit for the
+median regression is the modified version of the Barrodale and Roberts algorithm
+for l1-regression, which is the default by R package quantreg. See quantreg documentation
+for more deatils. MORE on RR.}
 
 \item{subset}{Expression indicating which subset of the rows of data should be
 used in the fit. All observations are included by default.}
@@ -45,14 +51,30 @@ the second. See \code{cvdm.object} for more details.
 Applies cross-validated log-likelihood to test between
 two methods of estimating a formula. The output identifies the more appropriate model.
 In choosing between OLS and MR, please cite:
+
 Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
 Choosing between Conditional-Mean and Conditional-Median Methods.
 State Politics & Policy Quarterly, 11(4), 371-389.
-In other applications of the CVDM test, please cite:
+
+For other applications of the CVDM test, please cite:
+
 Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
 }
 \details{
 This function implements the cross-validated difference in means (CVDM)
 test between two methods of estimating a formula.
+}
+\examples{
+\dontrun{
+  set.seed(123456)
+  b0 <- .2 # True value for the intercept
+  b1 <- .5 # True value for the slope
+  n <- 500 # Sample size
+  X <- runif(n, -1, 1)
+
+  Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+
+  obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
+}
 }

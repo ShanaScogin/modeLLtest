@@ -1,9 +1,6 @@
 #'This function implements the cross-validated difference in means
 #'(CVDM) test specifically for Ordinary Least Squares (OLS) and 'Median
 #'Regression (MR). It returns the Cross Validated Johnson's Test (CVJT).
-#'MORE about why and how.
-#'For this to work properly,
-#'the arguments MORE.
 #'
 #'@title Cross-Validated Difference in Means (CVDM) Test
 #'@description Applies cross-validated log-likelihood to test between
