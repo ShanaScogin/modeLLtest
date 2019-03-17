@@ -19,4 +19,8 @@ NULL
 #' residuals sd
 NULL
 
+#' @useDynLib modeLLtest
+#' @importFrom Rcpp sourceCpp
+NULL
+#> NULL
 # do I need to include imports from survival and coxrobust here?
