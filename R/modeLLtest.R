@@ -19,6 +19,9 @@ NULL
 #' residuals sd
 NULL
 
+#' @importFrom quantreg rq.fit
+NULL
+
 #' @useDynLib modeLLtest
 #' @importFrom Rcpp sourceCpp
 NULL
