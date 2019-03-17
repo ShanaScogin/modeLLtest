@@ -9,29 +9,26 @@ using namespace std;
 using namespace Rcpp ;
 
 // [[Rcpp::export]]
-NumericMatrix mat(List a){
-  NumericVector a1;
-  NumericVector a0;
-  NumericMatrix b;
-  a1 = a[1];
-  a0 = a[0];
-  b = Rcpp::cbind(a0, a1);
-  b = Rcpp::transpose(b);
-  return b;
+arma::colvec vec(List a){
+  int size = a.size();
+  arma::colvec a1(size);
+  for (int i = 0; i < size; i++) {
+  a1[i] = a[i];
+  }
+  return a1;
 }
 
 
 // [[Rcpp::export]]
-NumericMatrix cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
+List cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
-  int n = n_row - 1;
   arma::dmat yv;
   arma::dmat xv;
   arma::rowvec rowyi;
   arma::rowvec rowxi;
   List mr;
-  NumericMatrix coef;
-  NumericMatrix resid;
+  arma::colvec coef;
+  arma::colvec resid;
   double b;
   List cvll_mr(n_row);
 
@@ -45,16 +42,16 @@ NumericMatrix cvll_mr(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
     mr = rq(x, y);
-    coef = mat(mr("coefficients"));
-    resid = mat(mr("residuals")); // residuals
-    b = arma::as_scalar( arma::trans(resid) * resid / (n - n_col) ); // dispersion param
-//    cvll_mr[i] = log( (1 / (2 * b) ) *
-//      exp( -abs( (yv - xv * coef) / b ) ) );
+    coef = vec(mr("coefficients"));
+    resid = vec(mr("residuals")); // residuals
+    b = arma::as_scalar( mean(abs(resid)) ); // dispersion param
+    cvll_mr[i] = log( (1 / (2 * b) ) *
+      exp( -abs( (yv - xv * coef) / b ) ) );
     y.insert_rows(i, rowyi); // add y back in
     x.insert_rows(i, rowxi); // add x back in
   }
 
-  return coef;
+  return cvll_mr;
 }
 
 
@@ -75,7 +72,7 @@ rcvll_mr <- function(x, y){ # cross-validated log likelihoods
       b <- mean(abs(residuals(mr))) # dispersion parameter
       cvll_mr[i] <- log(dlapl(yv - rbind(xv) %*% coef(mr), b = b))
   }
-  return(mr$residuals) # number of missing observations
+  return(cvll_mr) # number of missing observations
 }
 dlapl <- function(a, b){
   return(1 / (2 * b) * exp(-abs(a / b)))
