@@ -17,7 +17,16 @@
 #'as.data.frame to a data frame) containing the variables in the model.
 #'@param method1 The name of a method to estimate the model. Currently takes
 #'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
-#'Regression ("RR").
+#'Regression ("RR"). The algorithm method used to compute the fit for the
+#'median regression defaults to quantreg's default: the modified version of the
+#'Barrodale and Roberts algorithm for l1-regression, used by l1fit in S. It is
+#'described in detail in Koenker and d’Orey(1987, 1994), default = "br".
+#'This is quite efficient for problems up to
+#'several thousand observations, and may be used to compute the full quantile
+#'60 rq regression process. It also implements a scheme for computing
+#'confidence intervals for the estimated parameters, based on inversion of a
+#'rank test described in Koenker(1994). For larger problems it is advantageous
+#'to use the Frisch–Newton interior point method "fn". MORE
 #'@param method2 The name of a method to estimate the model. Currently takes
 #'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
 #'Regression ("RR").
@@ -92,7 +101,7 @@ cvdm <- function(formula,
     cvll_1 <- cvll_ols(as.matrix(x), as.matrix(y), n_row,  n_col)
     m1 <- "OLS"
   } else if (method1 == "MR"){
-    cvll_1 <- cvll_mr(x, y)
+    cvll_1 <- cvll_mr(as.matrix(x), y, n_row)
     m1 <- "MR"
   } else if (method1 == "RR"){
     cvll_1 <- cvll_rr(x, y)
@@ -106,7 +115,7 @@ cvdm <- function(formula,
     cvll_2 <- cvll_ols(as.matrix(x), as.matrix(y), n_row,  n_col)
     m2 <- "OLS"
   } else if (method2 == "MR"){
-    cvll_2 <- cvll_mr(x, y)
+    cvll_2 <- cvll_mr(as.matrix(x), y, n_row)
     m2 <- "MR"
   } else if (method2 == "RR"){
     cvll_2 <- cvll_rr(x, y)
@@ -117,7 +126,7 @@ cvdm <- function(formula,
 
   # Find the difference
   df <- length(y) - ncol(x)
-  cvlldiff <- as.numeric(cvll_1) - cvll_2[[1]] # cross-validated log likelihood difference
+  cvlldiff <- as.numeric(cvll_1) - as.numeric(cvll_2) # cross-validated log likelihood difference
   test_stat <- johnsons_t(cvlldiff)
   p_value <- ifelse (test_stat > 0,
                      pt(test_stat, df = df, # student t distrib
