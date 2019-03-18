@@ -114,7 +114,7 @@ cvdm <- function(formula,
     cvll_2 <- cvll_ols(as.matrix(x), as.matrix(y), n_row,  n_col)
     m2 <- "OLS"
   } else if (method2 == "MR"){
-    cvll_2 <- cvll_mr(as.matrix(x), as.matrix(y), n_row)
+    cvll_2 <- cvll_mr(as.matrix(x), y, n_row)
     m2 <- "MR"
 #  } else if (method2 == "RR"){
 #    cvll_2 <- cvll_rr(x, y)

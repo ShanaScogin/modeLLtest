@@ -20,7 +20,7 @@ arma::colvec vec(List a){
 
 
 // [[Rcpp::export]]
-List cvll_mr(arma::dmat &x, arma::dmat &y, int n_row) {
+List cvll_mr(arma::dmat &x, arma::colvec &y, int n_row) {
 
   arma::dmat yv;
   arma::dmat xv;
