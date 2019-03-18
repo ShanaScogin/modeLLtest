@@ -10,3 +10,5 @@ os:
 
 r_binary_packages:
     - libgit2
+    - libgit2-dev
+    - libgit2-devel
