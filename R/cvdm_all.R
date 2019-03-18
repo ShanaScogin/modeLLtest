@@ -73,13 +73,13 @@ cvdm <- function(formula,
   m  <- match(c("formula", "data", "subset", "na.action"), names(mf),
               nomatch = 0)
   if (m[1]==0) {
-    stop("A formula argument is required")
+    stop("Please enter a formula")
   }
   mf <- mf[c(1, m)]
   mf[[1]] <- as.name("model.frame")
   mf <- eval(mf, parent.frame())
   if (nrow(mf) == 0) {
-    stop("no (non-missing) observations")
+    print("no (non-missing) observations")
   }
   mterms <- attr(mf, "terms")
 
@@ -106,7 +106,7 @@ cvdm <- function(formula,
 #    cvll_1 <- cvll_rr(x, y)
 #    m1 <- "RR"
   } else {
-    stop("First method unknown")
+    print("First method unknown")
   }
 
   # Call the CVLL with second method
@@ -120,7 +120,7 @@ cvdm <- function(formula,
 #    cvll_2 <- cvll_rr(x, y)
 #    m2 <- "RR"
   } else {
-    stop("Second method unknown")
+    print("Second method unknown")
   }
 
   # Find the difference
