@@ -13,9 +13,11 @@ Imports:
     survival,
     coxrobust,
     methods,
+    stringr,
     ggplot2,
     Rcpp,
-    RcppArmadillo
+    RcppArmadillo,
+    RcppEigen
 Encoding: UTF-8
 LazyData: TRUE
 LazyLoad: TRUE
