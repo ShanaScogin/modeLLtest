@@ -19,13 +19,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // cvll_mr
-List cvll_mr(arma::dmat& x, arma::colvec& y, int n_row);
+List cvll_mr(arma::dmat& x, arma::dmat& y, int n_row);
 RcppExport SEXP _modeLLtest_cvll_mr(SEXP xSEXP, SEXP ySEXP, SEXP n_rowSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::dmat& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::colvec& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::dmat& >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type n_row(n_rowSEXP);
     rcpp_result_gen = Rcpp::wrap(cvll_mr(x, y, n_row));
     return rcpp_result_gen;
