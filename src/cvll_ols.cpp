@@ -1,6 +1,5 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
-#include <math.h> // for log
 using namespace Rcpp;
 using namespace std;
 

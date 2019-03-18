@@ -12,6 +12,7 @@ Imports:
     quantreg,
     survival,
     coxrobust,
+    methods,
     ggplot2,
     Rcpp,
     RcppArmadillo

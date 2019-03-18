@@ -1,14 +1,12 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
-#include <math.h> // for log
-#include <iostream> // for cout debugging
 using namespace Rcpp;
 using namespace std;
 
 #include <Rcpp.h>
 using namespace Rcpp ;
 
-// [[Rcpp::export]]
+
 arma::colvec vec(List a){
   int size = a.size();
   arma::colvec a1(size);
