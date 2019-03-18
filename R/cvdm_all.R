@@ -23,13 +23,13 @@
 #'Regression ("RR"). The algorithm method used to compute the fit for the
 #'median regression is the modified version of the Barrodale and Roberts algorithm
 #'for l1-regression, which is the default by R package quantreg. See quantreg documentation
-#'for more deatils. MORE on RR.
+#'for more deatils. Robust Regression coming soon.
 #'@param method2 The name of a method to estimate the model. Currently takes
 #'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
 #'Regression ("RR"). The algorithm method used to compute the fit for the
 #'median regression is the modified version of the Barrodale and Roberts algorithm
 #'for l1-regression, which is the default by R package quantreg. See quantreg documentation
-#'for more deatils. MORE on RR.
+#'for more deatils. Robust Regression coming soon.
 #'@param subset Expression indicating which subset of the rows of data should be
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,
@@ -60,12 +60,11 @@
 
 cvdm <- function(formula,
                  data,
-                 method1 = c("OLS", "MR", "RR"), # can add , "Poisson", "Bernoulli", "Logit", "Probit"
-                 method2 = c("OLS", "MR", "RR"), # can add , "Poisson", "Bernoulli", "Logit", "Probit"
+                 method1 = c("OLS", "MR"), # can add RR and other MR methods
+                 method2 = c("OLS", "MR"), # can add RR and other MR methods
                  subset,
                  na.action,
-                 singular.ok = TRUE, ## right now this isn't being used
-                 ...){
+                 singular.ok = TRUE){ ## right now this isn't being used
 
   call <- match.call()
 
@@ -103,9 +102,9 @@ cvdm <- function(formula,
   } else if (method1 == "MR"){
     cvll_1 <- cvll_mr(as.matrix(x), y, n_row)
     m1 <- "MR"
-  } else if (method1 == "RR"){
-    cvll_1 <- cvll_rr(x, y)
-    m1 <- "RR"
+#  } else if (method1 == "RR"){
+#    cvll_1 <- cvll_rr(x, y)
+#    m1 <- "RR"
   } else {
     stop("First method unknown")
   }
@@ -117,9 +116,9 @@ cvdm <- function(formula,
   } else if (method2 == "MR"){
     cvll_2 <- cvll_mr(as.matrix(x), y, n_row)
     m2 <- "MR"
-  } else if (method2 == "RR"){
-    cvll_2 <- cvll_rr(x, y)
-    m2 <- "RR"
+#  } else if (method2 == "RR"){
+#    cvll_2 <- cvll_rr(x, y)
+#    m2 <- "RR"
   } else {
     stop("Second method unknown")
   }

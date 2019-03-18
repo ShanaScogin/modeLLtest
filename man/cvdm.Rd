@@ -4,8 +4,8 @@
 \alias{cvdm}
 \title{Cross-Validated Difference in Means (CVDM) Test}
 \usage{
-cvdm(formula, data, method1 = c("OLS", "MR", "RR"), method2 = c("OLS",
-  "MR", "RR"), subset, na.action, singular.ok = TRUE, ...)
+cvdm(formula, data, method1 = c("OLS", "MR"), method2 = c("OLS", "MR"),
+  subset, na.action, singular.ok = TRUE)
 }
 \arguments{
 \item{formula}{A formula object, with the dependent variable on the
@@ -19,14 +19,14 @@ Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
 Regression ("RR"). The algorithm method used to compute the fit for the
 median regression is the modified version of the Barrodale and Roberts algorithm
 for l1-regression, which is the default by R package quantreg. See quantreg documentation
-for more deatils. MORE on RR.}
+for more deatils. Robust Regression coming soon.}
 
 \item{method2}{The name of a method to estimate the model. Currently takes
 Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
 Regression ("RR"). The algorithm method used to compute the fit for the
 median regression is the modified version of the Barrodale and Roberts algorithm
 for l1-regression, which is the default by R package quantreg. See quantreg documentation
-for more deatils. MORE on RR.}
+for more deatils. Robust Regression coming soon.}
 
 \item{subset}{Expression indicating which subset of the rows of data should be
 used in the fit. All observations are included by default.}
