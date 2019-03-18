@@ -3,9 +3,6 @@
 using namespace Rcpp;
 using namespace std;
 
-#include <Rcpp.h>
-using namespace Rcpp ;
-
 
 arma::colvec vec(List a){
   int size = a.size();
