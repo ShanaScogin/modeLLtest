@@ -19,6 +19,8 @@ Imports:
     RcppArmadillo,
     RcppEigen
 Encoding: UTF-8
+LazyData: TRUE
+LazyLoad: TRUE
 Suggests: knitr,
     rmarkdown,
     testthat
@@ -27,7 +29,7 @@ SystemRequirements: GNU make
 Depends:
     R (>= 3.2.0)
 RoxygenNote: 6.1.1
-LinkingTo: 
+LinkingTo: BH,
     Rcpp,
     RcppArmadillo, 
     RcppEigen
