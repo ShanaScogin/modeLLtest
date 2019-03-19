@@ -1,7 +1,6 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 using namespace Rcpp;
-using namespace std;
 
 // [[Rcpp::export]]
 List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {

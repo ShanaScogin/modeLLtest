@@ -1,7 +1,6 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 using namespace Rcpp;
-using namespace std;
 
 
 arma::colvec vec(List a){
