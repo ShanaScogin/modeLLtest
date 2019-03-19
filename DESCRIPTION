@@ -15,13 +15,10 @@ Imports:
     survival,
     coxrobust,
     methods,
-    ggplot2,
     Rcpp,
     RcppArmadillo,
     RcppEigen
 Encoding: UTF-8
-LazyData: TRUE
-LazyLoad: TRUE
 Suggests: knitr,
     rmarkdown,
     testthat
