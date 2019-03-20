@@ -5,22 +5,25 @@ arma::colvec vec(Rcpp::List a){
   int size = a.size();
   arma::colvec a1(size);
   for (int i = 0; i < size; i++) {
-  a1[i] = a[i];
+    a1[i] = a[i];
   }
   return a1;
 }
 
-Rcpp::List sexpl(arma::dmat &y){
-  int size = y.size();
-  Rcpp::List a1(size);
-  for (int i = 0; i < size; i++) {
-    a1[i] = y[i];
-  }
-  return a1;
+Rcpp::List rq(arma::dmat &x, arma::vec &y){
+  Rcpp::Environment pkg = Rcpp::Environment::namespace_env("quantreg");
+  Rcpp::Function f = pkg["rq.fit"];
+  return f( x, y );
+}
+
+Rcpp::List rlm_fit(arma::dmat &x, arma::vec &y){
+  Rcpp::Environment pkg = Rcpp::Environment::namespace_env("modeLLtest");
+  Rcpp::Function f = pkg["rlm_fit"];
+  return f( x, y );
 }
 
 // [[Rcpp::export]]
-Rcpp::List cvll_mr(arma::dmat &x, arma::dmat &y, int n_row) {
+Rcpp::List cvll_mr(arma::dmat &x, arma::vec &y, int n_row) {
 
   arma::dmat yv;
   arma::dmat xv;
@@ -32,8 +35,6 @@ Rcpp::List cvll_mr(arma::dmat &x, arma::dmat &y, int n_row) {
   double b;
   Rcpp::List cvll_mr(n_row);
 
-  Rcpp::Function rq = Rcpp::Environment("package:quantreg")["rq.fit"];
-
   for (int i = 0; i < n_row; i++) {
     yv = y.row(i); // define obs i before change y
     rowyi = y.row(i);
@@ -41,7 +42,7 @@ Rcpp::List cvll_mr(arma::dmat &x, arma::dmat &y, int n_row) {
     xv = x.row(i); // define obs i before change x
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
-    mr = rq(sexpl(x), sexpl(y));
+    mr = rq(x, y);
     coef = vec(mr("coefficients"));
     resid = vec(mr("residuals")); // residuals
     b = arma::as_scalar( mean(abs(resid)) ); // dispersion param
@@ -68,8 +69,6 @@ Rcpp::List cvll_rlm(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   double sig2;
   Rcpp::List cvll_rlm(n_row);
 
-  Rcpp::Function rlm_fit = Rcpp::Environment("package:modeLLtest")["rlm_fit"];
-
   for (int i = 0; i < n_row; i++) {
     yv = y.row(i); // define obs i before change y
     rowyi = y.row(i);
@@ -88,4 +87,3 @@ Rcpp::List cvll_rlm(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
   return cvll_rlm;
 }
-

@@ -1,9 +1,8 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
-using namespace Rcpp;
 
 // [[Rcpp::export]]
-List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
+Rcpp::List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
 
   int n = n_row - 1;
   arma::dmat yv;
@@ -13,7 +12,7 @@ List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
   arma::dmat coef;
   arma::colvec resid;
   double sig2;
-  List cvll_ls(n_row);
+  Rcpp::List cvll_ls(n_row);
 
   for (int i = 0; i < n_row; i++) {
     yv = y.row(i); // define obs i before change y
@@ -32,4 +31,3 @@ List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
 
   return cvll_ls;
 }
-

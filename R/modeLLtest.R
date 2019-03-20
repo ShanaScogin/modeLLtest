@@ -22,6 +22,9 @@ NULL
 #' @importFrom quantreg rq.fit
 NULL
 
+#' @importFrom MASS rlm
+NULL
+
 #' @useDynLib modeLLtest
 #' @importFrom Rcpp sourceCpp
 NULL

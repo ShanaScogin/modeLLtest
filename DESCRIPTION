@@ -15,6 +15,7 @@ Imports:
     survival,
     coxrobust,
     methods,
+    MASS,
     Rcpp,
     RcppArmadillo
 Encoding: UTF-8

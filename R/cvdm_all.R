@@ -102,9 +102,9 @@ cvdm <- function(formula,
   } else if (method1 == "MR"){
     cvll_1 <- cvll_mr(as.matrix(x), y, n_row)
     m1 <- "MR"
-#  } else if (method1 == "RR"){
-#    cvll_1 <- cvll_rr(x, y)
-#    m1 <- "RR"
+#  } else if (method1 == "RLM"){
+#    cvll_1 <- cvll_rlm(as.matrix(x), y, n_row, n_col)
+#    m1 <- "RLM"
   } else {
     print("First method unknown")
   }
@@ -116,9 +116,9 @@ cvdm <- function(formula,
   } else if (method2 == "MR"){
     cvll_2 <- cvll_mr(as.matrix(x), y, n_row)
     m2 <- "MR"
-#  } else if (method2 == "RR"){
-#    cvll_2 <- cvll_rr(x, y)
-#    m2 <- "RR"
+#  } else if (method2 == "RLM"){
+#    cvll_2 <- cvll_rlm(as.matrix(x), y, n_row, n_col)
+#    m2 <- "RLM"
   } else {
     print("Second method unknown")
   }
