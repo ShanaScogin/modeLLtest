@@ -4,6 +4,7 @@
 #'@title Cross-Validated Difference in Means (CVDM) Test
 #'@description Applies cross-validated log-likelihood to test between
 #'two methods of estimating a formula. The output identifies the more appropriate model.
+#'
 #'In choosing between OLS and MR, please cite:
 #'
 #'Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
@@ -60,8 +61,8 @@
 
 cvdm <- function(formula,
                  data,
-                 method1 = c("OLS", "MR"), # can add RR and other MR methods
-                 method2 = c("OLS", "MR"), # can add RR and other MR methods
+                 method1 = c("OLS", "MR", "RLM"), # can add other MR methods
+                 method2 = c("OLS", "MR", "RLM"), # can add other MR methods
                  subset,
                  na.action,
                  singular.ok = TRUE){ ## right now this isn't being used
@@ -102,9 +103,9 @@ cvdm <- function(formula,
   } else if (method1 == "MR"){
     cvll_1 <- cvll_mr(as.matrix(x), y, n_row)
     m1 <- "MR"
-#  } else if (method1 == "RLM"){
-#    cvll_1 <- cvll_rlm(as.matrix(x), y, n_row, n_col)
-#    m1 <- "RLM"
+  } else if (method1 == "RLM"){
+    cvll_1 <- cvll_rlm(as.matrix(x), y, n_row, n_col)
+    m1 <- "RLM"
   } else {
     print("First method unknown")
   }
@@ -116,9 +117,9 @@ cvdm <- function(formula,
   } else if (method2 == "MR"){
     cvll_2 <- cvll_mr(as.matrix(x), y, n_row)
     m2 <- "MR"
-#  } else if (method2 == "RLM"){
-#    cvll_2 <- cvll_rlm(as.matrix(x), y, n_row, n_col)
-#    m2 <- "RLM"
+  } else if (method2 == "RLM"){
+    cvll_2 <- cvll_rlm(as.matrix(x), y, n_row, n_col)
+    m2 <- "RLM"
   } else {
     print("Second method unknown")
   }
@@ -150,7 +151,7 @@ cvdm <- function(formula,
 
 mu3hat <- function(x){
   n <- length(x)
-  ns <- n / ((n - 1) * (n - 2)) # change object name?
+  ns <- n / ((n - 1) * (n - 2))
   ns * sum( (x - mean(x) ) ^ 3)
 }
 

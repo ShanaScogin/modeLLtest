@@ -5,11 +5,11 @@ cvll_mr <- function(x, y, n_row) {
     .Call('_modeLLtest_cvll_mr', PACKAGE = 'modeLLtest', x, y, n_row)
 }
 
-cvll_rlm <- function(x, y, n_row, n_col) {
-    .Call('_modeLLtest_cvll_rlm', PACKAGE = 'modeLLtest', x, y, n_row, n_col)
-}
-
 cvll_ols <- function(x, y, n_row, n_col) {
     .Call('_modeLLtest_cvll_ols', PACKAGE = 'modeLLtest', x, y, n_row, n_col)
+}
+
+cvmf_loop <- function(x, y, w, n_row, n_col) {
+    .Call('_modeLLtest_cvmf_loop', PACKAGE = 'modeLLtest', x, y, w, n_row, n_col)
 }
 
