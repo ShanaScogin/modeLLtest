@@ -1,57 +1,19 @@
 # from MASS Package
 # copyright (C) 1994-2016 W. N. Venables and B. D. Ripley
 
-rlm <- function(x, ...) UseMethod("rlm")
-
-rlm.formula <-
-  function(formula, data, weights, ..., subset, na.action,
-           method = c("M", "MM", "model.frame"),
-           wt.method = c("inv.var", "case"),
-           model = TRUE, x.ret = TRUE, y.ret = FALSE, contrasts = NULL)
-  {
-    mf <- match.call(expand.dots = FALSE)
-    mf$method <- mf$wt.method <- mf$model <- mf$x.ret <- mf$y.ret <- mf$contrasts <- mf$... <- NULL
-    mf[[1L]] <- quote(stats::model.frame)
-    mf <- eval.parent(mf)
-    method <- match.arg(method)
-    wt.method <- match.arg(wt.method)
-    if(method == "model.frame") return(mf)
-    mt <- attr(mf, "terms")
-    y <- model.response(mf)
-    offset <- model.offset(mf)
-    if(!is.null(offset)) y <- y - offset
-    x <- model.matrix(mt, mf, contrasts)
-    xvars <- as.character(attr(mt, "variables"))[-1L]
-    if ((yvar <- attr(mt, "response")) > 0L)
-      xvars <- xvars[-yvar]
-    xlev <- if (length(xvars) > 0L) {
-      xlev <- lapply(mf[xvars], levels)
-      xlev[!sapply(xlev, is.null)]
-    }
-    weights <- model.weights(mf)
-    if(!length(weights)) weights <- rep(1, nrow(x))
-    fit <- rlm.default(x, y, weights, method = method,
-                       wt.method = wt.method, ...)
-    fit$terms <- mt
-    ## fix up call to refer to the generic, but leave arg name as `formula'
-    cl <- match.call()
-    cl[[1L]] <- as.name("rlm")
-    fit$call <- cl
-    fit$contrasts <- attr(x, "contrasts")
-    fit$xlevels <- .getXlevels(mt, mf)
-    fit$na.action <- attr(mf, "na.action")
-    if(model) fit$model <- mf
-    if(!x.ret) fit$x <- NULL
-    if(y.ret) fit$y <- y
-    fit
-  }
+rlm_mm <- function(x, ...) UseMethod("rlm")
 
 rlm.default <-
   function(x, y, weights, ..., w = rep(1, nrow(x)),
-           init = "ls", psi = psi.huber,
-           scale.est = c("MAD", "Huber", "proposal 2"), k2 = 1.345,
-           method = c("M", "MM"), wt.method = c("inv.var", "case"),
-           maxit = 20, acc = 1e-4, test.vec = "resid", lqs.control=NULL)
+           init = "ls",
+           psi = psi.huber,
+           scale.est = c("MAD", "Huber", "proposal 2"),
+           k2 = 1.345,
+           method = c("M", "MM"),
+           wt.method = c("inv.var", "case"),
+           maxit = 20, acc = 1e-4,
+           test.vec = "resid",
+           lqs.control = NULL)
   {
     irls.delta <- function(old, new)
       sqrt(sum((old - new)^2)/max(1e-20, sum(old^2)))
@@ -100,31 +62,33 @@ rlm.default <-
       }
     } else wt <- NULL
 
-    if(method == "M") {
-      scale.est <- match.arg(scale.est)
-      if(!is.function(psi)) psi <- get(psi, mode="function")
-      ## match any ... args to those of psi.
-      arguments <- list(...)
-      if(length(arguments)) {
-        pm <- pmatch(names(arguments), names(formals(psi)), nomatch = 0L)
-        if(any(pm == 0L)) warning("some of ... do not match")
-        pm <- names(arguments)[pm> 0L]
-        formals(psi)[pm] <- unlist(arguments[pm])
-      }
-      if(is.character(init)) {
-        temp <- if(init == "ls") lm.wfit(x, y, w, method="qr")
-        else if(init == "lts") {
-          if(is.null(lqs.control)) lqs.control <- list(nsamp=200L)
-          do.call("lqs", c(list(x, y, intercept = FALSE), lqs.control))
-        } else stop("'init' method is unknown")
-        coef <- temp$coefficients
-        resid <- temp$residuals
-      } else {
-        if(is.list(init)) coef <- init$coef
-        else coef <- init
-        resid <- drop(y - x %*% coef)
-      }
-    } else if(method == "MM") {
+    # if(method == "M") {
+    #   scale.est <- match.arg(scale.est)
+    #   if(!is.function(psi)) psi <- get(psi, mode="function")
+    #   ## match any ... args to those of psi.
+    #   arguments <- list(...)
+    #   if(length(arguments)) {
+    #     pm <- pmatch(names(arguments), names(formals(psi)), nomatch = 0L)
+    #     if(any(pm == 0L)) warning("some of ... do not match")
+    #     pm <- names(arguments)[pm> 0L]
+    #     formals(psi)[pm] <- unlist(arguments[pm])
+    #   }
+    #   if(is.character(init)) {
+    #     temp <- if(init == "ls") lm.wfit(x, y, w, method="qr")
+    #     else if(init == "lts") {
+    #       if(is.null(lqs.control)) lqs.control <- list(nsamp=200L)
+    #       do.call("lqs", c(list(x, y, intercept = FALSE), lqs.control))
+    #     } else stop("'init' method is unknown")
+    #     coef <- temp$coefficients
+    #     resid <- temp$residuals
+    #   } else {
+    #     if(is.list(init)) coef <- init$coef
+    #     else coef <- init
+    #     resid <- drop(y - x %*% coef)
+    #   }
+    # }
+    # else
+      if(method == "MM") {
       scale.est <- "MM"
       temp <- do.call("lqs",
                       c(list(x, y, intercept = FALSE, method = "S",

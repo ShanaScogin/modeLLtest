@@ -16,13 +16,13 @@ NULL
 
 #' @importFrom stats binom.test coef dnorm lm model.extract
 #' model.frame model.matrix model.response pchisq pnorm pt
-#' residuals sd
+#' residuals sd lm.wfit
 NULL
 
 #' @importFrom quantreg rq.fit
 NULL
 
-#' @importFrom MASS rlm
+#' @importFrom MASS lqs
 NULL
 
 #' @useDynLib modeLLtest

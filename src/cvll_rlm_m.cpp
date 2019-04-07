@@ -1,7 +1,7 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 
-arma::colvec vecrlm(Rcpp::List a) {
+arma::colvec vecrlmm(Rcpp::List a) {
   int size = a.size();
   arma::colvec a1(size);
   for (int i = 0; i < size; i++) {
@@ -10,14 +10,14 @@ arma::colvec vecrlm(Rcpp::List a) {
   return a1;
 }
 
-Rcpp::List rlm_mm(arma::dmat &x, arma::vec &y) {
+Rcpp::List rlm_m(arma::dmat &x, arma::vec &y) {
     Rcpp::Environment pkg = Rcpp::Environment::global_env();
-    Rcpp::Function f = pkg["rlm"];
+    Rcpp::Function f = pkg["rlm_m"];
     return f(x, y);
   }
 
 // [[Rcpp::export]]
-Rcpp::List cvll_rlm(arma::dmat &x, arma::colvec &y, int n_row) { //, int n_col) {
+Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row) { //, int n_col) {
 
 //  int n = n_row - 1;
   arma::dmat yv;
@@ -37,8 +37,8 @@ Rcpp::List cvll_rlm(arma::dmat &x, arma::colvec &y, int n_row) { //, int n_col) 
     xv = x.row(i); // define obs i before change x
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
-    rlm = rlm_mm(x, y);
-//    coef = vecrlm(rlm("coefficients"));
+    rlm = rlm_m(x, y);
+//    coef = vecrlmm(rlm("coefficients"));
 //    resid = vecrlm(rlm("residuals")); // residuals
 //    sig2 = arma::as_scalar( arma::trans(resid) * resid /  (n - n_col) ); // SE of est
 //    cvll_rlm[i] = log(arma::normpdf(yv - xv * coef, 0, sig2));
