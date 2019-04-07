@@ -20,17 +20,18 @@
 #'@param data A data frame, list or environment (or object coercible by
 #'as.data.frame to a data frame) containing the variables in the model.
 #'@param method1 The name of a method to estimate the model. Currently takes
-#'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
-#'Regression ("RR"). The algorithm method used to compute the fit for the
+#'Ordinary Least Squares ("OLS"), Median Regression ("MR"), Robust Linear
+#'Regression ("RLM") using M-estimation, and Robust Linear Regression using
+#'MM-estimation ("RLM-MM"). The algorithm method used to compute the fit for the
 #'median regression is the modified version of the Barrodale and Roberts algorithm
-#'for l1-regression, which is the default by R package quantreg. See quantreg documentation
-#'for more deatils. Robust Regression coming soon.
-#'@param method2 The name of a method to estimate the model. Currently takes
-#'Ordinary Least Squares ("OLS"), Median Regression ("MR"), and Robust
-#'Regression ("RR"). The algorithm method used to compute the fit for the
-#'median regression is the modified version of the Barrodale and Roberts algorithm
-#'for l1-regression, which is the default by R package quantreg. See quantreg documentation
-#'for more deatils. Robust Regression coming soon.
+#'for l1-regression, which is the default by R package quantreg. See quantreg
+#'qr function documentation for more deatils. Fitting for the robust regressions
+#'is done by iterated re-weighted least squares (IWLS) and is taken from the
+#'MASS package rlm function. The MM-estimation is the M-estimation with Tukey's
+#'biweight initialized by a specific S-estimate. See MASS package rlm documentation
+#'for details.
+#'@param method2 The name of the comparison method to estimate the model. Options
+#'are same as for method1.
 #'@param subset Expression indicating which subset of the rows of data should be
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,
