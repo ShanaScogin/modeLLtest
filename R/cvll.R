@@ -35,9 +35,11 @@
 #'(CVLL). See \code{cvll.object} for more details.
 #' @export
 
+### need to add more about irr and plm up in the param for method
+
 cvll <- function(formula,
                  data,
-                 method = c("OLS", "MR", "RLM"), # can add other MR methods
+                 method = c("OLS", "MR", "RLM"), # need to add other rlm methods and plm and irr
                  subset,
                  na.action,
                  singular.ok = TRUE){ ## right now this isn't being used
@@ -85,9 +87,12 @@ cvll <- function(formula,
     print("First method unknown")
   }
 
+  df <- length(y) - ncol(x)
+
   obj <- list(cvll = as.numeric(cvll),
               n = length(y),
               call = call,
+              df = df,
               model_matrix = x)
 
   class(obj) <- "cvll"

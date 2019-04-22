@@ -13,7 +13,7 @@ print.cvdm <- function(x, digits = max(3, getOption("digits") - 4), ...) {
   cat(x$best, " supported with a p-value of ",
       x$p_value, sep = "", "\n")
 
-  x$test_stat
+#  cat("\n", x$test_stat)
 
   invisible(x)
 
