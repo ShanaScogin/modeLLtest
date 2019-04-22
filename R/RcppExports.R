@@ -17,7 +17,3 @@ cvll_rlm_m <- function(x, y, n_row, n_col) {
     .Call('_modeLLtest_cvll_rlm_m', PACKAGE = 'modeLLtest', x, y, n_row, n_col)
 }
 
-cvmf_loop <- function(x, y, w, n_row, n_col) {
-    .Call('_modeLLtest_cvmf_loop', PACKAGE = 'modeLLtest', x, y, w, n_row, n_col)
-}
-

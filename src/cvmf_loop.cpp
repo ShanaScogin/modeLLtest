@@ -1,13 +1,59 @@
-//[[Rcpp::depends(RcppArmadillo)]]
-#include <RcppArmadillo.h>
-
-// [[Rcpp::export]]
-Rcpp::List cvmf_loop(arma::dmat &x, arma::mat &y, arma::mat &w,
-                     int n_row, int n_col) {
-
-
-
-}
+// //[[Rcpp::depends(RcppArmadillo)]]
+// #include <RcppArmadillo.h>
+//
+// arma::colvec vecmf(Rcpp::List a) {
+//   int size = a.size();
+//   arma::colvec a1(size);
+//   for (int i = 0; i < size; i++) {
+//     a1[i] = a[i];
+//   }
+//   return a1;
+// }
+//
+// Rcpp::List coxph(arma::dmat &x, arma::vec &y) {
+//   Rcpp::Environment pkg = Rcpp::Environment::namespace_env("survival");
+//   Rcpp::Function f = pkg["coxph"];
+//   return f(x, y);
+// }
+//
+// Rcpp::List coxr(arma::dmat &x, arma::vec &y) {
+//   Rcpp::Environment pkg = Rcpp::Environment::namespace_env("coxrobust");
+//   Rcpp::Function f = pkg["coxr"];
+//   return f(x, y);
+// }
+//
+// // [[Rcpp::export]]
+// Rcpp::List cvmf_loop(arma::dmat &x, arma::mat &y, arma::mat &w,
+//                      int n_row, int n_col) {
+//
+//   arma::dmat yv;
+//   arma::dmat xv;
+//   arma::rowvec rowyi;
+//   arma::rowvec rowxi;
+//   Rcpp::List pesti;
+//   Rcpp::List esti;
+//   arma::colvec coef;
+//   arma::colvec resid;
+//   double b;
+//   Rcpp::List cvll_mr(n_row);
+//
+//   for (int i = 0; i < n_row; i++) {
+//     yv = y.row(i); // define obs i before change y
+//     rowyi = y.row(i);
+//     y.shed_row(i); // leaves out observation i
+//     xv = x.row(i); // define obs i before change x
+//     rowxi = x.row(i);
+//     x.shed_row(i); // leaves out observation i but changes x
+//     pesti = coxph(x, y);
+//     coef = vecmr(mr("coefficients"));
+//     resid = vecmr(mr("residuals")); // residuals
+//     b = arma::as_scalar( mean(abs(resid)) ); // dispersion param
+//     cvll_mr[i] = log( (1 / (2 * b) ) *
+//       exp( -abs( (yv - xv * coef) / b ) ) );
+//     y.insert_rows(i, rowyi); // add y back in
+//     x.insert_rows(i, rowxi); // add x back in
+//
+// }
 
 /***R
 # Making empty vectors to prep for cross-validation
