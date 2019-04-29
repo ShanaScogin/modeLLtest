@@ -38,7 +38,7 @@ After the package is loaded, check out the `?modeLLtest` to see a help file. You
 <!-- # Examples -->
 
 # What's Happening
-This is a beta version of the modeLLtest package. Currently, cvdm() and cvmf() are up and running, with more functions on the way. Next steps include improving the performance of the current functions with Rcpp, adding options to cvdm() and creating generalized options. Check back for details. 
+This is a beta version of the modeLLtest package. Currently, the two main model comparison tests, cvdm() and cvmf(), are up and running. Two general functions, cvll() and cvll_dm() are also available. Next steps include adding options to cvdm() and improving the performance of the functions. Check back for details. 
 
 # Contact
 Please contact sscogin@nd.edu with questions or comments.
