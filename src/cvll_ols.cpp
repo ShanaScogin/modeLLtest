@@ -11,7 +11,7 @@ Rcpp::List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
   arma::rowvec rowxi;
   arma::dmat coef;
   arma::colvec resid;
-  double sig2;
+  double sig;
   Rcpp::List cvll_ls(n_row);
 
   for (int i = 0; i < n_row; i++) {
@@ -23,8 +23,8 @@ Rcpp::List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
     x.shed_row(i); // leaves out observation i but changes x
     coef = arma::solve(x, y); // fit model y ~ x
     resid = y - x * coef; // residuals
-    sig2 = arma::as_scalar( arma::trans(resid) * resid /  (n - n_col) ); // SE of est
-    cvll_ls[i] = log(arma::normpdf(yv - xv * coef, 0, sig2));
+    sig = arma::as_scalar(sqrt( arma::trans(resid) * resid /  (n - n_col) )); // sqrt(SE of est)
+    cvll_ls[i] = log(arma::normpdf(yv - xv * coef, 0, sig));
     y.insert_rows(i, rowyi); // add y back in
     x.insert_rows(i, rowxi); // add x back in
   }
