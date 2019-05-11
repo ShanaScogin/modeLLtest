@@ -75,7 +75,7 @@ cvmf <- function(formula, data,
   mf <- match.call(expand.dots = FALSE)
   m  <- match(c("formula", "data", "subset", "na.action"), names(mf),
               nomatch = 0)
-  if (m[1]==0) {
+  if (m[1] == 0) {
     stop("A formula argument is required")
   }
   mf <- mf[c(1, m)]
@@ -191,7 +191,7 @@ cvmf <- function(formula, data,
     na_ind <- which(is.na(pesti$coefficients))
 
     # Extract coefficients and covariates
-    # First, we remove any covariates with undefined effects
+    # Remove any covariates with undefined effects if exist
     if (length(na_ind) > 0){
       coef_p <- pesti$coefficients[-na_ind]
       x_p <- x[, -na_ind]
@@ -203,13 +203,13 @@ cvmf <- function(formula, data,
     }
 
     # Compute the partial likelihoods
-    coxr_loglik_full <- survival::coxph(y ~ offset(as.matrix(x) %*% cbind(resti$coefficients)),
+    coxr_ll_full <- survival::coxph(y ~ offset(as.matrix(x) %*% cbind(resti$coefficients)),
                                  method = method)$loglik
-    coxph_loglik_full <- survival::coxph(y ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
+    coxph_ll_full <- survival::coxph(y ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
                                  method = method)$loglik
-    coxr_loglik <- survival::coxph(yi ~ offset(as.matrix(xi) %*% cbind(resti$coefficients)),
+    coxr_ll <- survival::coxph(yi ~ offset(as.matrix(xi) %*% cbind(resti$coefficients)),
                                  method = method)$loglik
-    coxph_loglik <- survival::coxph(yi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
+    coxph_ll <- survival::coxph(yi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
                                  method = method)$loglik
     ### We're using coxph() here to get the partial likelihood
     ### See Desmarais and Hardin 2012 for more about the test
@@ -217,8 +217,8 @@ cvmf <- function(formula, data,
     ### We're using offset() to force to beta - linear predictor
 
     # Store
-    cvll_r[i] <- coxr_ll - esti_ll_r ## why are we leaving out observations???
-    cvll_c[i] <- coxph_ll - esti_ll_c
+    cvll_r[i] <- coxr_ll_full - coxr_ll ## why are we leaving out observations???
+    cvll_c[i] <- coxph_ll_full - coxph_ll
   }
 
   # Compute the test

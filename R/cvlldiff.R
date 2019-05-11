@@ -20,15 +20,19 @@
 
 cvlldiff <- function(vector1,
                  vector2,
-                 df){ ## right now this isn't being used
+                 df){
 
   # Find the difference
-  cvlldiff <- as.numeric(vector1) - as.numeric(vector2) # cross-validated log likelihood difference
+  cvlldiff <- as.numeric(vector1) - as.numeric(vector2) # cross-validated log likelihood diff
   test_stat <- johnsons_t(cvlldiff)
-  p_value <- ifelse (test_stat > 0,
-                     pt(test_stat, df = df, # student t distrib
-                        lower.tail = FALSE),
-                     pt(test_stat, df = df)) # student t distrib
+  if (missing(df)) {
+
+  } else {
+    p_value <- ifelse (test_stat > 0,
+                       pt(test_stat, df = df, # student t distrib
+                          lower.tail = FALSE),
+                       pt(test_stat, df = df)) # student t distrib
+  }
   # Positive test statistics support method 1
   # Negative test statistics support method 2
   best <- ifelse(test_stat > 0, "the first vector", "the second vector")
@@ -36,7 +40,7 @@ cvlldiff <- function(vector1,
               test_stat = test_stat,
               p_value = p_value)
 
-  class(obj) <- "cvll_dm"
+  class(obj) <- "cvlldiff"
 
   obj
 

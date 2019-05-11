@@ -87,7 +87,7 @@ cvll <- function(formula,
     print("First method unknown")
   }
 
-  df <- length(y) - ncol(x)
+  df <- length(y) - ncol(x) ### fix this
 
   obj <- list(cvll = as.numeric(cvll),
               n = length(y),
