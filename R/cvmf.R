@@ -176,10 +176,10 @@ cvmf <- function(formula, data,
                              method = method,
                              weights = weightsi, ##### need to test
                              na.action = na.action, ##### need to test
-                             #excluding init since coxr only allows defaut
+                             #excluding init since coxr only allows default
                              #excluding control
                              singular.ok = singular.ok)
-    esti <- coxrobust::coxr(yi ~ xi,
+    resti <- coxrobust::coxr(yi ~ xi,
                             na.action = na.action, ### need to test this
                             trunc = trunc,
                             f.weight = f.weight, ### tested one round of this but more needed
@@ -191,38 +191,40 @@ cvmf <- function(formula, data,
     na_ind <- which(is.na(pesti$coefficients))
 
     # Extract coefficients and covariates
-    coef_p <- pesti$coefficients
-    x_p <- x
-    xi_p <- xi
-
-    # Remove any covariates with undefined effects
+    # First, we remove any covariates with undefined effects
     if (length(na_ind) > 0){
       coef_p <- pesti$coefficients[-na_ind]
       x_p <- x[, -na_ind]
       xi_p <- xi[, -na_ind]
+    } else {
+      coef_p <- pesti$coefficients
+      x_p <- x
+      xi_p <- xi
     }
 
-    # Compute the full and restricted partial likelihoods
-    full_ll_r <- survival::coxph(y ~ offset(as.matrix(x) %*% cbind(esti$coefficients)),
-                                 method = method)$loglik # this is unrestricted - fix this _r and _c
-    full_ll_c <- survival::coxph(y ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
-                                 method = method)$loglik # this is unrestricted with nas dropped - fix this _r and _c
-    esti_ll_r <- survival::coxph(yi ~ offset(as.matrix(xi) %*% cbind(esti$coefficients)),
+    # Compute the partial likelihoods
+    coxr_loglik_full <- survival::coxph(y ~ offset(as.matrix(x) %*% cbind(resti$coefficients)),
                                  method = method)$loglik
-    esti_ll_c <- survival::coxph(yi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
+    coxph_loglik_full <- survival::coxph(y ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
                                  method = method)$loglik
-    ### getting the likelihood - so just doesn't have to be irr
-    ### offset() is forcing it to beta - linear predictor
+    coxr_loglik <- survival::coxph(yi ~ offset(as.matrix(xi) %*% cbind(resti$coefficients)),
+                                 method = method)$loglik
+    coxph_loglik <- survival::coxph(yi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
+                                 method = method)$loglik
+    ### We're using coxph() here to get the partial likelihood
+    ### See Desmarais and Hardin 2012 for more about the test
+    ### and Verweij and Houwelingen 1993 for more about the measure
+    ### We're using offset() to force to beta - linear predictor
 
     # Store
-    cvll_r[i] <- full_ll_r - esti_ll_r ## why are we leaving out observations???
-    cvll_c[i] <- full_ll_c - esti_ll_c
+    cvll_r[i] <- coxr_ll - esti_ll_r ## why are we leaving out observations???
+    cvll_c[i] <- coxph_ll - esti_ll_c
   }
 
   # Compute the test
   cvmf <- binom.test(sum(cvll_r > cvll_c), n, alternative = "two.sided")
   best <- ifelse(cvmf$statistic > n / 2, "IRR", "PLM")
-      ## binomial test - null is just fair coin, n/2
+      ## This is a binomial test - null is just fair coin, n/2
   p <- round(cvmf$p.value, digits = 3)
   coef <- dimnames(x)[[2]]
 
