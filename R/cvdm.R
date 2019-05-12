@@ -46,7 +46,7 @@
 #'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
 #'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
 #'A positive test statistic supports the first method and a negative test statistic supports
-#'the second. See \code{cvdm.object} for more details.
+#'the second. See \code{cvdm_object} for more details.
 #' @examples
 #' \dontrun{
 #'   set.seed(123456)

@@ -58,7 +58,7 @@
 #'used in the fit. All observations are included by default.
 #'@return An object of class \code{cvmf} computed by the cross-validated median fit test
 #'(CVMF) to test between the PLM and IRR methods of estimating the Cox model.
-#'See \code{cvmf.object} for more details.
+#'See \code{cvmf_object} for more details.
 #'@export
 
 cvmf <- function(formula, data,
@@ -134,7 +134,7 @@ cvmf <- function(formula, data,
   ######### might could take this out bc it's in match.call() above
   na.action <- attr(mf, "na.action")
   if(missing(na.action)) {
-    na.action <- na.omit
+    na.action <- NULL
   } else {
     na.action <- na.action
     # coxph and coxr
@@ -154,7 +154,7 @@ cvmf <- function(formula, data,
                          method = method,
                          weights = weights, ##### need to test
                          na.action = na.action, ##### need to test
-                         # We exclude init since coxr only allows default
+                         # We exclude init since coxr only allows defaut
                          # We exclude control
                          singular.ok = singular.ok)
 
@@ -180,10 +180,10 @@ cvmf <- function(formula, data,
                              #excluding control
                              singular.ok = singular.ok)
     resti <- coxrobust::coxr(yi ~ xi,
-                            na.action = na.action, ### need to test this
-                            trunc = trunc,
-                            f.weight = f.weight, ### tested one round of this but more needed
-                            singular.ok = singular.ok)
+                             na.action = na.action, ### need to test this
+                             trunc = trunc,
+                             f.weight = f.weight, ### tested one round of this but more needed
+                             singular.ok = singular.ok)
 
     # Check if any parameters were undefined without observation i
     # This can happen with very sparse and/or very many covariates
@@ -204,13 +204,13 @@ cvmf <- function(formula, data,
 
     # Compute the partial likelihoods
     coxr_ll_full <- survival::coxph(y ~ offset(as.matrix(x) %*% cbind(resti$coefficients)),
-                                 method = method)$loglik
+                                    method = method)$loglik
     coxph_ll_full <- survival::coxph(y ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
-                                 method = method)$loglik
+                                     method = method)$loglik
     coxr_ll <- survival::coxph(yi ~ offset(as.matrix(xi) %*% cbind(resti$coefficients)),
-                                 method = method)$loglik
+                               method = method)$loglik
     coxph_ll <- survival::coxph(yi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
-                                 method = method)$loglik
+                                method = method)$loglik
     ### We're using coxph() here to get the partial likelihood
     ### See Desmarais and Hardin 2012 for more about the test
     ### and Verweij and Houwelingen 1993 for more about the measure
@@ -224,7 +224,7 @@ cvmf <- function(formula, data,
   # Compute the test
   cvmf <- binom.test(sum(cvll_r > cvll_ph), n, alternative = "two.sided")
   best <- ifelse(cvmf$statistic > n / 2, "IRR", "PLM")
-      ## This is a binomial test - null is just fair coin, n/2
+  ## This is a binomial test - null is just fair coin, n/2
   p <- round(cvmf$p.value, digits = 3)
   coef <- dimnames(x)[[2]]
 
@@ -252,11 +252,7 @@ cvmf <- function(formula, data,
               call = call)
 
   class(obj) <- "cvmf"
-#
-#   obj$na.action <- attr(mf, "na.action")
-#   obj$call <- call
-#   obj$terms <- mterms
-#
-#   obj
+
+  obj
 
 }

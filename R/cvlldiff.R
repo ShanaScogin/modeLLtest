@@ -13,10 +13,10 @@
 #'@param vector1 A numeric vector of cross-validated log-likelihoods.
 #'@param vector2 A numeric vector of cross-validated log-likelihoods.
 #'@param df A value of the degrees of freedom in the models.
-#'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
-#'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
-#'A positive test statistic supports the first method and a negative test statistic supports
-#'the second. See \code{cvdm.object} for more details.
+#'@return An object of class \code{cvlldiff} computed by the cross-validated log likelihood
+#'difference in means test (CVDM). The test statistic object is the Cross-Validated
+#'Johnson's t-test. A positive test statistic supports the first method and a negative test
+#'statistic supports the second.
 
 cvlldiff <- function(vector1,
                  vector2,

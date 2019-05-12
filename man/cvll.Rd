@@ -44,13 +44,13 @@ coefficients are treated as zeros.}
 }
 \value{
 An object of class \code{cvll} computed by the cross-validated log likelihood
-(CVLL). See \code{cvll.object} for more details.
+(CVLL).
 }
 \description{
-Extracts the cross-validated log-likelihood from a method
-of estimating a formula.
+Extracts the leave-one-out cross-validated log-likelihoods
+from a method of estimating a formula.
 }
 \details{
-This function extracts a vector of the cross-validated log likelihood (CVLL)
-from a method of estimating a formula.
+This function extracts a vector of leave-one-out cross-validated
+log likelihoods (CVLLs) from a method of estimating a formula.
 }

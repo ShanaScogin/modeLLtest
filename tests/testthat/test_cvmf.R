@@ -1,6 +1,6 @@
 test_that("Simple model with two covariates runs with cvmf", {
   skip_on_cran()
-  ## need to figure out why skip_on_cran() is skipping and failing crap
+  ## need to figure out why skip_on_cran() is skipping and failing
 
   set.seed(12345)
   x1 <- rnorm(100)

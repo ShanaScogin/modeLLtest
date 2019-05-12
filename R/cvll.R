@@ -32,7 +32,7 @@
 #'zeros. For ancillary calculations, such as the linear predictor, the missing
 #'coefficients are treated as zeros.
 #'@return An object of class \code{cvll} computed by the cross-validated log likelihood
-#'(CVLL). See \code{cvll.object} for more details.
+#'(CVLL).
 #' @export
 
 ### need to add more about irr and plm up in the param for method
