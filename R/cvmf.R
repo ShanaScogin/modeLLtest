@@ -57,9 +57,9 @@
 #'@param subset Expression indicating which subset of the rows of data should be
 #'used in the fit. All observations are included by default.
 #'@return An object of class \code{cvmf} computed by the cross-validated median fit test
-#' (CVMF) to test between the PLM and IRR methods of estimating the Cox model.
-#' See \code{cvmf.object} for more details.
-#' @export
+#'(CVMF) to test between the PLM and IRR methods of estimating the Cox model.
+#'See \code{cvmf.object} for more details.
+#'@export
 
 cvmf <- function(formula, data,
                  method = c("exact","approximate", "efron", "breslow"),
@@ -131,17 +131,17 @@ cvmf <- function(formula, data,
   }
 
   # na.action argument default
-  ######### this really needs to be tested
   ######### might could take this out bc it's in match.call() above
+  na.action <- attr(mf, "na.action")
   if(missing(na.action)) {
-    na.action <- NULL
+    na.action <- na.omit
   } else {
     na.action <- na.action
     # coxph and coxr
   }
 
   # Estimate IRR
-  # creating to return for comparison
+  # We create this to return for comparison
   irr <- coxrobust::coxr(formula = y ~ x,
                          na.action = na.action, ### need to test this
                          trunc = trunc,
@@ -149,19 +149,19 @@ cvmf <- function(formula, data,
                          singular.ok = singular.ok)
 
   # Estimate PLM
-  # creating to return for comparison
+  # We create this to return for comparison
   plm <- survival::coxph(formula = y ~ x,
                          method = method,
                          weights = weights, ##### need to test
                          na.action = na.action, ##### need to test
-                         #excluding init since coxr only allows defaut
-                         #excluding control
+                         # We exclude init since coxr only allows default
+                         # We exclude control
                          singular.ok = singular.ok)
 
   # Making empty vectors to prep for cross-validation
   n <- nrow(x)
   cvll_r <- numeric(n)
-  cvll_c <- numeric(n)
+  cvll_ph <- numeric(n)
 
   # Loop through for cross-validation
   for (i in 1:n){
@@ -218,11 +218,11 @@ cvmf <- function(formula, data,
 
     # Store
     cvll_r[i] <- coxr_ll_full - coxr_ll ## why are we leaving out observations???
-    cvll_c[i] <- coxph_ll_full - coxph_ll
+    cvll_ph[i] <- coxph_ll_full - coxph_ll
   }
 
   # Compute the test
-  cvmf <- binom.test(sum(cvll_r > cvll_c), n, alternative = "two.sided")
+  cvmf <- binom.test(sum(cvll_r > cvll_ph), n, alternative = "two.sided")
   best <- ifelse(cvmf$statistic > n / 2, "IRR", "PLM")
       ## This is a binomial test - null is just fair coin, n/2
   p <- round(cvmf$p.value, digits = 3)
@@ -246,13 +246,17 @@ cvmf <- function(formula, data,
               irr_wald = irr[8],
               plm_wald = plm[14],
               cvpl_irr = cvll_r,
-              cvpl_plm = cvll_c,
+              cvpl_plm = cvll_ph,
               x = x,
               y = y,
               call = call)
 
   class(obj) <- "cvmf"
-
-  obj
+#
+#   obj$na.action <- attr(mf, "na.action")
+#   obj$call <- call
+#   obj$terms <- mterms
+#
+#   obj
 
 }
