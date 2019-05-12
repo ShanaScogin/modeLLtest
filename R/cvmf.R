@@ -87,8 +87,6 @@ cvmf <- function(formula, data,
 
   mterms <- attr(mf, "terms")
 
-  #### perhaps add an error message for subset?
-
   y <- model.extract(mf, "response")
   if ( !inherits(y, "Surv") ) {
     stop("response must be a \"Surv\" object")
@@ -130,16 +128,6 @@ cvmf <- function(formula, data,
     weights <- weights
   }
 
-  # na.action argument default
-  ######### might could take this out bc it's in match.call() above
-#  na.action <- attr(mf, na.action)
-  # if(missing(na.action)) {
-  #   na.action <- NULL
-  # } else {
-  #   na.action <- na.action
-  #   # coxph and coxr
-  # }
-
   # Estimate IRR
   # We create this to return for comparison
   irr <- coxrobust::coxr(formula = y ~ x,
@@ -176,13 +164,13 @@ cvmf <- function(formula, data,
                              method = method,
                              weights = weightsi, ##### need to test
                              na.action = na.action, ##### need to test
-                             #excluding init since coxr only allows default
-                             #excluding control
+                             # We exclude init since coxr only allows default
+                             # We exclude control
                              singular.ok = singular.ok)
     resti <- coxrobust::coxr(yi ~ xi,
-                             na.action = na.action, ### need to test this
+                             na.action = na.action,
                              trunc = trunc,
-                             f.weight = f.weight, ### tested one round of this but more needed
+                             f.weight = f.weight,
                              singular.ok = singular.ok)
 
     # Check if any parameters were undefined without observation i
@@ -217,14 +205,14 @@ cvmf <- function(formula, data,
     ### We're using offset() to force to beta - linear predictor
 
     # Store
-    cvll_r[i] <- coxr_ll_full - coxr_ll ## why are we leaving out observations???
+    cvll_r[i] <- coxr_ll_full - coxr_ll
     cvll_ph[i] <- coxph_ll_full - coxph_ll
   }
 
   # Compute the test
   cvmf <- binom.test(sum(cvll_r > cvll_ph), n, alternative = "two.sided")
   best <- ifelse(cvmf$statistic > n / 2, "IRR", "PLM")
-  ## This is a binomial test - null is just fair coin, n/2
+  ## This is a binomial test - null is n/2
   p <- round(cvmf$p.value, digits = 3)
   coef <- dimnames(x)[[2]]
 
@@ -232,19 +220,11 @@ cvmf <- function(formula, data,
   obj <- list(best = best,
               p_value = p,
               cvmf = cvmf,
-              cvmf_stat = cvmf[1],
-              cvmf_obs = cvmf[2],
-              cvmf_p = cvmf[3],
-              cvmf_ci = cvmf[4],
-              coef = coef,
+              coef_names = coef,
               irr = irr,
               plm = plm,
               irr_coefs = irr[1],
               plm_coefs = plm[1],
-              irr_var = irr[5],
-              plm_var = plm[2],
-              irr_wald = irr[8],
-              plm_wald = plm[14],
               cvpl_irr = cvll_r,
               cvpl_plm = cvll_ph,
               x = x,
