@@ -132,13 +132,13 @@ cvmf <- function(formula, data,
 
   # na.action argument default
   ######### might could take this out bc it's in match.call() above
-  na.action <- attr(mf, "na.action")
-  if(missing(na.action)) {
-    na.action <- NULL
-  } else {
-    na.action <- na.action
-    # coxph and coxr
-  }
+#  na.action <- attr(mf, na.action)
+  # if(missing(na.action)) {
+  #   na.action <- NULL
+  # } else {
+  #   na.action <- na.action
+  #   # coxph and coxr
+  # }
 
   # Estimate IRR
   # We create this to return for comparison
