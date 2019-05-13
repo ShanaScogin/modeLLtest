@@ -14,7 +14,7 @@ test_that("Simple model with two covariates runs with cvmf", {
 
   results <- cvmf(formula = form, data = dat)
 
-  stat <- as.numeric(results$cvmf_stat[[1]])
+  stat <- as.numeric(results$cvmf$statistic)
   check_against <- c(62)
   expect_equal(stat, check_against)
 
@@ -22,12 +22,8 @@ test_that("Simple model with two covariates runs with cvmf", {
   check_against <- c("IRR")
   expect_equal(best, check_against)
 
-  p <- as.numeric(results$p_value[[1]])
+  p <- as.numeric(results$p_value)
   check_against <- c(0.021)
-  expect_equal(p, check_against)
-
-  p <- as.numeric(results$cvmf_p[[1]])
-  check_against <- c(0.02097874)
   expect_equal(p, check_against)
 
   coef <- as.numeric(results$irr_coefs[[1]][c(1)])
@@ -60,7 +56,7 @@ test_that("Testing NAs", {
 
   results <- cvmf(formula = form, data = dat)
 
-  stat <- as.numeric(results$cvmf_stat[[1]])
+  stat <- as.numeric(results$cvmf$statistic)
   check_against <- c(37)
   expect_equal(stat, check_against)
 
@@ -86,7 +82,7 @@ test_that("Simple test with na.action and no nas", {
 
   results <- cvmf(formula = form, data = dat, na.action = na.fail)
 
-  stat <- as.numeric(results$cvmf_stat[[1]])
+  stat <- as.numeric(results$cvmf$statistic)
   check_against <- c(62)
   expect_equal(stat, check_against)
 
@@ -94,12 +90,8 @@ test_that("Simple test with na.action and no nas", {
   check_against <- c("IRR")
   expect_equal(best, check_against)
 
-  p <- as.numeric(results$p_value[[1]])
+  p <- as.numeric(results$p_value)
   check_against <- c(0.021)
-  expect_equal(p, check_against)
-
-  p <- as.numeric(results$cvmf_p[[1]])
-  check_against <- c(0.02097874)
   expect_equal(p, check_against)
 
   coef <- as.numeric(results$irr_coefs[[1]][c(1)])
