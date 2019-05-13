@@ -37,17 +37,11 @@
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
-#'@param singular.ok Logical value indicating how to handle collinearity in the
-#'model matrix. If \code{TRUE}, the program will automatically skip over columns
-#'of the X matrix that are linear combinations of earlier columns. In this case
-#'the coefficients for such columns will be NA, and the variance matrix will contain
-#'zeros. For ancillary calculations, such as the linear predictor, the missing
-#'coefficients are treated as zeros.
 #'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
 #'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
 #'A positive test statistic supports the first method and a negative test statistic supports
 #'the second. See \code{cvdm_object} for more details.
-#' @examples
+#'@examples
 #' \dontrun{
 #'   set.seed(123456)
 #'   b0 <- .2 # True value for the intercept
@@ -59,15 +53,14 @@
 #'
 #'   obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
 #' }
-#' @export
+#'@export
 
 cvdm <- function(formula,
                  data,
-                 method1 = c("OLS", "MR", "RLM"), # can add other MR methods
-                 method2 = c("OLS", "MR", "RLM"), # can add other MR methods
+                 method1 = c("OLS", "MR", "RLM"),
+                 method2 = c("OLS", "MR", "RLM"),
                  subset,
-                 na.action,
-                 singular.ok = TRUE){ ## right now this isn't being used
+                 na.action){
 
   call <- match.call()
 
@@ -86,17 +79,10 @@ cvdm <- function(formula,
   }
   mterms <- attr(mf, "terms")
 
-  #### perhaps add an error message for subset?
-
   y <- model.response(mf, "any") # e.g. factors are allowed
   x <- model.matrix(attr(mf, "terms"), data = mf)
   n_row <- length(y)
   n_col <- ncol(x)
-
-  ##### look at glm() and look into null model support, check weights and offset, etc
-
-#  x <- model.matrix(mterms, mf)
-#  x <- x[, -1, drop = FALSE]
 
   # Call the CVLL with first method
   if (method1 == "OLS"){
@@ -128,7 +114,7 @@ cvdm <- function(formula,
 
   # Find the difference
   df <- length(y) - ncol(x)
-  cvlldiff <- as.numeric(cvll_1) - as.numeric(cvll_2) # cross-validated log likelihood difference
+  cvlldiff <- as.numeric(cvll_1) - as.numeric(cvll_2) # cross-val log likelihood diff
   test_stat <- johnsons_t(cvlldiff)
   p_value <- ifelse (test_stat > 0,
                      pt(test_stat, df = df, # student t distrib
@@ -143,6 +129,8 @@ cvdm <- function(formula,
               n = length(y),
               df = df,
               call = call,
+              x = x,
+              y = y,
               model_matrix = x)
 
   class(obj) <- "cvdm"

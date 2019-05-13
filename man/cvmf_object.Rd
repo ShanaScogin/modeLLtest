@@ -13,7 +13,7 @@ The following components must be included in a legitimate \code{cvmf} object.
 
 \item{best}{name of the model of estimation favored by the cvmf test.}
 
-\item{p}{p value of the binomial test used to test between estimation models.}
+\item{p}{p-value of the binomial test used to test between estimation models.}
 
 \item{cvmf}{full output of the binomial test used to test between estimation methods. See documentation for \code{binom.test} for more information.}
 

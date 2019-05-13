@@ -59,6 +59,22 @@
 #'@return An object of class \code{cvmf} computed by the cross-validated median fit test
 #'(CVMF) to test between the PLM and IRR methods of estimating the Cox model.
 #'See \code{cvmf_object} for more details.
+#' @examples
+#' \dontrun{
+#'   set.seed(12345)
+#'   x1 <- rnorm(100)
+#'   x2 <- rnorm(100)
+#'
+#'   x2e <- x2 + rnorm(100, 0, 0.5)
+#'
+#'   y <- rexp(100, exp(x1 + x2))
+#'   y <- survival::Surv(y)
+#'
+#'   dat <- data.frame(y, x1, x2e)
+#'   form <- y ~ x1 + x2e
+#'
+#'   results <- cvmf(formula = form, data = dat)
+#'   }
 #'@export
 
 cvmf <- function(formula, data,
