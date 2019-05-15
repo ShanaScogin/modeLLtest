@@ -1,7 +1,7 @@
 # from MASS Package
 # copyright (C) 1994-2016 W. N. Venables and B. D. Ripley
 
-rlm <- function(x, ...) UseMethod("rlm")
+robust <- function(x, ...) UseMethod("rlm")
 
 rlm.formula <-
   function(formula, data, weights, ..., subset, na.action,

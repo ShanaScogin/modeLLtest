@@ -83,3 +83,20 @@ object to identify the prefered estimation method.
 
 See also \code{\link{coxph}}, \code{\link{coxr}}, \code{\link{Surv}}
 }
+\examples{
+\dontrun{
+  set.seed(12345)
+  x1 <- rnorm(100)
+  x2 <- rnorm(100)
+
+  x2e <- x2 + rnorm(100, 0, 0.5)
+
+  y <- rexp(100, exp(x1 + x2))
+  y <- survival::Surv(y)
+
+  dat <- data.frame(y, x1, x2e)
+  form <- y ~ x1 + x2e
+
+  results <- cvmf(formula = form, data = dat)
+  }
+}

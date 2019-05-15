@@ -1,5 +1,5 @@
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("ModeLLtest: Compare models with Cross Validated Log Likelihood
+  packageStartupMessage("modeLLtest: Compare models with Cross-Validated Log-Likelihood
                         Shana Scogin, University of Notre Dame
                         Sarah Petersen, University of Notre Dame
                         Jeff Harden, University of Notre Dame

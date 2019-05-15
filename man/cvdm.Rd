@@ -5,7 +5,7 @@
 \title{Cross-Validated Difference in Means (CVDM) Test}
 \usage{
 cvdm(formula, data, method1 = c("OLS", "MR", "RLM"), method2 = c("OLS",
-  "MR", "RLM"), subset, na.action, singular.ok = TRUE)
+  "MR", "RLM"), subset, na.action)
 }
 \arguments{
 \item{formula}{A formula object, with the dependent variable on the
@@ -20,10 +20,10 @@ Regression ("RLM") using M-estimation, and Robust Linear Regression using
 MM-estimation ("RLM-MM"). The algorithm method used to compute the fit for the
 median regression is the modified version of the Barrodale and Roberts algorithm
 for l1-regression, which is the default by R package quantreg. See quantreg
-qr function documentation for more deatils. Fitting for the robust regressions
+\code{qr} function documentation for more details Fitting for the robust regressions
 is done by iterated re-weighted least squares (IWLS) and is taken from the
-MASS package rlm function. The MM-estimation is the M-estimation with Tukey's
-biweight initialized by a specific S-estimate. See MASS package rlm documentation
+MASS package \code{rlm} function. The MM-estimation is the M-estimation with Tukey's
+biweight initialized by a specific S-estimate. See MASS package \code{rlm} documentation
 for details.}
 
 \item{method2}{A method to estimate the model. Options
@@ -34,13 +34,6 @@ used in the fit. All observations are included by default.}
 
 \item{na.action}{A missing-data filter function, applied to the model.frame,
 after any subset argument has been used.}
-
-\item{singular.ok}{Logical value indicating how to handle collinearity in the
-model matrix. If \code{TRUE}, the program will automatically skip over columns
-of the X matrix that are linear combinations of earlier columns. In this case
-the coefficients for such columns will be NA, and the variance matrix will contain
-zeros. For ancillary calculations, such as the linear predictor, the missing
-coefficients are treated as zeros.}
 }
 \value{
 An object of class \code{cvdm} computed by the cross-validated log likelihood

@@ -22,11 +22,15 @@ NULL
 #' @importFrom quantreg rq.fit
 NULL
 
-#' @importFrom MASS lqs
+#' @importFrom survival coxph
+NULL
+
+#' @importFrom coxrobust coxr
+NULL
+
+#' @importFrom MASS lqs rlm
 NULL
 
 #' @useDynLib modeLLtest
 #' @importFrom Rcpp sourceCpp
 NULL
-#> NULL
-# do I need to include imports from survival and coxrobust here?
