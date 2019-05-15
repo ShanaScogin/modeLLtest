@@ -17,20 +17,15 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-This vignette introduces you to the modeLLtest R package. The modeLLtest name points to the use of cross-validated log likelihood (CVLL) values as a way to compare the fit of different coefficients within a model. This can be compared across competing models to choose the model which will produce coefficient estimates closest to the true coefficient values. The tests include the cross-validated difference in means (CVDM) test for a median regression and a regression to the mean, a general difference in means test to test the fit between two specifications of a model (called CVLL for cross-validated log likelihood), the cross-validated median fit (CVMF) test to test between two estimations of the Cox model, and bias corrected Vuong tests. The CVLL, CVMD, and CVMF functions employ leave-one-out cross-validation, which is an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). << More on the bias corrected Vuong tests here (Harden and Desmarais 2013).>>
-
-"A likelihood function can be used to compute the likelihood of having observed the
-data on hand, given that the data were drawn from the model corresponding to that likelihood function and vector of parameters" (Appendix, Harden and Desmarais 2011)
+This vignette introduces you to the modeLLtest R package. The modeLLtest name points to the use of cross-validated log likelihood (CVLL) values as a way to compare non-nested models. The tests include the cross-validated difference in means (CVDM) test (Harden and Desmarais 2011, Desmarais and Harden 2014) and the cross-validated median fit (CVMF) test (Desmarais 2012). These tests employ leave-one-out cross-validation, which is an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). The releant papers detailing these tests can be found below:
 
 * Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers: Choosing between Conditional-Mean and Conditional-Median Methods. State Politics & Policy Quarterly, 11(4), 371-389.
 
 * Desmarais, B. A., & Harden, J. J. (2012). Comparing partial likelihood and robust estimation methods for the Cox regression model. Political Analysis, 20(1), 113-135.
 
-* Desmarais, B. A., & Harden, J. J. (2013). Testing for zero inflation in count models: Bias correction for the Vuong test. The Stata Journal, 13(4), 810-835.
-
 * Desmarais, B. A., & Harden, J. J. (2014). An unbiased model comparison test using cross-validation. Quality & Quantity, 48(4), 2155-2173.
 
-See also the following:
+For more background information, see also the following:
 
 * Clarke, K. (2007). A simple distribution-free test for nonnested hypotheses. Political Analysis 15(3):347–63.
 
@@ -41,5 +36,7 @@ See also the following:
 * Vuong, Q. H. (1989). Likelihood ratio tests for model selection and non-nested hypotheses. Econometrica, 57, 307-333. <DOI:10.2307/1912557>
 
 ## Basic Usage
+This package has four main functions: cvdm(), cvmf(), cvll(), and cvlldiff(). The function cvdm() deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs between two models.  The function cvll() outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. This can be used in the cvlldiff() function, which takes two vectors of cross-validated log-likelihoods and performs the bias-corrected Johnson's t-test.
 
-## Common Problems and Errors
+## Future Improvements
+Next steps for this package include adding more methods to the cvdm() and cvll() functions and optimizing functions to improve speed.

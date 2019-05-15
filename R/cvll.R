@@ -32,17 +32,28 @@
 #'zeros. For ancillary calculations, such as the linear predictor, the missing
 #'coefficients are treated as zeros.
 #'@return An object of class \code{cvll} computed by the cross-validated log likelihood
-#'(CVLL).
+#'(CVLL). See \code{cvdm_object} for more details.
 #' @export
-
-### need to add more about irr and plm up in the param for method
+#'@examples
+#' \dontrun{
+#'   set.seed(123456)
+#'   b0 <- .2 # True value for the intercept
+#'   b1 <- .5 # True value for the slope
+#'   n <- 500 # Sample size
+#'   X <- runif(n, -1, 1)
+#'
+#'   Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+#'
+#'   obj_cvll <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "OLS")
+#' }
+#'@export
 
 cvll <- function(formula,
                  data,
-                 method = c("OLS", "MR", "RLM"), # need to add other rlm methods and plm and irr
+                 method = c("OLS", "MR", "RLM"),
                  subset,
                  na.action,
-                 singular.ok = TRUE){ ## right now this isn't being used
+                 ...){
 
   call <- match.call()
 
@@ -91,9 +102,11 @@ cvll <- function(formula,
 
   obj <- list(cvll = as.numeric(cvll),
               n = length(y),
-              call = call,
               df = df,
-              model_matrix = x)
+              method = method,
+              call = call,
+              x = x,
+              y = y)
 
   class(obj) <- "cvll"
 

@@ -5,7 +5,7 @@
 \title{Cross-Validated Difference in Means (CVDM) Test}
 \usage{
 cvdm(formula, data, method1 = c("OLS", "MR", "RLM"), method2 = c("OLS",
-  "MR", "RLM"), subset, na.action)
+  "MR", "RLM"), subset, na.action, ...)
 }
 \arguments{
 \item{formula}{A formula object, with the dependent variable on the

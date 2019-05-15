@@ -5,7 +5,7 @@
 \title{Cross-Validated Log Likelihood (CVLL)}
 \usage{
 cvll(formula, data, method = c("OLS", "MR", "RLM"), subset, na.action,
-  singular.ok = TRUE)
+  ...)
 }
 \arguments{
 \item{formula}{A formula object, with the dependent variable on the
@@ -33,18 +33,18 @@ used in the fit. All observations are included by default.}
 \item{na.action}{A missing-data filter function, applied to the model.frame,
 after any subset argument has been used.}
 
+\item{model}{The name of a statistical model to estimate.}
+
 \item{singular.ok}{Logical value indicating how to handle collinearity in the
 model matrix. If \code{TRUE}, the program will automatically skip over columns
 of the X matrix that are linear combinations of earlier columns. In this case
 the coefficients for such columns will be NA, and the variance matrix will contain
 zeros. For ancillary calculations, such as the linear predictor, the missing
 coefficients are treated as zeros.}
-
-\item{model}{The name of a statistical model to estimate.}
 }
 \value{
 An object of class \code{cvll} computed by the cross-validated log likelihood
-(CVLL).
+(CVLL). See \code{cvdm_object} for more details.
 }
 \description{
 Extracts the leave-one-out cross-validated log-likelihoods
@@ -53,4 +53,17 @@ from a method of estimating a formula.
 \details{
 This function extracts a vector of leave-one-out cross-validated
 log likelihoods (CVLLs) from a method of estimating a formula.
+}
+\examples{
+\dontrun{
+  set.seed(123456)
+  b0 <- .2 # True value for the intercept
+  b1 <- .5 # True value for the slope
+  n <- 500 # Sample size
+  X <- runif(n, -1, 1)
+
+  Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+
+  obj_cvll <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "OLS")
+}
 }

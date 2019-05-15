@@ -133,3 +133,72 @@ psi.huber <- function(u, k = 1.345, deriv=0)
   if(!deriv) return(pmin(1, k / abs(u)))
   abs(u) <= k
 }
+
+se.contrast.rlm <-
+  function(object, contrast.obj,
+           coef = contr.helmert(ncol(contrast))[, 1L],
+           data = NULL, ...)
+  {
+    contrast.weight.aov <- function(object, contrast)
+    {
+      asgn <- object$assign[object$qr$pivot[1L:object$rank]]
+      uasgn <- unique(asgn)
+      nterms <- length(uasgn)
+      nmeffect <- c("(Intercept)",
+                    attr(object$terms, "term.labels"))[1L + uasgn]
+      effects <- as.matrix(qr.qty(object$qr, contrast))
+      res <- matrix(0, nrow = nterms, ncol = ncol(effects),
+                    dimnames = list(nmeffect, colnames(contrast)))
+      for(i in seq(nterms)) {
+        select <- (asgn == uasgn[i])
+        res[i,] <- colSums(effects[seq_along(asgn)[select], , drop = FALSE]^2)
+      }
+      res
+    }
+    if(is.null(data)) contrast.obj <- eval(contrast.obj)
+    else contrast.obj <- eval(substitute(contrast.obj), data, parent.frame())
+    if(!is.matrix(contrast.obj)) { # so a list
+      if(!missing(coef)) {
+        if(sum(coef) != 0)
+          stop("'coef' must define a contrast, i.e., sum to 0")
+        if(length(coef) != length(contrast.obj))
+          stop("'coef' must have same length as 'contrast.obj'")
+      }
+      contrast <-
+        sapply(contrast.obj, function(x)
+        {
+          if(!is.logical(x))
+            stop(gettextf("each element of '%s' must be logical",
+                          substitute(contrasts.list)),
+                 domain = NA)
+          x/sum(x)
+        })
+      if(!length(contrast) || all(is.na(contrast)))
+        stop("the contrast defined is empty (has no TRUE elements)")
+      contrast <- contrast %*% coef
+    } else {
+      contrast <- contrast.obj
+      if(any(abs(colSums(contrast)) > 1e-8))
+        stop("columns of 'contrast.obj' must define a contrast (sum to zero)")
+      if(!length(colnames(contrast)))
+        colnames(contrast) <- paste("Contrast", seq(ncol(contrast)))
+    }
+    weights <- contrast.weight.aov(object, contrast)
+    summary(object)$stddev *
+      if(!is.matrix(contrast.obj)) sqrt(sum(weights)) else sqrt(colSums(weights))
+  }
+
+predict.rlm <- function (object, newdata = NULL, scale = NULL, ...)
+{
+  ## problems with using predict.lm are the scale and
+  ## the QR decomp which has been done on down-weighted values.
+  object$qr <- qr(sqrt(object$weights) * object$x)
+  NextMethod(object, scale = object$s, ...)
+}
+
+vcov.rlm <- function (object, ...)
+{
+  so <- summary(object, corr = FALSE)
+  so$stddev^2 * so$cov.unscaled
+}
+

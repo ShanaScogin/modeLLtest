@@ -3,6 +3,7 @@
 export(cvdm)
 export(cvdmtest)
 export(cvll)
+export(cvlldiff)
 export(cvmf)
 importFrom(MASS,lqs)
 importFrom(MASS,rlm)

@@ -8,10 +8,15 @@ print.cvlldiff <- function(x, digits = max(3, getOption("digits") - 4), ...) {
   op <- options(digits = digits)
   on.exit(options(op))
 
-  cat("The estimation used to create ", x$best, " is supported with a p-value of ",
-      x$p_value, sep = "", "\n")
+  if(class(x$p_value) != "character") {
+    cat("The estimation used to create ", x$best, " is supported with a p-value of ",
+        x$p_value, sep = "", "\n")
 
-  #  cat("\n", x$test_stat)
+  } else {
+    cat("The estimation used to create ", x$best, " is supported.\n",
+    "Please rerun function with degrees of freedom for a p-value.",
+        sep = "", "\n")
+  }
 
   invisible(x)
 

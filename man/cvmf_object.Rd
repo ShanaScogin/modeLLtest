@@ -31,8 +31,7 @@ The following components must be included in a legitimate \code{cvmf} object.
 
 \item{cvpl_plm}{observation-wise contributions to the log-partial likelihood for PLM method of estimating the Cox model. See Desmarais and Hardin (Political Analysis 20:113-135, 2012) for more about the test and Verweij and Houwelingen (Statistics in Medicine 12(24): 2305–14, 1993) for more about the measure}
 
-The object also contain the following, for documentation see the
-\code{\link{lm}} object: \code{call}, \code{x}, and \code{y}.
+The object also contain the following: \code{call}, \code{x}, and \code{y}.
 
 }
 

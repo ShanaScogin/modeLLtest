@@ -16,7 +16,21 @@
 #'@return An object of class \code{cvlldiff} computed by the cross-validated log likelihood
 #'difference in means test (CVDM). The test statistic object is the Cross-Validated
 #'Johnson's t-test. A positive test statistic supports the first method and a negative test
-#'statistic supports the second.
+#'statistic supports the second.See \code{cvdm_object} for more details.
+#'@examples
+#' \dontrun{
+#'   set.seed(123456)
+#'   b0 <- .2 # True value for the intercept
+#'   b1 <- .5 # True value for the slope
+#'   n <- 500 # Sample size
+#'   X <- runif(n, -1, 1)
+#'
+#'   Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+#'   cvll_ols <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "OLS")
+#'   cvll_mr <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "MR")
+#'   obj_compare <- cvlldiff(cvll_ols$cvll, cvll_mr$cvll, cvll_ols$df)
+#' }
+#'@export
 
 cvlldiff <- function(vector1,
                  vector2,
@@ -25,8 +39,12 @@ cvlldiff <- function(vector1,
   # Find the difference
   cvlldiff <- as.numeric(vector1) - as.numeric(vector2) # cross-validated log likelihood diff
   test_stat <- johnsons_t(cvlldiff)
-  if (missing(df)) {
+  if (length(vector1) != length(vector2)){
+    stop ("Vectors must be the same length")
+  }
 
+  if (missing(df)) {
+    p_value <- c("Not available due to empty degrees of freedom argument")
   } else {
     p_value <- ifelse (test_stat > 0,
                        pt(test_stat, df = df, # student t distrib

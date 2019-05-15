@@ -60,7 +60,8 @@ cvdm <- function(formula,
                  method1 = c("OLS", "MR", "RLM"),
                  method2 = c("OLS", "MR", "RLM"),
                  subset,
-                 na.action){
+                 na.action,
+                 ...){
 
   call <- match.call()
 
@@ -130,8 +131,7 @@ cvdm <- function(formula,
               df = df,
               call = call,
               x = x,
-              y = y,
-              model_matrix = x)
+              y = y)
 
   class(obj) <- "cvdm"
 

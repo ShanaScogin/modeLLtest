@@ -21,8 +21,7 @@ The following components must be included in a legitimate \code{cvdm} object.
 
 \item{df}{degrees of freedom.}
 
-The object also contain the following, for documentation see the
-\code{\link{lm}} object: \code{call}, \code{x}, \code{y}, and \code{model_matrix}.
+The object also contain the following: \code{call}, \code{x}, and \code{y}. See \code{lm} documentation for more.
 
 }
 
