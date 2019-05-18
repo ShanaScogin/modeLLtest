@@ -29,11 +29,72 @@ Once you have installed the package, you can access it by calling:
 library(modeLLtest)
 ```
 
-After the package is loaded, check out the `?modeLLtest` to see a help file. You can also see the documentation for the functions with `?cvdm` or `?cvmf`. If you have issues, please email me.
+After the package is loaded, check out the `?modeLLtest` to see a help file. You can also see the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. If you have issues, please email me.
 
 <!-- # Basic Usage -->
 
-<!-- # Examples -->
+# Examples
+Here are some examples of the functions in this package. First, we'll look at cvdm(), which applies cross-validated log-likelihood difference in means (CVDM) test to compare two methods of estimating a formula. The example compares ordinary least squares (OLS) estimation to median regression (MR).
+
+```
+library(modeLLtest)
+set.seed(123456)
+b0 <- .2 # True value for the intercept
+b1 <- .5 # True value for the slope
+n <- 500 # Sample size
+X <- runif(n, -1, 1)
+
+Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+
+obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
+
+obj_cvdm
+  
+```
+
+Next, let's do the same as we did above, but with `cvll()` and `cvlldiff()`. These are general functions that create vectors of the cross-validated log-likelihood functions and then compute the bias-corrected Johnson's t-test, respectively.
+
+```
+library(modeLLtest)
+set.seed(123456)
+b0 <- .2 # True value for the intercept
+b1 <- .5 # True value for the slope
+n <- 500 # Sample size
+X <- runif(n, -1, 1)
+
+Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+
+obj_cvll_ols <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "OLS")
+
+obj_cvll_mr <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "MR")
+
+obj_cvlldiff <- cvlldiff(obj_cvll_ols$cvll, obj_cvll_mr$cvll,
+                           obj_cvll_ols$df)
+
+obj_cvlldiff
+```
+
+Finally, let's look at the `cvmf()` function. this function compares the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) method of estimation for a given application of the Cox model.
+
+```
+library(modeLLtest)
+library(survival)
+
+set.seed(12345)
+x1 <- rnorm(100) 
+x2 <- rnorm(100)
+x2e <- x2 + rnorm(100, 0, 0.5)
+
+y <- rexp(100, exp(x1 + x2))
+y <- Surv(y) # Changing y into a survival obj with survival package
+
+dat <- data.frame(y, x1, x2e)
+form <- y ~ x1 + x2e
+
+results <- cvmf(formula = form, data = dat)
+
+results
+```
 
 # What's Happening
 The four functions available in this package are cvdm(), cvmf(), cvll(), and cvlldiff(). Currently, cvdm() and cvll() allows for comparison among a linear regression, median regression (from the package quantreg), and and robust regression (from the package MASS). Future updates include adding options and optimizing functions. Check back for details. 

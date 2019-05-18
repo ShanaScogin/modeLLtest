@@ -1,9 +1,9 @@
 # Code reduced from rlm() in MASS Package
 # Original copyright (C) 1994-2016 W. N. Venables and B. D. Ripley
 
-rlm_m <- function(x, ...) UseMethod("rlm")
-
-rlm.default <-
+# rlm_m <- function(x, ...) UseMethod("rlm")
+#
+rlm_m <-
   function(x, y, weights, ..., w = rep(1, nrow(x)),
            init = "ls",
            psi = psi.huber,
