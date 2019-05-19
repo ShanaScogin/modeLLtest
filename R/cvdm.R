@@ -57,8 +57,8 @@
 
 cvdm <- function(formula,
                  data,
-                 method1 = c("OLS", "MR", "RLM"),
-                 method2 = c("OLS", "MR", "RLM"),
+                 method1 = c("OLS", "MR", "RLM", "RLM-MM"),
+                 method2 = c("OLS", "MR", "RLM", "RLM-MM"),
                  subset,
                  na.action,
                  ...){
@@ -95,6 +95,9 @@ cvdm <- function(formula,
   } else if (method1 == "RLM"){
     cvll_1 <- cvll_rlm_m(as.matrix(x), y, n_row, n_col)
     m1 <- "RLM"
+  } else if (method1 == "RLM-MM"){
+    cvll_1 <- cvll_rlm_mm(as.matrix(x), y, n_row, n_col)
+    m1 <- "RLM-MM"
   } else {
     print("First method unknown")
   }
@@ -109,6 +112,9 @@ cvdm <- function(formula,
   } else if (method2 == "RLM"){
     cvll_2 <- cvll_rlm_m(as.matrix(x), y, n_row, n_col)
     m2 <- "RLM"
+  } else if (method2 == "RLM-MM"){
+    cvll_2 <- cvll_rlm_mm(as.matrix(x), y, n_row, n_col)
+    m2 <- "RLM-MM"
   } else {
     print("Second method unknown")
   }

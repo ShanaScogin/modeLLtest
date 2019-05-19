@@ -10,15 +10,15 @@ arma::colvec vecrlm(Rcpp::List a) {
   return a1;
 }
 
-Rcpp::List robustmm(arma::dmat &x, arma::vec &y) {
+Rcpp::List robustm(arma::dmat &x, arma::vec &y) {
   Rcpp::Environment pkg = Rcpp::Environment::namespace_env("modeLLtest");
   // Added this to package since trouble pulling from MASS
-  Rcpp::Function f = pkg["robust"];
+  Rcpp::Function f = pkg["rlm_m"];
   return f(x, y);
 }
 
 // [[Rcpp::export]]
-Rcpp::List cvll_rlm(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
+Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
   int n = n_row - 1;
   arma::dmat yv;
@@ -38,7 +38,7 @@ Rcpp::List cvll_rlm(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     xv = x.row(i); // define obs i before change x
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
-    rlm = robustmm(x, y);
+    rlm = robustm(x, y);
     coef = vecrlm(rlm("coefficients"));
     resid = vecrlm(rlm("residuals")); // residuals
     sig = arma::as_scalar( sqrt(arma::trans(resid) * resid /  (n - n_col) )); // sqrt(SE of est)

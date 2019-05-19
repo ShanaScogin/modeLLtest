@@ -47,9 +47,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cvll_rlm
-Rcpp::List cvll_rlm(arma::dmat& x, arma::colvec& y, int n_row, int n_col);
-RcppExport SEXP _modeLLtest_cvll_rlm(SEXP xSEXP, SEXP ySEXP, SEXP n_rowSEXP, SEXP n_colSEXP) {
+// cvll_rlm_mm
+Rcpp::List cvll_rlm_mm(arma::dmat& x, arma::colvec& y, int n_row, int n_col);
+RcppExport SEXP _modeLLtest_cvll_rlm_mm(SEXP xSEXP, SEXP ySEXP, SEXP n_rowSEXP, SEXP n_colSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -57,7 +57,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::colvec& >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type n_row(n_rowSEXP);
     Rcpp::traits::input_parameter< int >::type n_col(n_colSEXP);
-    rcpp_result_gen = Rcpp::wrap(cvll_rlm(x, y, n_row, n_col));
+    rcpp_result_gen = Rcpp::wrap(cvll_rlm_mm(x, y, n_row, n_col));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -66,7 +66,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_modeLLtest_cvll_mr", (DL_FUNC) &_modeLLtest_cvll_mr, 3},
     {"_modeLLtest_cvll_ols", (DL_FUNC) &_modeLLtest_cvll_ols, 4},
     {"_modeLLtest_cvll_rlm_m", (DL_FUNC) &_modeLLtest_cvll_rlm_m, 4},
-    {"_modeLLtest_cvll_rlm", (DL_FUNC) &_modeLLtest_cvll_rlm, 4},
+    {"_modeLLtest_cvll_rlm_mm", (DL_FUNC) &_modeLLtest_cvll_rlm_mm, 4},
     {NULL, NULL, 0}
 };
 
