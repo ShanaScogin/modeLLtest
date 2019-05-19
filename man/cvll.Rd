@@ -4,8 +4,8 @@
 \alias{cvll}
 \title{Cross-Validated Log Likelihood (CVLL)}
 \usage{
-cvll(formula, data, method = c("OLS", "MR", "RLM"), subset, na.action,
-  ...)
+cvll(formula, data, method = c("OLS", "MR", "RLM", "RLM-MM"), subset,
+  na.action, ...)
 }
 \arguments{
 \item{formula}{A formula object, with the dependent variable on the
@@ -34,13 +34,6 @@ used in the fit. All observations are included by default.}
 after any subset argument has been used.}
 
 \item{model}{The name of a statistical model to estimate.}
-
-\item{singular.ok}{Logical value indicating how to handle collinearity in the
-model matrix. If \code{TRUE}, the program will automatically skip over columns
-of the X matrix that are linear combinations of earlier columns. In this case
-the coefficients for such columns will be NA, and the variance matrix will contain
-zeros. For ancillary calculations, such as the linear predictor, the missing
-coefficients are treated as zeros.}
 }
 \value{
 An object of class \code{cvll} computed by the cross-validated log likelihood
