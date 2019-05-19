@@ -25,12 +25,6 @@
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
-#'@param singular.ok Logical value indicating how to handle collinearity in the
-#'model matrix. If \code{TRUE}, the program will automatically skip over columns
-#'of the X matrix that are linear combinations of earlier columns. In this case
-#'the coefficients for such columns will be NA, and the variance matrix will contain
-#'zeros. For ancillary calculations, such as the linear predictor, the missing
-#'coefficients are treated as zeros.
 #'@return An object of class \code{cvll} computed by the cross-validated log likelihood
 #'(CVLL). See \code{cvdm_object} for more details.
 #' @export
@@ -50,7 +44,7 @@
 
 cvll <- function(formula,
                  data,
-                 method = c("OLS", "MR", "RLM"),
+                 method = c("OLS", "MR", "RLM", "RLM-MM"),
                  subset,
                  na.action,
                  ...){
@@ -72,17 +66,10 @@ cvll <- function(formula,
   }
   mterms <- attr(mf, "terms")
 
-  #### perhaps add an error message for subset?
-
-  y <- model.response(mf, "any") # e.g. factors are allowed
+  y <- model.response(mf, "any")
   x <- model.matrix(attr(mf, "terms"), data = mf)
   n_row <- length(y)
   n_col <- ncol(x)
-
-  ##### look at glm() and look into null model support, check weights and offset, etc
-
-  #  x <- model.matrix(mterms, mf)
-  #  x <- x[, -1, drop = FALSE]
 
   # Call the CVLL
   if (method == "OLS"){
@@ -94,11 +81,14 @@ cvll <- function(formula,
   } else if (method == "RLM"){
     cvll <- cvll_rlm_m(as.matrix(x), y, n_row, n_col)
     m1 <- "RLM"
+  } else if (method == "RLM-MM"){
+    cvll <- cvll_rlm_mm(as.matrix(x), y, n_row, n_col)
+    m2 <- "RLM-MM"
   } else {
-    print("First method unknown")
+    print("Method unknown")
   }
 
-  df <- length(y) - ncol(x) ### fix this
+  df <- length(y) - ncol(x)
 
   obj <- list(cvll = as.numeric(cvll),
               n = length(y),

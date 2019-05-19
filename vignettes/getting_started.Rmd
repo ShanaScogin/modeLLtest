@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-This vignette introduces you to the modeLLtest R package. The modeLLtest name points to the use of cross-validated log likelihood (CVLL) values as a way to compare non-nested models. The tests include the cross-validated difference in means (CVDM) test (Harden and Desmarais 2011, Desmarais and Harden 2014) and the cross-validated median fit (CVMF) test (Desmarais 2012). These tests employ leave-one-out cross-validation, which is an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). The releant papers detailing these tests can be found below:
+This vignette introduces you to the `modeLLtest` R package. The `modeLLtest` name points to the use of cross-validated log-likelihood (CVLL) values as a way to compare non-nested models. The tests include the cross-validated difference in means (CVDM) test (Harden and Desmarais 2011, Desmarais and Harden 2014) and the cross-validated median fit (CVMF) test (Desmarais 2012). These tests employ leave-one-out cross-validation, which is an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). The relevant papers detailing these tests can be found below:
 
 * Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers: Choosing between Conditional-Mean and Conditional-Median Methods. State Politics & Policy Quarterly, 11(4), 371-389.
 
@@ -36,7 +36,70 @@ For more background information, see also the following:
 * Vuong, Q. H. (1989). Likelihood ratio tests for model selection and non-nested hypotheses. Econometrica, 57, 307-333. <DOI:10.2307/1912557>
 
 ## Basic Usage
-This package has four main functions: cvdm(), cvmf(), cvll(), and cvlldiff(). The function cvdm() deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs between two models.  The function cvll() outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. This can be used in the cvlldiff() function, which takes two vectors of cross-validated log-likelihoods and performs the bias-corrected Johnson's t-test.
+This package has four main functions: `cvdm()`, `cvmf()`, `cvll()`, and `cvlldiff()`. The function `cvdm()` deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs between two non-nested models. The function `cvll()` outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. The`cvlldiff()` function performs the bias-corrected Johnson's t-test on two vectors of cross-validated log-likelihoods.
+
+## Examples
+Here are some examples of the functions in this package. First, we'll look at cvdm(), which applies cross-validated log-likelihood difference in means (CVDM) test to compare two methods of estimating a formula. The example compares ordinary least squares (OLS) estimation to median regression (MR).
+
+```
+library(modeLLtest)
+set.seed(123456)
+b0 <- .2 # True value for the intercept
+b1 <- .5 # True value for the slope
+n <- 500 # Sample size
+X <- runif(n, -1, 1)
+
+Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+
+obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
+
+obj_cvdm
+  
+```
+
+Next, let's do the same as we did above, but with `cvll()` and `cvlldiff()`. These are general functions that create vectors of the cross-validated log-likelihood functions and then compute the bias-corrected Johnson's t-test, respectively.
+
+```
+library(modeLLtest)
+set.seed(123456)
+b0 <- .2 # True value for the intercept
+b1 <- .5 # True value for the slope
+n <- 500 # Sample size
+X <- runif(n, -1, 1)
+
+Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
+
+obj_cvll_ols <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "OLS")
+
+obj_cvll_mr <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "MR")
+
+obj_cvlldiff <- cvlldiff(obj_cvll_ols$cvll, obj_cvll_mr$cvll,
+                           obj_cvll_ols$df)
+
+obj_cvlldiff
+```
+
+Finally, let's look at the `cvmf()` function. this function compares the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) method of estimation for a given application of the Cox model.
+
+```
+library(modeLLtest)
+library(survival)
+
+set.seed(12345)
+x1 <- rnorm(100) 
+x2 <- rnorm(100)
+x2e <- x2 + rnorm(100, 0, 0.5)
+
+y <- rexp(100, exp(x1 + x2))
+y <- Surv(y) # Changing y into a survival obj with survival package
+
+dat <- data.frame(y, x1, x2e)
+form <- y ~ x1 + x2e
+
+results <- cvmf(formula = form, data = dat)
+
+results
+```
 
 ## Future Improvements
-Next steps for this package include adding more methods to the cvdm() and cvll() functions and optimizing functions to improve speed.
+Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions to improve speed.

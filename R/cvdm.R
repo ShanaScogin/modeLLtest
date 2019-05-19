@@ -80,7 +80,7 @@ cvdm <- function(formula,
   }
   mterms <- attr(mf, "terms")
 
-  y <- model.response(mf, "any") # e.g. factors are allowed
+  y <- model.response(mf, "any")
   x <- model.matrix(attr(mf, "terms"), data = mf)
   n_row <- length(y)
   n_col <- ncol(x)

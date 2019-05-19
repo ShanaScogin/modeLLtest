@@ -1,15 +1,12 @@
 # Code reduced from rlm() in MASS Package
 # Original copyright (C) 1994-2016 W. N. Venables and B. D. Ripley
 
-# rlm_m <- function(x, ...) UseMethod("rlm")
-#
 rlm_m <-
   function(x, y, weights, ..., w = rep(1, nrow(x)),
            init = "ls",
            psi = psi.huber,
            scale.est = c("MAD", "Huber"),
            k2 = 1.345,
-           method = c("M"),
            wt.method = c("inv.var", "case"),
            maxit = 20, acc = 1e-4,
            test.vec = "resid",
