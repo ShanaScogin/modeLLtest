@@ -98,7 +98,7 @@ results
 ```
 
 # What's Happening
-Future updates include optimizing functions and adding options to `cvdm()` and `cvll()`. Check back for details. 
+Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions to improve speed. Check back for details. 
 
 # Contact
 Please contact sscogin@nd.edu with questions or comments.

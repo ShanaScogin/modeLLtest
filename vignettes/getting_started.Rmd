@@ -19,19 +19,19 @@ knitr::opts_chunk$set(
 ## Introduction
 This vignette introduces you to the `modeLLtest` R package. The `modeLLtest` name points to the use of cross-validated log-likelihood (CVLL) values as a way to compare non-nested models. The tests include the cross-validated difference in means (CVDM) test (Harden and Desmarais 2011, Desmarais and Harden 2014) and the cross-validated median fit (CVMF) test (Desmarais 2012). These tests employ leave-one-out cross-validation, which is an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). The relevant papers detailing these tests can be found below:
 
-* Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers: Choosing between Conditional-Mean and Conditional-Median Methods. State Politics & Policy Quarterly, 11(4), 371-389.
+* Harden, J. J., & Desmarais, B. A. (2011). Linear models with outliers: Choosing between conditional-mean and conditional-median methods. State Politics & Policy Quarterly, 11(4), 371-389. <DOI:10.1177/1532440011408929>
 
-* Desmarais, B. A., & Harden, J. J. (2012). Comparing partial likelihood and robust estimation methods for the Cox regression model. Political Analysis, 20(1), 113-135.
+* Desmarais, B. A., & Harden, J. J. (2012). Comparing partial likelihood and robust estimation methods for the Cox regression model. Political Analysis, 20(1), 113-135. <DOI:10.1093/pan/mpr042>
 
-* Desmarais, B. A., & Harden, J. J. (2014). An unbiased model comparison test using cross-validation. Quality & Quantity, 48(4), 2155-2173.
+* Desmarais, B. A., & Harden, J. J. (2014). An unbiased model comparison test using cross-validation. Quality & Quantity, 48(4), 2155-2173. <DOI:10.1007/s11135-013-9884-7>
 
 For more background information, see also the following:
 
-* Clarke, K. (2007). A simple distribution-free test for nonnested hypotheses. Political Analysis 15(3):347–63.
+* Clarke, K. (2007). A simple distribution-free test for nonnested hypotheses. Political Analysis 15(3):347–63. <DOI:10.1093/pan/mpm004>
 
-* Johnson, Norman J. (1978). “Modified t Tests and Confidence Intervals for Asymmetrical Populations.” Journal of the American Statistical Association 73:536–44.
+* Johnson, N. J. (1978). Modified t Tests and Confidence Intervals for Asymmetrical Populations. Journal of the American Statistical Association 73:536–44. <DOI:10.2307/2286597>
 
-* Smyth, P. (2000). Model selection for probabilistic clustering using cross-validated likelihood. Statistics and Computing 10: 63–72.
+* Smyth, P. (2000). Model selection for probabilistic clustering using cross-validated likelihood. Statistics and Computing 10: 63–72. <DOI:10.1023/A:1008940618127>
 
 * Vuong, Q. H. (1989). Likelihood ratio tests for model selection and non-nested hypotheses. Econometrica, 57, 307-333. <DOI:10.2307/1912557>
 
@@ -39,7 +39,7 @@ For more background information, see also the following:
 This package has four main functions: `cvdm()`, `cvmf()`, `cvll()`, and `cvlldiff()`. The function `cvdm()` deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs between two non-nested models. The function `cvll()` outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. The`cvlldiff()` function performs the bias-corrected Johnson's t-test on two vectors of cross-validated log-likelihoods.
 
 ## Examples
-Here are some examples of the functions in this package. First, we'll look at cvdm(), which applies cross-validated log-likelihood difference in means (CVDM) test to compare two methods of estimating a formula. The example compares ordinary least squares (OLS) estimation to median regression (MR).
+Here are some examples of the functions in this package. First, we'll look at `cvdm()`, which applies cross-validated log-likelihood difference in means (CVDM) test to compare two methods of estimating a formula. The example compares ordinary least squares (OLS) estimation to median regression (MR).
 
 ```
 library(modeLLtest)
