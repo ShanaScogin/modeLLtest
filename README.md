@@ -34,7 +34,6 @@ After the package is loaded, check out the `?modeLLtest` to see a help file. You
 # Basic Usage
 This package has four main functions: `cvdm()`, `cvll()`, `cvmf()`, and `cvlldiff()`. The function `cvdm()` deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs of two non-nested models. The function `cvll()` outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. Currently, these functions accommodate linear regression, median regression (from the package `quantreg`), and two methods of robust regression (from the package `MASS`). The`cvlldiff()` function performs the bias-corrected Johnson's t-test on two vectors of cross-validated log-likelihoods. Finally, the `cvmf()` function test between the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) methods of estimation for a given application of the Cox model
 
-# Examples
 Here are some examples of the functions in this package. First, we'll look at `cvdm()`, which applies cross-validated log-likelihood difference in means (CVDM) test to compare two methods of estimating a formula. The example compares ordinary least squares (OLS) estimation to median regression (MR).
 
 ```
@@ -96,6 +95,9 @@ results <- cvmf(formula = form, data = dat)
 
 results
 ```
+
+# Examples with Replication Data
+
 
 # What's Happening
 Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions to improve speed. Check back for details. 
