@@ -58,8 +58,28 @@ duration. Data is at the country-level (N = 409).
 data(govtform)
 \donttest{
 library(survival)
+library(coxrobust)
 library(modeLLtest)
 
+# Survival models with data from Golder (2010)
+golder_surv <- Surv(govform$bargainingdays)
+golder_x <- cbind(govtform$postelection, govtform$legislative_parties,
+   govtform$polarization, govtform$positive_parl, govtform$post_legislative_parties,
+   govtform$post_polariz, govtform$post_positive, govtform$continuation,
+   govtform$singleparty_majority)
+colnames(golder_x) <- c("govtform$postelection", "govtform$legislative_parties",
+   "govtform$polarization", "govtform$positive_parl", "govtform$post_legislative_parties",
+   "govtform$post_polariz", "govtform$post_positive", "govtform$continuation",
+   "govtform$singleparty_majority")
+govtform.cox <- coxph(govtform.surv ~ govtform.x, method = "efron",
+   data = govtform)
+govtform.robust <- coxr(govtform.surv ~ govtform.x, data = govtform)
+
+# Comparing PLM to IRR methods of estimating the survival model
+obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron",
+   data = govtform)
+
+obj_cvmf_golder
 }
 }
 \references{

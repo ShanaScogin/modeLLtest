@@ -123,7 +123,37 @@ model_1999 <- rlm(percent_regvote1999 ~ landless_gap +
 model_1999
 ```
 
-Next, we can look at 
+Next, we can look at a study by Golder (2010). Note: Currently asking permission to include these data.
+
+```
+library(survival)
+library(coxrobust)
+library(modeLLtest)
+
+data(govtform)
+
+obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron",
+   data = govtform)
+   
+obj_cvmf_golder
+
+golder_surv <- Surv(govtform$bargainingdays)
+golder_x <- cbind(govtform$postelection, govtform$legislative_parties,
+   govtform$polarization, govtform$positive_parl,
+   govtform$post_legislative_parties,
+   govtform$post_polariz, govtform$post_positive, govtform$continuation,
+   govtform$singleparty_majority)
+colnames(golder_x) <- c("govtform$postelection",
+  "govtform$legislative_parties",
+  "govtform$polarization", "govtform$positive_parl",
+  "govtform$post_legislative_parties", "govtform$post_polariz",
+  "govtform$post_positive", "govtform$continuation",
+  "govtform$singleparty_majority")
+govtform_plm <- coxph(golder_surv ~ golder_x, method = "efron",
+   data = govtform)
+
+govtform_plm
+```
 
 # What's Happening
 Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions to improve speed. Check back for details. 
