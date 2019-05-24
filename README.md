@@ -98,7 +98,7 @@ obj_cvmf
 ```
 
 # Examples with Replication Data
-For an example using real-world analysis, we can look at a study by Joshi and Mason (2008, Journal of Peace Research 45(6): 765-782) that employs robust regression to analyze district-level election turnout among peasants in Nepal. Specifically, they hypothesize that peasant dependence on landed elite for survival will result in higher voter turnout. In their model of the 1999 parliamentary elections below, we can see how their use robust regression is supported by the CVDM test. These data are available on the \href{https://www.prio.org/JPR/Datasets/}{Journal of Peace Research Replication Datasets website} and have been included in the package for ease of replication. For full replication and discussion of the CVDM test, see Desmarais and Harden (2014, Quality and Quantity 48(4): 2155-2173).
+For an example using real-world analysis, we can look at a study by Joshi and Mason (2008, Journal of Peace Research 45(6): 765-782) that employs robust regression to analyze district-level election turnout among peasants in Nepal. Specifically, they hypothesize that peasant dependence on landed elite for survival will result in higher voter turnout. In their model of the 1999 parliamentary elections below, we can see how their use robust regression is supported by the CVDM test. These data are available on the [Journal of Peace Research Replication Datasets website](https://www.prio.org/JPR/Datasets/) and have been included in the package for ease of replication. For full replication and discussion of the CVDM test, see Desmarais and Harden (2014, Quality and Quantity 48(4): 2155-2173).
 
 ```
 library(MASS)
@@ -123,7 +123,7 @@ model_1999 <- rlm(percent_regvote1999 ~ landless_gap +
 model_1999
 ```
 
-Next, we can look at a study by Golder (2010). Note: Currently asking permission to include these data.
+Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32). Note: Currently asking permission to include these data.
 
 ```
 library(survival)
