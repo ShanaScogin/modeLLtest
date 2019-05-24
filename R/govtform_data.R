@@ -7,7 +7,8 @@
 #'
 #' @usage data(govtform)
 #'
-#' @format A data frame with 410 rows and 18 variables:
+#' @format A data frame with 410 rows and 18 variables. The following are taken
+#' from the codebook at \href{http://sonagolder.com/research}{http://sonagolder.com/research}:
 #' \describe{
 #'  \item{countryname}{names of countries used in analysis}
 #'  \item{country}{unique number identifying each country}

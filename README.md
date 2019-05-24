@@ -132,8 +132,7 @@ library(modeLLtest)
 
 data(govtform)
 
-obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron",
-   data = govtform)
+obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron", data = govtform)
    
 obj_cvmf_golder
 
