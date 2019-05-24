@@ -20,7 +20,7 @@
 #'  and cultivate land under single tenure}
 #'  \item{noother_single_ten}{number of households that cultivate
 #'  under single tenure and have another set up other than those above}
-#'  \item{nomore1_ten_hold}{}
+#'  \item{nomore1_ten_hold}{number of households with more than one tenure}
 #'  \item{noholding_below1_pa}{number of households that hold less than
 #'  1.0 hectares of land}
 #'  \item{noholding_2to3_pa}{number of households that hold 2 to 3
@@ -33,17 +33,25 @@
 #'  parcels of land}
 #'  \item{total_ha}{total hectares of land}
 #'  \item{total_parcel}{total parcels of land}
-#'  \item{no_hold_fixmoney2}{}
-#'  \item{no_hold_fixproduct2}{}
-#'  \item{no_hold_share2}{}
-#'  \item{no_hold_fixmoney1}{}
-#'  \item{no_hold_fixproduct1}{}
-#'  \item{no_hold_share1}{}
-#'  \item{no_hold_services1}{}
-#'  \item{no_hold_mortgage1}{}
-#'  \item{no_hold_services1}{}
-#'  \item{no_hold_mortgage1}{}
-#'  \item{totalhouseholds}{}
+#'  \item{no_hold_fixmoney2}{subsection of number of households with fixed
+#'  cash rent}
+#'  \item{no_hold_fixproduct2}{subsection of households with fixed
+#'  product rent}
+#'  \item{no_hold_share2}{subsection of households particpating
+#'  in sharecropping}
+#'  \item{no_hold_services2}{subsection of households particpating
+#'  in sharecropping}
+#'  \item{no_hold_mortgage2}{subsection of households with a mortgage}
+#'  \item{no_hold_fixmoney1}{subsection of households with fixed
+#'  cash rent}
+#'  \item{no_hold_fixproduct1}{subsection of households with fixed
+#'  product rent}
+#'  \item{no_hold_share1}{subsection of households particpating
+#'  in sharecropping}
+#'  \item{no_hold_services1}{subsection of households with rent for
+#'  service}
+#'  \item{no_hold_mortgage1}{subsection of households with a mortgage}
+#'  \item{totalhouseholds}{total number of households}
 #'  \item{landless}{number of landless households}
 #'  \item{totalvoters1991}{total number of voters in 1991}
 #'  \item{totalcastedvote1991}{total number of votes cast in 1991}
