@@ -34,6 +34,7 @@ After the package is loaded, check out the `?modeLLtest` to see a help file. You
 # Basic Usage
 This package has four main functions: `cvdm()`, `cvll()`, `cvmf()`, and `cvlldiff()`. The function `cvdm()` deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs of two non-nested models. The function `cvll()` outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. Currently, these functions accommodate linear regression, median regression (from the package `quantreg`), and two methods of robust regression (from the package `MASS`). The`cvlldiff()` function performs the bias-corrected Johnson's t-test on two vectors of cross-validated log-likelihoods. Finally, the `cvmf()` function test between the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) methods of estimation for a given application of the Cox model
 
+## Examples
 Here are some examples of the functions in this package. First, we'll look at `cvdm()`, which applies cross-validated log-likelihood difference in means (CVDM) test to compare two methods of estimating a formula. The example compares ordinary least squares (OLS) estimation to median regression (MR).
 
 ```
@@ -91,13 +92,38 @@ y <- Surv(y) # Changing y into a survival obj with survival package
 dat <- data.frame(y, x1, x2e)
 form <- y ~ x1 + x2e
 
-results <- cvmf(formula = form, data = dat)
+obj_cvmf <- cvmf(formula = form, data = dat)
 
-results
+obj_cvmf
 ```
 
 # Examples with Replication Data
+For an example using real-world analysis, we can look at a study by Joshi and Mason (2008, Journal of Peace Research 45(6): 765-782) that employs robust regression to analyze district-level election turnout among peasants in Nepal. Specifically, they hypothesize that peasant dependence on landed elite for survival will result in higher voter turnout. In their model of the 1999 parliamentary elections below, we can see how their use robust regression is supported by the CVDM test. These data are available on the \href{https://www.prio.org/JPR/Datasets/}{Journal of Peace Research Replication Datasets website} and have been included in the package for ease of replication. For full replication and discussion of the CVDM test, see Desmarais and Harden (2014, Quality and Quantity 48(4): 2155-2173).
 
+```
+library(MASS)
+library(modeLLtest)
+
+data(nepaldem)
+
+obj_cvdm_jm <- cvdm(percent_regvote1999 ~ landless_gap +
+   below1pa_gap + sharecrop_gap + service_gap + fixmoney_gap +
+   fixprod_gap + per_without_instcredit + totoalkilled_1000 +
+   hdi_gap1 + ln_pop2001 + totalcontestants1999 + cast_eth_fract,
+   data = nepaldem, method1 = "OLS", method2 = "RLM-MM")
+   
+obj_cvdm_jm
+
+model_1999 <- rlm(percent_regvote1999 ~ landless_gap +
+   below1pa_gap + sharecrop_gap + service_gap + fixmoney_gap +
+   fixprod_gap + per_without_instcredit + totoalkilled_1000 +
+   hdi_gap1 + ln_pop2001 + totalcontestants1999 + cast_eth_fract,
+   data = nepaldem)
+
+model_1999
+```
+
+Next, we can look at 
 
 # What's Happening
 Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions to improve speed. Check back for details. 

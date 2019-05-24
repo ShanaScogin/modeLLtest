@@ -8,7 +8,8 @@ rlm_m <-
            scale.est = c("MAD", "Huber"),
            k2 = 1.345,
            wt.method = c("inv.var", "case"),
-           maxit = 20, acc = 1e-4,
+           maxit = 100, # Changed from 20
+           acc = 1e-4,
            test.vec = "resid",
            lqs.control = NULL)
   {

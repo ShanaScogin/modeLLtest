@@ -96,9 +96,9 @@ y <- Surv(y) # Changing y into a survival obj with survival package
 dat <- data.frame(y, x1, x2e)
 form <- y ~ x1 + x2e
 
-results <- cvmf(formula = form, data = dat)
+obj_cvfm <- cvmf(formula = form, data = dat)
 
-results
+obj_cvfm
 ```
 
 ## Future Improvements
