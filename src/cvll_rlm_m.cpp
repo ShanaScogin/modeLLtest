@@ -10,17 +10,17 @@ arma::colvec vecrobustm(Rcpp::List a) {
   return a1;
 }
 
-Rcpp::List gam(double &x) {
-  Rcpp::Environment stats("package:stats");
-  Rcpp::Function f = stats["gamma"];
-  return f(x);
-}
-
 Rcpp::List robustm(arma::dmat &x, arma::vec &y) {
   Rcpp::Environment pkg = Rcpp::Environment::namespace_env("modeLLtest");
   // Added this to package since trouble pulling from MASS
   Rcpp::Function f = pkg["rlm_m"];
   return f(x, y);
+}
+
+Rcpp::List gamm(int &x) {
+  Rcpp::Environment pkg = Rcpp::Environment::base_env();
+  Rcpp::Function f = pkg["gamma"];
+  return f(x);
 }
 
 // [[Rcpp::export]]
@@ -48,14 +48,23 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     coef = vecrobustm(rlm("coefficients"));
     resid = vecrobustm(rlm("residuals")); // residuals
     sig = arma::as_scalar( sqrt(arma::trans(resid) * resid /  (n - n_col) )); // sqrt(SE of est)
-    cvll_rlm[i] = gam( ((n - n_col) + 1) / 2 ) /
-      ( sig * sqrt( (n - n_col) * M_PI ) *
-      gam( (n - n_col) / 2 ) ) *
-      (((n - n_col) + (resid * resid) / (sig * sig) ) /
-      (n - n_col) ) ^ ( - ((n - n_col) + 1) / 2);
+
+    // t density function - PDF for RR
+    int df = n - n_col;
+    int gam_a = (df + 1) / 2;
+    int gam_b = df / 2;
+    int dst_a = sig * sqrt(df * M_PI);
+    int dst_b = gam_a / dst_a;
+    arma::colvec dst_c = arma::pow(resid, 2);
+    int dst_d = pow(sig, 2);
+    // int dst_e = dst_c / dst_d;
+
+    cvll_rlm[i] =  dst_b;
     y.insert_rows(i, rowyi); // add y back in
     x.insert_rows(i, rowxi); // add x back in
   }
 
   return cvll_rlm;
 }
+
+
