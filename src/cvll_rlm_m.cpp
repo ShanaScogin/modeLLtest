@@ -54,12 +54,12 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     int gam_a = (df + 1) / 2;
     int gam_b = df / 2;
     int dst_a = sig * sqrt(df * M_PI);
-    int dst_b = gam_a / dst_a;
-    arma::colvec dst_c = arma::pow(resid, 2);
-    int dst_d = pow(sig, 2);
-    // int dst_e = dst_c / dst_d;
+    arma::colvec dst_b = arma::pow(resid, 2);
+    int dst_c = pow(sig, 2);
+    arma::colvec dst_d = pow( (dst_b / dst_c + 1), ( - (df + 1) / 2) );
+    cvll_rlm[i] =  gam_a / dst_a * gam_b * dst_d;
 
-    cvll_rlm[i] =  dst_b;
+    // cleaning up
     y.insert_rows(i, rowyi); // add y back in
     x.insert_rows(i, rowxi); // add x back in
   }
