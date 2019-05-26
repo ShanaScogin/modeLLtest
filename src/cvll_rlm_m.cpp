@@ -10,6 +10,12 @@ arma::colvec vecrobustm(Rcpp::List a) {
   return a1;
 }
 
+Rcpp::List gam(double &x) {
+  Rcpp::Environment stats("package:stats");
+  Rcpp::Function f = stats["gamma"];
+  return f(x);
+}
+
 Rcpp::List robustm(arma::dmat &x, arma::vec &y) {
   Rcpp::Environment pkg = Rcpp::Environment::namespace_env("modeLLtest");
   // Added this to package since trouble pulling from MASS
@@ -42,7 +48,11 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     coef = vecrobustm(rlm("coefficients"));
     resid = vecrobustm(rlm("residuals")); // residuals
     sig = arma::as_scalar( sqrt(arma::trans(resid) * resid /  (n - n_col) )); // sqrt(SE of est)
-    cvll_rlm[i] = log(arma::normpdf(yv - xv * coef, 0, sig));
+    cvll_rlm[i] = gam( ((n - n_col) + 1) / 2 ) /
+      ( sig * sqrt( (n - n_col) * M_PI ) *
+      gam( (n - n_col) / 2 ) ) *
+      (((n - n_col) + (resid * resid) / (sig * sig) ) /
+      (n - n_col) ) ^ ( - ((n - n_col) + 1) / 2);
     y.insert_rows(i, rowyi); // add y back in
     x.insert_rows(i, rowxi); // add x back in
   }
