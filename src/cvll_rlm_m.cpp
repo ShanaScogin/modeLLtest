@@ -17,7 +17,9 @@ Rcpp::List robustm(arma::dmat &x, arma::vec &y) {
   return f(x, y);
 }
 
-Rcpp::List gamm(int &x) {
+template <typename T> T as (SEXP x);
+
+std::vector<double> gamm(double &x) {
   Rcpp::Environment pkg = Rcpp::Environment::base_env();
   Rcpp::Function f = pkg["gamma"];
   return f(x);
@@ -35,36 +37,61 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   arma::colvec coef;
   arma::colvec resid;
   double sig;
+  double cvll_rlm_a;
+  double cvll_rlm_b;
   Rcpp::List cvll_rlm(n_row);
 
-  for (int i = 0; i < n_row; i++) {
-    yv = y.row(i); // define obs i before change y
-    rowyi = y.row(i);
-    y.shed_row(i); // leaves out observation i
-    xv = x.row(i); // define obs i before change x
-    rowxi = x.row(i);
-    x.shed_row(i); // leaves out observation i but changes x
+  // variables for t density function
+  double gam_a;
+  double gamm_a;
+  double gam_b;
+  double gamm_b;
+  double dst_a;
+  Rcpp::NumericVector dst_b;
+  double dst_c;
+  Rcpp::NumericVector dst_d;
+  arma::colvec dst_e;
+
+  // set up for t density function
+  int df = n - n_col;
+  gam_a = (df + 1.0) / 2.0;
+  gamm_a = gamm(gam_a);
+  gam_b = df / 2.0;
+  gamm_b = gamm(gam_b);
+
+
+  // for (int i = 0; i < n_row; i++) {
+    // yv = y.row(i); // define obs i before change y
+    // rowyi = y.row(i);
+    // y.shed_row(i); // leaves out observation i
+    // xv = x.row(i); // define obs i before change x
+    // rowxi = x.row(i);
+    // x.shed_row(i); // leaves out observation i but changes x
+
+    // model
     rlm = robustm(x, y);
     coef = vecrobustm(rlm("coefficients"));
     resid = vecrobustm(rlm("residuals")); // residuals
-    sig = arma::as_scalar( sqrt(arma::trans(resid) * resid /  (n - n_col) )); // sqrt(SE of est)
+    sig = arma::as_scalar(vecrobustm(rlm("s"))); // scale param
 
     // t density function - PDF for RR
-    int df = n - n_col;
-    int gam_a = (df + 1) / 2;
-    int gam_b = df / 2;
-    int dst_a = sig * sqrt(df * M_PI);
-    arma::colvec dst_b = arma::pow(resid, 2);
-    int dst_c = pow(sig, 2);
-    arma::colvec dst_d = pow( (dst_b / dst_c + 1), ( - (df + 1) / 2) );
-    cvll_rlm[i] =  gam_a / dst_a * gam_b * dst_d;
+    dst_a = sig * std::sqrt(df * M_PI);
+    dst_b = pow( resid, 2 );
+    dst_c = pow( sig, 2 );
+    dst_d = df + dst_b / dst_c;
+    dst_e = pow( dst_d / df, - (df + 1) / 2 );
+
+    // putting t density together for output
+    cvll_rlm_a =  dst_a * gamm_b;
+    cvll_rlm_b = gamm_a / cvll_rlm_a;
+//    cvll_rlm = cvll_rlm_b * dst_e;
 
     // cleaning up
-    y.insert_rows(i, rowyi); // add y back in
-    x.insert_rows(i, rowxi); // add x back in
-  }
+    // y.insert_rows(i, rowyi); // add y back in
+    // x.insert_rows(i, rowxi); // add x back in
+  // }
 
-  return cvll_rlm;
+  return cvll_rlm_b;
 }
 
 

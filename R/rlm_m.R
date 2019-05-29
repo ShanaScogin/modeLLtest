@@ -122,7 +122,13 @@ rlm_m <-
     ## fix up call to refer to the generic, but leave arg name as `formula'
     cl <- match.call()
     cl[[1L]] <- as.name("rlm")
-    fit <- list(coefficients = coef, residuals = yy - fitted)
+    fit <- list(coefficients = coef, residuals = yy - fitted, wresid = resid,
+                effects = temp$effects,
+                rank = temp$rank, fitted.values = fitted,
+                assign = temp$assign,  qr = temp$qr, df.residual = NA, w = w,
+                s = scale, psi = psi, k2 = k2,
+                weights = if(!missing(weights)) weights,
+                conv = conv, converged = done, x = xx)
     fit
   }
 

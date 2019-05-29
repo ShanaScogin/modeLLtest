@@ -2,7 +2,7 @@
 #include <RcppArmadillo.h>
 
 // [[Rcpp::export]]
-Rcpp::List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
+Rcpp::List cvll_ols(arma::dmat &x, arma::vec &y, int n_row, int n_col) {
 
   int n = n_row - 1;
   arma::dmat yv;
@@ -21,10 +21,16 @@ Rcpp::List cvll_ols(arma::dmat &x, arma::mat &y, int n_row, int n_col) {
     xv = x.row(i); // define obs i before change x
     rowxi = x.row(i);
     x.shed_row(i); // leaves out observation i but changes x
+
+    // model
     coef = arma::solve(x, y); // fit model y ~ x
     resid = y - x * coef; // residuals
     sig = arma::as_scalar(sqrt( arma::trans(resid) * resid /  (n - n_col) )); // sqrt(SE of est)
+
+    // output
     cvll_ls[i] = log(arma::normpdf(yv - xv * coef, 0, sig));
+
+    // cleaning up
     y.insert_rows(i, rowyi); // add y back in
     x.insert_rows(i, rowxi); // add x back in
   }

@@ -87,7 +87,7 @@ cvdm <- function(formula,
 
   # Call the CVLL with first method
   if (method1 == "OLS"){
-    cvll_1 <- cvll_ols(as.matrix(x), as.matrix(y), n_row,  n_col)
+    cvll_1 <- cvll_ols(as.matrix(x), y, n_row,  n_col)
     m1 <- "OLS"
   } else if (method1 == "MR"){
     cvll_1 <- cvll_mr(as.matrix(x), y, n_row)
@@ -104,7 +104,7 @@ cvdm <- function(formula,
 
   # Call the CVLL with second method
   if (method2 == "OLS"){
-    cvll_2 <- cvll_ols(as.matrix(x), as.matrix(y), n_row,  n_col)
+    cvll_2 <- cvll_ols(as.matrix(x), y, n_row,  n_col)
     m2 <- "OLS"
   } else if (method2 == "MR"){
     cvll_2 <- cvll_mr(as.matrix(x), y, n_row)
