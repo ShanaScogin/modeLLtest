@@ -17,12 +17,10 @@ Rcpp::List robustm(arma::dmat &x, arma::vec &y) {
   return f(x, y);
 }
 
-template <typename T> T as (SEXP x);
-
-std::vector<double> gamm(double &x) {
+double gamm(double &x) {
   Rcpp::Environment pkg = Rcpp::Environment::base_env();
   Rcpp::Function f = pkg["gamma"];
-  return f(x);
+  return Rcpp::as<double>(f(x));
 }
 
 // [[Rcpp::export]]
@@ -60,13 +58,13 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   gamm_b = gamm(gam_b);
 
 
-  // for (int i = 0; i < n_row; i++) {
-    // yv = y.row(i); // define obs i before change y
-    // rowyi = y.row(i);
-    // y.shed_row(i); // leaves out observation i
-    // xv = x.row(i); // define obs i before change x
-    // rowxi = x.row(i);
-    // x.shed_row(i); // leaves out observation i but changes x
+  for (int i = 0; i < n_row; i++) {
+    yv = y.row(i); // define obs i before change y
+    rowyi = y.row(i);
+    y.shed_row(i); // leaves out observation i
+    xv = x.row(i); // define obs i before change x
+    rowxi = x.row(i);
+    x.shed_row(i); // leaves out observation i but changes x
 
     // model
     rlm = robustm(x, y);
@@ -84,14 +82,14 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     // putting t density together for output
     cvll_rlm_a =  dst_a * gamm_b;
     cvll_rlm_b = gamm_a / cvll_rlm_a;
-//    cvll_rlm = cvll_rlm_b * dst_e;
+    cvll_rlm[i] = cvll_rlm_b * dst_e;
 
     // cleaning up
-    // y.insert_rows(i, rowyi); // add y back in
-    // x.insert_rows(i, rowxi); // add x back in
-  // }
+    y.insert_rows(i, rowyi); // add y back in
+    x.insert_rows(i, rowxi); // add x back in
+    }
 
-  return cvll_rlm_b;
+  return cvll_rlm;
 }
 
 
