@@ -33,13 +33,11 @@ double gamm(double &x) {
 Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
   int n = n_row - 1;
-  arma::dmat yv;
-  arma::dmat xv;
   arma::rowvec rowyi;
   arma::rowvec rowxi;
   Rcpp::List rlm;
   arma::colvec coef;
-  arma::colvec resid;
+  arma::colvec input;
   double sig;
   Rcpp::List cvll_rlm(n_row);
 
@@ -64,22 +62,20 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   gamm_b = gamm(gam_b);
 
   for (int i = 0; i < n_row; i++) {
-    yv = y.row(i); // define obs i before change y
-    rowyi = y.row(i);
+    rowyi = y.row(i); // define obs i before change y
     y.shed_row(i); // leaves out observation i
-    xv = x.row(i); // define obs i before change x
-    rowxi = x.row(i);
+    rowxi = x.row(i); // define obs i before change x
     x.shed_row(i); // leaves out observation i but changes x
 
     // model
     rlm = robustm(x, y);
     coef = vecrobustm(rlm("coefficients"));
-    resid = vecrobustm(rlm("residuals")); // residuals
+    input = rowyi - rowxi * coef;
     sig = arma::as_scalar(vecrobustm(rlm("s"))); // scale param
 
     // t density function - PDF for RR
     dst_a = sig * std::sqrt(df * M_PI);
-    dst_b = pow( resid, 2 );
+    dst_b = pow( input, 2 );
     dst_c = pow( sig, 2 );
     dst_d = df + dst_b / dst_c;
     dst_e = pow( dst_d / df, - (df + 1) / 2 );
@@ -94,5 +90,3 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
   return cvll_rlm;
 }
-
-

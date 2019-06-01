@@ -12,19 +12,19 @@ test_that("Simple model with cvdm runs", {
   ones <- rep(1, length(Y))
   X <- cbind(ones, X)
 
-  obj_rlm_m <- cvll_rlm_m(X, Y, length(Y), ncol(X))
-  test_num <- as.numeric(obj_rlm_m[1])
-  check_against <- c(-2.798232)
+  obj_rlm_mm <- cvll_rlm_mm(X, Y, length(Y), ncol(X))
+  test_num <- as.numeric(obj_rlm_mm[1])
+  check_against <- c(-2.800588)
   expect_equal(round(test_num, 6), check_against)
 
-  test_num2 <- as.numeric(obj_rlm_m[2])
-  check_against <- c(-4.269165)
+  test_num2 <- as.numeric(obj_rlm_mm[2])
+  check_against <- c(-4.027866)
   expect_equal(round(test_num2, 6), check_against)
 
   X <- X[, -1]
-  obj_cvdm_rr <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "RLM")
+  obj_cvdm_rr <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "RLM-MM")
   test_stat <- as.numeric(obj_cvdm_rr$test_stat)
-  check_against <- c(-1.784851)
+  check_against <- c(-2.097227)
   expect_equal(round(test_stat, 6), check_against)
 
 })
