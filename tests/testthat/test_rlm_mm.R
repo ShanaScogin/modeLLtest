@@ -1,4 +1,4 @@
-test_that("Simple model with cvdm runs", {
+test_that("RLM-MM test", {
 #  skip("Travis erroring for some reason - runs on local")
 
   data(nepaldem)
@@ -15,19 +15,19 @@ test_that("Simple model with cvdm runs", {
   set.seed(9827)
   obj_rlm_mm <- cvll_rlm_mm(X, Y, length(Y), ncol(X))
   test_num <- as.numeric(obj_rlm_mm[1])
-  check_against <- c(-2.695106)
-  expect_equal(round(test_num, 6), check_against)
+  check_against <- c(-2.70)
+  expect_equal(round(test_num, 2), check_against)
 
   test_num2 <- as.numeric(obj_rlm_mm[2])
-  check_against <- c(-4.502478)
-  expect_equal(round(test_num2, 6), check_against)
+  check_against <- c(-4.50)
+  expect_equal(round(test_num2, 2), check_against)
 
   X <- X[, -1]
   set.seed(97276)
   obj_cvdm_rr <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "RLM-MM")
   test_stat <- as.numeric(obj_cvdm_rr$test_stat)
-  check_against <- c(-1.866694)
-  expect_equal(round(test_stat, 6), check_against)
+  check_against <- c(-1.87)
+  expect_equal(round(test_stat, 2), check_against)
 
 })
 

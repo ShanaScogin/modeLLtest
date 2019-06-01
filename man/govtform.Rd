@@ -5,7 +5,8 @@
 \alias{govtform}
 \title{Data from Golder (2010) on government formation in Western Europe}
 \format{A data frame with 410 rows and 18 variables. The following are taken
-from the codebook at \href{http://sonagolder.com/research}{http://sonagolder.com/research}:
+from the codebook at \href{https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/BUWZBA}
+{Dr. Sona N. Golder's Harvard Dataverse Page}:
 \describe{
  \item{countryname}{names of countries used in analysis}
  \item{country}{unique number identifying each country}
@@ -46,7 +47,8 @@ from the codebook at \href{http://sonagolder.com/research}{http://sonagolder.com
  \item{post_positive}{}
 }}
 \source{
-\href{http://sonagolder.com/research}{http://sonagolder.com/research}
+\href{https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/BUWZBA}
+{Dr. Sona N. Golder's Harvard Dataverse Page}
 }
 \usage{
 data(govtform)
