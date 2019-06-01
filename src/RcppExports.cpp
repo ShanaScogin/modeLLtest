@@ -34,7 +34,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // cvll_rlm_m
-Rcpp::NumericVector cvll_rlm_m(arma::dmat& x, arma::colvec& y, int n_row, int n_col);
+Rcpp::List cvll_rlm_m(arma::dmat& x, arma::colvec& y, int n_row, int n_col);
 RcppExport SEXP _modeLLtest_cvll_rlm_m(SEXP xSEXP, SEXP ySEXP, SEXP n_rowSEXP, SEXP n_colSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

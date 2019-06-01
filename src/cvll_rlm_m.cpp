@@ -1,6 +1,7 @@
 //[[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 
+// function to change list into vector
 arma::colvec vecrobustm(Rcpp::List a) {
   int size = a.size();
   arma::colvec a1(size);
@@ -10,19 +11,24 @@ arma::colvec vecrobustm(Rcpp::List a) {
   return a1;
 }
 
+// function to use rlm_m function in R code
+// original code from MASS package
+// R function has been added this to this package due to trouble pulling from MASS
+// future developments should look into putting this into rcpp
 Rcpp::List robustm(arma::dmat &x, arma::vec &y) {
   Rcpp::Environment pkg = Rcpp::Environment::namespace_env("modeLLtest");
-  // Added this to package since trouble pulling from MASS
   Rcpp::Function f = pkg["rlm_m"];
   return f(x, y);
 }
 
+// function to use gamma() function from base R
 double gamm(double &x) {
   Rcpp::Environment pkg = Rcpp::Environment::base_env();
   Rcpp::Function f = pkg["gamma"];
   return Rcpp::as<double>(f(x));
 }
 
+// function to find the cvlls for m method of estimating robust regression
 // [[Rcpp::export]]
 Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
@@ -35,8 +41,6 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   arma::colvec coef;
   arma::colvec resid;
   double sig;
-  double cvll_rlm_a;
-  double cvll_rlm_b;
   Rcpp::List cvll_rlm(n_row);
 
   // variables for t density function
@@ -49,6 +53,8 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   double dst_c;
   Rcpp::NumericVector dst_d;
   arma::colvec dst_e;
+  double dst_f;
+  double dst_g;
 
   // set up for t density function
   int df = n - n_col;
@@ -56,7 +62,6 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   gamm_a = gamm(gam_a);
   gam_b = df / 2.0;
   gamm_b = gamm(gam_b);
-
 
   for (int i = 0; i < n_row; i++) {
     yv = y.row(i); // define obs i before change y
@@ -78,11 +83,9 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
     dst_c = pow( sig, 2 );
     dst_d = df + dst_b / dst_c;
     dst_e = pow( dst_d / df, - (df + 1) / 2 );
-
-    // putting t density together for output
-    cvll_rlm_a =  dst_a * gamm_b;
-    cvll_rlm_b = gamm_a / cvll_rlm_a;
-    cvll_rlm[i] = cvll_rlm_b * dst_e;
+    dst_f =  dst_a * gamm_b;
+    dst_g = gamm_a / dst_f;
+    cvll_rlm[i] = log(dst_g * dst_e);
 
     // cleaning up
     y.insert_rows(i, rowyi); // add y back in

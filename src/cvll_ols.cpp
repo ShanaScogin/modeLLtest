@@ -15,11 +15,9 @@ Rcpp::List cvll_ols(arma::dmat &x, arma::vec &y, int n_row, int n_col) {
   Rcpp::List cvll_ls(n_row);
 
   for (int i = 0; i < n_row; i++) {
-    yv = y.row(i); // define obs i before change y
-    rowyi = y.row(i);
+    rowyi = y.row(i); // define obs i before change y
     y.shed_row(i); // leaves out observation i
-    xv = x.row(i); // define obs i before change x
-    rowxi = x.row(i);
+    rowxi = x.row(i); // define obs i before change x
     x.shed_row(i); // leaves out observation i but changes x
 
     // model
@@ -28,7 +26,7 @@ Rcpp::List cvll_ols(arma::dmat &x, arma::vec &y, int n_row, int n_col) {
     sig = arma::as_scalar(sqrt( arma::trans(resid) * resid /  (n - n_col) )); // sqrt(SE of est)
 
     // output
-    cvll_ls[i] = log(arma::normpdf(yv - xv * coef, 0, sig));
+    cvll_ls[i] = log(arma::normpdf(rowyi - rowxi * coef, 0, sig));
 
     // cleaning up
     y.insert_rows(i, rowyi); // add y back in
