@@ -8,7 +8,8 @@
 #' @usage data(govtform)
 #'
 #' @format A data frame with 410 rows and 18 variables. The following are taken
-#' from the codebook at \href{http://sonagolder.com/research}{http://sonagolder.com/research}:
+#' from the codebook at \href{https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/BUWZBA}
+#' {Dr. Sona N. Golder's Harvard Dataverse Page}:
 #' \describe{
 #'  \item{countryname}{names of countries used in analysis}
 #'  \item{country}{unique number identifying each country}
@@ -55,7 +56,8 @@
 #' formation process. Comparative Political Studies, 43(1), 3-32.
 #' \href{https://doi.org/10.1177/0010414009341714}{https://doi.org/10.1177/0010414009341714}
 #'
-#' @source \href{http://sonagolder.com/research}{http://sonagolder.com/research}
+#' @source \href{https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/BUWZBA}
+#' {Dr. Sona N. Golder's Harvard Dataverse Page}
 #'
 #' @examples
 #' data(govtform)
