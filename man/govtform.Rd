@@ -22,8 +22,11 @@ from the codebook at \href{https://dataverse.harvard.edu/dataset.xhtml?persisten
  forms in an interelection period (less uncertainty)}
  \item{nonpartisan}{dichotomous variable that equals 1 if the government
  is nonpartisan and 0 otherwise}
- \item{legislative_parties}{this variable is calculated as \ifelse{html}{\out{2<sup>x</sup>}{\eqn{2^x}}} \eqn{1/\Sigma s^{2}_i},
- where \eqn{s_{i}} is the percentage of legislative seats won by the ith party}
+ \item{legislative_parties}{this variable is calculated as \ifelse{html}
+ {\out{1/&Sigma;s<sub>i</sub><sup>2</sup>}}, where \ifelse{html}
+ {\out{s<sub>i</sub>}} is the
+ percentage of legislative seats won by the \emph{\ifelse{html}
+ {\out{i<sup>th</sup>}}} party}
  \item{inconclusive}{the number of inconclusive bargaining rounds prior to
  a new government successfully forming}
  \item{cabinetname}{cabinet name identified by surname
@@ -32,10 +35,17 @@ from the codebook at \href{https://dataverse.harvard.edu/dataset.xhtml?persisten
  \item{singleparty_majority}{dichotomous variable that equals 1 if a single
  party controls a majority of the legislative seats, 0 otherwise}
  \item{polarization}{Measures the level of ideological polarization in the party
- system. This measure is calculated as <<formula>>, where \emph{n} is the number of parties,
- <<pi_i>> is the size of party \emph{i}, \emph{K} is a constant (and is,
- therefore, not important here), and <<ital. alpha>> is a parameter that can take on values
- between (0, <<ital alpha something)>>. As Esteban and Ray (1994, Econometrica 62(4): 819-851)
+ system. This measure is calculated as \ifelse{html}
+ {\out{K&Sigma;<sub>i=1</sub><sup>n</sup>&Sigma;<sub>j=1</sub><sup>n</sup>&pi;
+ <sub>i</sub><sup>&alpha;+1</sup>&pi;<sub> j</sub> &#x7c;y<sub>i</sub> - y<sub>i</sub>&#x7c;}},
+ where \emph{n} is the number of parties,
+ \emph{\ifelse{html}
+ {\out{&pi;<sub>i</sub>}}} is the size of party \emph{i},
+ \emph{K} is a constant (and is,
+ therefore, not important here), and \eqn{\alpha} is a parameter that can take on values
+ between (0,
+ \emph{\ifelse{html}
+ {\out{&alpha;<sup>&#8727;</sup>}}}). As Esteban and Ray (1994, Econometrica 62(4): 819-851)
  recommend, \eqn{\alpha} is set equal to 1.6. The overall polarization measure comes
  from Indridason (2006, "Coalition Formation and Polarization." Manuscript, University of
  Iceland), who uses several expert surveys to calculate party positions.}
