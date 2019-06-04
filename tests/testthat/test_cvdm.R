@@ -1,5 +1,5 @@
 test_that("Simple model with cvdm runs", {
-#  skip("Travis erroring for some reason - runs on local")
+  skip_on_cran()
 
   set.seed(123456)
   b0 <- .2 # True value for the intercept

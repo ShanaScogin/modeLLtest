@@ -14,7 +14,7 @@
 #'  \item{countryname}{names of countries used in analysis}
 #'  \item{country}{unique number identifying each country}
 #'  \item{cabinet}{unique number identifying each country.
-#'  Begins with country code, followed by cabinets 1 - n}
+#'  Begins with country code, followed by cabinets 1 - \emph{n}}
 #'  \item{bargainingdays}{the number of days between either an election
 #'  or the resignation of the previous government and the day on
 #'  which the new government is officially inaugurated}
@@ -25,8 +25,8 @@
 #'  forms in an interelection period (less uncertainty)}
 #'  \item{nonpartisan}{dichotomous variable that equals 1 if the government
 #'  is nonpartisan and 0 otherwise}
-#'  \item{legislative_parties}{this variable is calculated as 1/$\sigma$s$_{i}^{2}$ ,
-#'  where $s_{i}$ is the percentage of legislative seats won by the ith party}
+#'  \item{legislative_parties}{this variable is calculated as \ifelse{html}{\out{2<sup>x</sup>}{\eqn{2^x}}} \eqn{1/\Sigma s^{2}_i},
+#'  where \eqn{s_{i}} is the percentage of legislative seats won by the ith party}
 #'  \item{inconclusive}{the number of inconclusive bargaining rounds prior to
 #'  a new government successfully forming}
 #'  \item{cabinetname}{cabinet name identified by surname
@@ -34,20 +34,31 @@
 #'  over more than one cabinet)}
 #'  \item{singleparty_majority}{dichotomous variable that equals 1 if a single
 #'  party controls a majority of the legislative seats, 0 otherwise}
-#'  \item{polarization}{}
+#'  \item{polarization}{Measures the level of ideological polarization in the party
+#'  system. This measure is calculated as <<formula>>, where \emph{n} is the number of parties,
+#'  <<pi_i>> is the size of party \emph{i}, \emph{K} is a constant (and is,
+#'  therefore, not important here), and <<ital. alpha>> is a parameter that can take on values
+#'  between (0, <<ital alpha something)>>. As Esteban and Ray (1994, Econometrica 62(4): 819-851)
+#'  recommend, \eqn{\alpha} is set equal to 1.6. The overall polarization measure comes
+#'  from Indridason (2006, "Coalition Formation and Polarization." Manuscript, University of
+#'  Iceland), who uses several expert surveys to calculate party positions.}
 #'  \item{continuation}{dichotomous variable that equals 1 if the outgoing
 #'  government or formateur gets the first opportunity to form a new
 #'  government, 0 otherwise. Data for this variable come from DvR (1998).
-#'  Of the four countries in my dataset that are not in DvR
+#'  Of the four countries in (this) dataset that are not in DvR
 #'  (Greece, Portugal, Spain, and the United Kingdom), only the UK has this
-#'  feature (Bogdanor 1995, 147-150).}
+#'  feature (Bogdanor 1995, The Monarchy and the Consitution, New York: Oxford
+#'  University Press: 147-150).}
 #'  \item{positive_parl}{dichotomous variable that equals 1 if a new government
 #'  requires the explicit support of a legislative majority in order to take
 #'  office, 0 otherwise (Bergman 1995, PhD Thesis, Dept of Pol Sci, Umea
 #'  University, Sweden)}
-#'  \item{post_legislative_parties}{}
-#'  \item{post_polariz}{}
-#'  \item{post_positive}{}
+#'  \item{post_legislative_parties}{interaction term made by multiplying the postelection
+#'  variable with the legislative_parties variable}
+#'  \item{post_polariz}{interaction term made by multiplying the postelection
+#'  variable with the polarization variable}
+#'  \item{post_positive}{interaction term made by multiplying the postelection
+#'  variable with the positive_parl variable}
 #' }
 #'
 #' @keywords datasets

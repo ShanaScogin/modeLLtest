@@ -98,7 +98,7 @@ obj_cvmf
 ```
 
 # Examples with Replication Data
-For an example using real-world analysis, we can look at a study by Joshi and Mason (2008, Journal of Peace Research 45(6): 765-782) that employs robust regression to analyze district-level election turnout among peasants in Nepal. Specifically, they hypothesize that peasant dependence on landed elite for survival will result in higher voter turnout. In their model of the 1999 parliamentary elections below, we can see how their use robust regression is supported by the CVDM test. These data are available on the [Journal of Peace Research Replication Datasets website](https://www.prio.org/JPR/Datasets/) and have been included in the package for ease of replication. For full replication and discussion of the CVDM test, see Desmarais and Harden (2014, Quality and Quantity 48(4): 2155-2173).
+For an example utlizing real-world analysis, we can look at a study by Joshi and Mason (2008, Journal of Peace Research 45(6): 765-782) that employs robust regression to analyze district-level election turnout among peasants in Nepal. Specifically, Joshi and Mason hypothesize that peasant dependence on landed elite for survival will result in higher voter turnout. Using their model of the 1999 parliamentary elections, we can see how the use of a robust regression is supported by the CVDM test. These data are available on the [Journal of Peace Research Replication Datasets website](https://www.prio.org/JPR/Datasets/) and have been included in the package for ease of replication. For full replication and discussion of the CVDM test, see Desmarais and Harden (2014, Quality and Quantity 48(4): 2155-2173).
 
 ```
 library(MASS)
@@ -106,11 +106,13 @@ library(modeLLtest)
 
 data(nepaldem)
 
+set.seed(978)
+
 obj_cvdm_jm <- cvdm(percent_regvote1999 ~ landless_gap +
    below1pa_gap + sharecrop_gap + service_gap + fixmoney_gap +
    fixprod_gap + per_without_instcredit + totoalkilled_1000 +
    hdi_gap1 + ln_pop2001 + totalcontestants1999 + cast_eth_fract,
-   data = nepaldem, method1 = "OLS", method2 = "RLM-MM")
+   data = nepaldem, method1 = "OLS", method2 = "RLM")
    
 obj_cvdm_jm
 
@@ -132,24 +134,26 @@ library(modeLLtest)
 
 data(govtform)
 
-obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron", data = govtform)
-   
-obj_cvmf_golder
-
 golder_surv <- Surv(govtform$bargainingdays)
+
 golder_x <- cbind(govtform$postelection, govtform$legislative_parties,
    govtform$polarization, govtform$positive_parl,
    govtform$post_legislative_parties,
    govtform$post_polariz, govtform$post_positive, govtform$continuation,
    govtform$singleparty_majority)
+   
 colnames(golder_x) <- c("govtform$postelection",
   "govtform$legislative_parties",
   "govtform$polarization", "govtform$positive_parl",
   "govtform$post_legislative_parties", "govtform$post_polariz",
   "govtform$post_positive", "govtform$continuation",
   "govtform$singleparty_majority")
-govtform_plm <- coxph(golder_surv ~ golder_x, method = "efron",
-   data = govtform)
+  
+obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron")
+   
+obj_cvmf_golder
+  
+govtform_plm <- coxph(golder_surv ~ golder_x, method = "efron")
 
 govtform_plm
 ```

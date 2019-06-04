@@ -32,7 +32,6 @@ double gamm(double &x) {
 // [[Rcpp::export]]
 Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
 
-  int n = n_row - 1;
   arma::rowvec rowyi;
   arma::rowvec rowxi;
   Rcpp::List rlm;
@@ -55,12 +54,14 @@ Rcpp::List cvll_rlm_m(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   double dst_g;
 
   // set up for t density function
-  int df = n - n_col;
+  int df = 4; // hard coding df to be 4
+              // 4 - 6 is usually used in RR
   gam_a = (df + 1.0) / 2.0;
   gamm_a = gamm(gam_a);
   gam_b = df / 2.0;
   gamm_b = gamm(gam_b);
 
+  // leave one out cross validation loop
   for (int i = 0; i < n_row; i++) {
     rowyi = y.row(i); // define obs i before change y
     y.shed_row(i); // leaves out observation i

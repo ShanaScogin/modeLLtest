@@ -1,5 +1,5 @@
-test_that("RLM-MM test", {
-#  skip("Travis erroring for some reason - runs on local")
+test_that("RLM-mm and cvdm with rlm-mm runs", {
+  skip_on_cran()
 
   data(nepaldem)
   nepaldem <- na.omit(nepaldem)
@@ -26,7 +26,7 @@ test_that("RLM-MM test", {
   set.seed(97276)
   obj_cvdm_rr <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "RLM-MM")
   test_stat <- as.numeric(obj_cvdm_rr$test_stat)
-  check_against <- c(-1.87)
+  check_against <- c(-1.36)
   expect_equal(round(test_stat, 2), check_against)
 
 })

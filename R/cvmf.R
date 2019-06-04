@@ -147,17 +147,17 @@ cvmf <- function(formula, data,
   # Estimate IRR
   # We create this to return for comparison
   irr <- coxrobust::coxr(formula = y ~ x,
-                         na.action = na.action, ### need to test this
+                         na.action = na.action,
                          trunc = trunc,
-                         f.weight = f.weight, ### tested one round of this but more needed
+                         f.weight = f.weight,
                          singular.ok = singular.ok)
 
   # Estimate PLM
   # We create this to return for comparison
   plm <- survival::coxph(formula = y ~ x,
                          method = method,
-                         weights = weights, ##### need to test
-                         na.action = na.action, ##### need to test
+                         weights = weights,
+                         na.action = na.action,
                          # We exclude init since coxr only allows defaut
                          # We exclude control
                          singular.ok = singular.ok)
@@ -178,8 +178,8 @@ cvmf <- function(formula, data,
     # Estimate models without current observation i
     pesti <- survival::coxph(yi ~ xi,
                              method = method,
-                             weights = weightsi, ##### need to test
-                             na.action = na.action, ##### need to test
+                             weights = weightsi,
+                             na.action = na.action,
                              # We exclude init since coxr only allows default
                              # We exclude control
                              singular.ok = singular.ok)
