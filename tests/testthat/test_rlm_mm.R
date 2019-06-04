@@ -1,5 +1,4 @@
 test_that("RLM-mm and cvdm with rlm-mm runs", {
-  skip_on_cran()
 
   data(nepaldem)
   nepaldem <- na.omit(nepaldem)

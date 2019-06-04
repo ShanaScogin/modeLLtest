@@ -1,5 +1,4 @@
 test_that("Simple model with two covariates runs with cvmf", {
-  skip_on_cran()
 
   set.seed(12345)
   x1 <- rnorm(100)
