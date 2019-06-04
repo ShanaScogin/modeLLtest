@@ -8,8 +8,8 @@
 #' @usage data(govtform)
 #'
 #' @format A data frame with 410 rows and 18 variables. The following are taken
-#' from the codebook at \href{https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/BUWZBA}
-#' {Dr. Sona N. Golder's Harvard Dataverse Page}:
+#' from the codebook at
+#' \href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}.
 #' \describe{
 #'  \item{countryname}{names of countries used in analysis}
 #'  \item{country}{unique number identifying each country}
@@ -25,9 +25,10 @@
 #'  forms in an interelection period (less uncertainty)}
 #'  \item{nonpartisan}{dichotomous variable that equals 1 if the government
 #'  is nonpartisan and 0 otherwise}
-#'  \item{legislative_parties}{this variable is calculated as \ifelse{html}
-#'  {\out{1/&Sigma;s<sub>i</sub><sup>2</sup>}}, where \ifelse{html}
-#'  {\out{s<sub>i</sub>}} is the
+#'  \item{legislative_parties}{this variable is calculated as \emph{\ifelse{html}
+#'  {\out{1/&Sigma;s <sub>i</sub><sup style='position: relative; left: -.5em;'>2</sup>}}},
+#'  where \emph{\ifelse{html}
+#'  {\out{s<sub>i</sub>}}} is the
 #'  percentage of legislative seats won by the \emph{\ifelse{html}
 #'  {\out{i<sup>th</sup>}}} party}
 #'  \item{inconclusive}{the number of inconclusive bargaining rounds prior to
@@ -37,10 +38,12 @@
 #'  over more than one cabinet)}
 #'  \item{singleparty_majority}{dichotomous variable that equals 1 if a single
 #'  party controls a majority of the legislative seats, 0 otherwise}
-#'  \item{polarization}{Measures the level of ideological polarization in the party
-#'  system. This measure is calculated as \ifelse{html}
-#'  {\out{K&Sigma;<sub>i=1</sub><sup>n</sup>&Sigma;<sub>j=1</sub><sup>n</sup>&pi;
-#'  <sub>i</sub><sup>&alpha;+1</sup>&pi;<sub> j</sub> &#x7c;y<sub>i</sub> - y<sub>i</sub>&#x7c;}},
+#'  \item{polarization}{measures the level of ideological polarization in the party
+#'  system. This measure is calculated as \emph{\ifelse{html}
+#'  {\out{K &Sigma;<sup>n</sup><sub>i=1</sub style='position: relative; left: -.5em;'>
+#'  &Sigma;<sup>n</sup><sub>j=1</sub style='position: relative; left: -.5em;'>&pi;
+#'  <sub>i</sub><sup>&alpha;+1</sup style='position: relative; left: -.5em;'>
+#'  &pi;<sub> j</sub> &#x7c;y<sub>i</sub> - y<sub>j</sub>&#x7c;}}},
 #'  where \emph{n} is the number of parties,
 #'  \emph{\ifelse{html}
 #'  {\out{&pi;<sub>i</sub>}}} is the size of party \emph{i},
@@ -77,8 +80,7 @@
 #' formation process. Comparative Political Studies, 43(1), 3-32.
 #' \href{https://doi.org/10.1177/0010414009341714}{https://doi.org/10.1177/0010414009341714}
 #'
-#' @source \href{https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/BUWZBA}
-#' {Dr. Sona N. Golder's Harvard Dataverse Page}
+#' @source \href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}
 #'
 #' @examples
 #' data(govtform)
