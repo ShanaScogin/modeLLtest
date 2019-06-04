@@ -25,43 +25,6 @@
 #'  forms in an interelection period (less uncertainty)}
 #'  \item{nonpartisan}{dichotomous variable that equals 1 if the government
 #'  is nonpartisan and 0 otherwise}
-#'  \item{legislative_parties}{this variable is calculated as \emph{\ifelse{html}
-#'  {\out{1/&Sigma;s <sub>i</sub><sup style='position: relative; left: -.5em;'>2</sup>}}},
-#'  where \emph{\ifelse{html}
-#'  {\out{s<sub>i</sub>}}} is the
-#'  percentage of legislative seats won by the \emph{\ifelse{html}
-#'  {\out{i<sup>th</sup>}}} party}
-#'  \item{inconclusive}{the number of inconclusive bargaining rounds prior to
-#'  a new government successfully forming}
-#'  \item{cabinetname}{cabinet name identified by surname
-#'  of prime minister (followed by a number if the PM presided
-#'  over more than one cabinet)}
-#'  \item{singleparty_majority}{dichotomous variable that equals 1 if a single
-#'  party controls a majority of the legislative seats, 0 otherwise}
-#'  \item{polarization}{measures the level of ideological polarization in the party
-#'  system. This measure is calculated as \emph{\ifelse{html}
-#'  {\out{K &Sigma;<sup>n</sup><sub>i=1</sub style='position: relative; left: -.5em;'>
-#'  &Sigma;<sup>n</sup><sub>j=1</sub style='position: relative; left: -.5em;'>&pi;
-#'  <sub>i</sub><sup>&alpha;+1</sup style='position: relative; left: -.5em;'>
-#'  &pi;<sub> j</sub> &#x7c;y<sub>i</sub> - y<sub>j</sub>&#x7c;}}},
-#'  where \emph{n} is the number of parties,
-#'  \emph{\ifelse{html}
-#'  {\out{&pi;<sub>i</sub>}}} is the size of party \emph{i},
-#'  \emph{K} is a constant (and is,
-#'  therefore, not important here), and \eqn{\alpha} is a parameter that can take on values
-#'  between (0,
-#'  \emph{\ifelse{html}
-#'  {\out{&alpha;<sup>&#8727;</sup>}}}). As Esteban and Ray (1994, Econometrica 62(4): 819-851)
-#'  recommend, \eqn{\alpha} is set equal to 1.6. The overall polarization measure comes
-#'  from Indridason (2006, "Coalition Formation and Polarization." Manuscript, University of
-#'  Iceland), who uses several expert surveys to calculate party positions.}
-#'  \item{continuation}{dichotomous variable that equals 1 if the outgoing
-#'  government or formateur gets the first opportunity to form a new
-#'  government, 0 otherwise. Data for this variable come from DvR (1998).
-#'  Of the four countries in (this) dataset that are not in DvR
-#'  (Greece, Portugal, Spain, and the United Kingdom), only the UK has this
-#'  feature (Bogdanor 1995, The Monarchy and the Consitution, New York: Oxford
-#'  University Press: 147-150).}
 #'  \item{positive_parl}{dichotomous variable that equals 1 if a new government
 #'  requires the explicit support of a legislative majority in order to take
 #'  office, 0 otherwise (Bergman 1995, PhD Thesis, Dept of Pol Sci, Umea
