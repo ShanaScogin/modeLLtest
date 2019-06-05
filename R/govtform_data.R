@@ -35,15 +35,7 @@
 #'  \item{singleparty_majority}{dichotomous variable that equals 1 if a single
 #'  party controls a majority of the legislative seats, 0 otherwise}
 #'  \item{polarization}{measures the level of ideological polarization in the party
-#'  system. This measure is calculated as \eqn{\Kappa\Sigma_{i=1}^{n}\Sigma_{j=1}^{n}
-#'  \pi_{i}^{\alpha+1}\pi_{j} \mid y_{i} - y_{j} \mid},
-#'  where \emph{n} is the number of parties, \eqn{\pi_{i}} is the size of party \emph{i},
-#'  \eqn{\Kappa} is a constant (and is, therefore, not important here), and \eqn{\alpha}
-#'  is a parameter that can take on values between (0, \eqn{\alpha^{*}}).
-#'  As Esteban and Ray (1994, Econometrica 62(4): 819-851)
-#'  recommend, \eqn{\alpha} is set equal to 1.6. The overall polarization measure comes
-#'  from Indridason (2006, "Coalition Formation and Polarization." Manuscript, University of
-#'  Iceland), who uses several expert surveys to calculate party positions.}
+#'  system. See the \href{https://doi.org/10.7910/DVN/BUWZBA}{code book} for more details}
 #'  \item{continuation}{dichotomous variable that equals 1 if the outgoing
 #'  government or formateur gets the first opportunity to form a new
 #'  government, 0 otherwise. Data for this variable come from DvR (1998).
