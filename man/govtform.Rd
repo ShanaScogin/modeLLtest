@@ -22,8 +22,9 @@ from the codebook at
  forms in an interelection period (less uncertainty)}
  \item{nonpartisan}{dichotomous variable that equals 1 if the government
  is nonpartisan and 0 otherwise}
- \item{legislative_parties}{this variable is calculated as \eqn{\frac{1}{\Sigmas^{2}_{i}}},
- where \eqn{s_{i}} is the percentage of legislative seats won by the \eqn{i^{th}} party}
+ \item{legislative_parties}{a fraction representing the number of parties that
+ have wone legislative seats. See the \href{https://doi.org/10.7910/DVN/BUWZBA}{code book}
+ for more details}
  \item{inconclusive}{the number of inconclusive bargaining rounds prior to
  a new government successfully forming}
  \item{cabinetname}{cabinet name identified by surname
