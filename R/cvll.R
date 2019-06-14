@@ -73,10 +73,10 @@ cvll <- function(formula,
 
   # Call the CVLL
   if (method == "OLS"){
-    cvll <- cvll_ols(as.matrix(x), as.matrix(y), n_row,  n_col)
+    cvll <- cvll_ols(as.matrix(x), y, n_row,  n_col)
     m1 <- "OLS"
   } else if (method == "MR"){
-    cvll <- cvll_mr(as.matrix(x), y, n_row)
+    cvll <- cvll_mr(as.matrix(x), y, n_row, n_col)
     m1 <- "MR"
   } else if (method == "RLM"){
     cvll <- cvll_rlm_m(as.matrix(x), y, n_row, n_col)
