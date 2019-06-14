@@ -91,7 +91,7 @@ cvdm <- function(formula,
     cvll_1 <- cvll_ols(as.matrix(x), y, n_row,  n_col)
     m1 <- "OLS"
   } else if (method1 == "MR"){
-    cvll_1 <- cvll_mr(as.matrix(x), y, n_row)
+    cvll_1 <- cvll_mr(as.matrix(x), y, n_row, n_col)
     m1 <- "MR"
   } else if (method1 == "RLM"){
     cvll_1 <- cvll_rlm_m(as.matrix(x), y, n_row, n_col)
@@ -108,7 +108,7 @@ cvdm <- function(formula,
     cvll_2 <- cvll_ols(as.matrix(x), y, n_row,  n_col)
     m2 <- "OLS"
   } else if (method2 == "MR"){
-    cvll_2 <- cvll_mr(as.matrix(x), y, n_row)
+    cvll_2 <- cvll_mr(as.matrix(x), y, n_row, n_col)
     m2 <- "MR"
   } else if (method2 == "RLM"){
     cvll_2 <- cvll_rlm_m(as.matrix(x), y, n_row, n_col)

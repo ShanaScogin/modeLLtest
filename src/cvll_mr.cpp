@@ -20,7 +20,7 @@ Rcpp::List rq(arma::dmat &x, arma::vec &y) {
 
 // function to find the cvlls for median regression
 // [[Rcpp::export]]
-Rcpp::List cvll_mr(arma::dmat &x, arma::vec &y, int n_row) {
+Rcpp::List cvll_mr(arma::dmat &x, arma::vec &y, int n_row, int n_col) {
 
   arma::rowvec rowyi;
   arma::rowvec rowxi;
@@ -37,19 +37,33 @@ Rcpp::List cvll_mr(arma::dmat &x, arma::vec &y, int n_row) {
     rowxi = x.row(i); // define obs i before change x
     x.shed_row(i); // leaves out observation i but changes x
 
-    // model
-    mr = rq(x, y);
-    coef = vecmr(mr("coefficients"));
-    resid = vecmr(mr("residuals")); // residuals
-    b = arma::as_scalar( mean(abs(resid)) ); // dispersion param
+    // wrap in if-else statement to check for singularity
+    if(arma::rank(x) < n_col) {
 
-    // output
-    cvll_mr[i] = log( (1 / (2 * b) ) *
-      exp( -abs( (rowyi - rowxi * coef) / b ) ) );
+      // cleaning up
+      y.insert_rows(i, rowyi); // add y back in
+      x.insert_rows(i, rowxi); // add x back in
 
-    // cleaning up
-    y.insert_rows(i, rowyi); // add y back in
-    x.insert_rows(i, rowxi); // add x back in
+      continue;
+
+    } else {
+
+      // model
+      mr = rq(x, y);
+      coef = vecmr(mr("coefficients"));
+      resid = vecmr(mr("residuals")); // residuals
+      b = arma::as_scalar( mean(abs(resid)) ); // dispersion param
+
+      // output
+      cvll_mr[i] = log( (1 / (2 * b) ) *
+        exp( -abs( (rowyi - rowxi * coef) / b ) ) );
+
+      // cleaning up
+      y.insert_rows(i, rowyi); // add y back in
+      x.insert_rows(i, rowxi); // add x back in
+
+    }
+
   }
 
   return cvll_mr;

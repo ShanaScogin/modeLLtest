@@ -61,31 +61,46 @@ Rcpp::List cvll_rlm_mm(arma::dmat &x, arma::colvec &y, int n_row, int n_col) {
   gam_b = df / 2.0;
   gamm_b = gammm(gam_b);
 
+  // loop for leave-one-out cross-validation
   for (int i = 0; i < n_row; i++) {
     rowyi = y.row(i); // define obs i before change y
     y.shed_row(i); // leaves out observation i
     rowxi = x.row(i); // define obs i before change x
     x.shed_row(i); // leaves out observation i but changes x
 
-    // model
-    rlm = robustmm(x, y);
-    coef = vecrobustmm(rlm("coefficients"));
-    input = rowyi - rowxi * coef;
-    sig = arma::as_scalar(vecrobustmm(rlm("s"))); // scale param
+    // wrap in if-else statement to check for singularity
+    if(arma::rank(x) < n_col) {
 
-    // t density function - PDF for RR
-    dst_a = sig * std::sqrt(df * M_PI);
-    dst_b = pow( input, 2 );
-    dst_c = pow( sig, 2 );
-    dst_d = df + dst_b / dst_c;
-    dst_e = pow( dst_d / df, - (df + 1) / 2 );
-    dst_f =  dst_a * gamm_b;
-    dst_g = gamm_a / dst_f;
-    cvll_rlm[i] = log(dst_g * dst_e);
+      // cleaning up
+      y.insert_rows(i, rowyi); // add y back in
+      x.insert_rows(i, rowxi); // add x back in
 
-    // cleaning up
-    y.insert_rows(i, rowyi); // add y back in
-    x.insert_rows(i, rowxi); // add x back in
+      continue;
+
+    } else {
+
+      // model
+      rlm = robustmm(x, y);
+      coef = vecrobustmm(rlm("coefficients"));
+      input = rowyi - rowxi * coef;
+      sig = arma::as_scalar(vecrobustmm(rlm("s"))); // scale param
+
+      // t density function - PDF for RR
+      dst_a = sig * std::sqrt(df * M_PI);
+      dst_b = pow( input, 2 );
+      dst_c = pow( sig, 2 );
+      dst_d = df + dst_b / dst_c;
+      dst_e = pow( dst_d / df, - (df + 1) / 2 );
+      dst_f =  dst_a * gamm_b;
+      dst_g = gamm_a / dst_f;
+      cvll_rlm[i] = log(dst_g * dst_e);
+
+      // cleaning up
+      y.insert_rows(i, rowyi); // add y back in
+      x.insert_rows(i, rowxi); // add x back in
+
+    }
+
   }
 
   return cvll_rlm;

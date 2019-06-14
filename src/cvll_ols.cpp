@@ -14,13 +14,14 @@ Rcpp::List cvll_ols(arma::dmat &x, arma::vec &y, int n_row, int n_col) {
   double sig;
   Rcpp::List cvll_ls(n_row);
 
+  // leave one out cross validation loop
   for (int i = 0; i < n_row; i++) {
     rowyi = y.row(i); // define obs i before change y
     y.shed_row(i); // leaves out observation i
     rowxi = x.row(i); // define obs i before change x
     x.shed_row(i); // leaves out observation i but changes x
 
-    // wrap in for statement for singularity
+    // wrap in if-else statement to check for singularity
     if(arma::rank(x) < n_col) {
 
       // cleaning up
