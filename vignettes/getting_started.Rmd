@@ -101,8 +101,15 @@ obj_cvfm <- cvmf(formula = form, data = dat)
 obj_cvfm
 ```
 
+## Data
+This package includes two datasets from real-world analyses to facilitate examples. These datasets are publicly available and have been included in this package with the endorsement of the authors. More on the data and original analysis can be found in the following papers:
+
+* Joshi, M., & Mason, T. D. (2008). Between democracy and revolution: peasant support for insurgency versus democracy in Nepal. Journal of Peace Research, 45(6), 765-782. <https://doi.org/10.1177/0022343308096155>
+
+* Golder, S. N. (2010). Bargaining delays in the government formation process. Comparative Political Studies, 43(1), 3-32. <https://doi.org/10.1177/0010414009341714>
+
 ## Examples with Replication Data
-For an example utlizing real-world analysis, we can look at a study by Joshi and Mason (2008, Journal of Peace Research 45(6): 765-782) that employs robust regression to analyze district-level election turnout among peasants in Nepal. Specifically, Joshi and Mason hypothesize that peasant dependence on landed elite for survival will result in higher voter turnout. Using their model of the 1999 parliamentary elections, we can see how the use of a robust regression is supported by the CVDM test. These data are available on the [Journal of Peace Research Replication Datasets website](https://www.prio.org/JPR/Datasets/) and have been included in the package for ease of replication. For full replication and discussion of the CVDM test, see Desmarais and Harden (2014, Quality and Quantity 48(4): 2155-2173).
+For an example of the CVDM test utilizing real-world analysis, we can look at a study by Joshi and Mason (2008, Journal of Peace Research 45(6): 765-782). This study employs robust regression to analyze district-level election turnout among peasants in Nepal. Specifically, Joshi and Mason hypothesize that peasant dependence on landed elite for survival will result in higher voter turnout. Using their model of the 1999 parliamentary elections, we can see how the use of a robust regression is supported by the CVDM test. These data are available on the [Journal of Peace Research Replication Datasets website](https://www.prio.org/JPR/Datasets/) and have been included in the package for ease of replication. For full replication and discussion of the CVDM test, see Desmarais and Harden (2014, Quality and Quantity 48(4): 2155-2173).
 
 ```
 library(MASS)
@@ -127,7 +134,7 @@ model_1999 <- rlm(percent_regvote1999 ~ landless_gap +
 model_1999
 ```
 
-Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32). Golder employs the PLM method of estimating a Cox model to investigate Western European government formation duration. She hypothesizes that bargaining complexity leads to increasing delays in government formation as uncertainty increases. The CVMF test indicates that her choice of PLM is the better performing estimator (p < .05) compared to IRR. These data are available on [Dr. Golder's Harvard Dataverse page](https://doi.org/10.7910/DVN/BUWZBA) and have been included in the package for ease of replication. For full replication and discussion of the CVMF test, see Desmarais and Harden (2012, Political Analysis 20(1): 113-135).
+Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32). Golder employs the PLM method of estimating a Cox model to investigate Western European government formation duration. She hypothesizes that bargaining complexity leads to increasing delays in government formation as uncertainty increases. The CVMF test indicates that her choice of PLM is the better performing estimator (p < .05) compared to IRR. These data are available on the [Harvard Dataverse page](https://doi.org/10.7910/DVN/BUWZBA) and have been included in the package for ease of replication. For full replication and discussion of the CVMF test, see Desmarais and Harden (2012, Political Analysis 20(1): 113-135).
 
 ```
 library(survival)
