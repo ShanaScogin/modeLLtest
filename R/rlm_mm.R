@@ -1,5 +1,6 @@
 # from MASS Package
 # copyright (C) 1994-2016 W. N. Venables and B. D. Ripley
+# Comments from original code by Venebles and Ripley
 
 rlm_mm <-
   function(x, y, weights, ..., w = rep(1, nrow(x)),
