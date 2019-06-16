@@ -1,8 +1,8 @@
 # modeLLtest [![Build Status](https://travis-ci.com/ShanaScogin/modeLLtest.svg?branch=master)](https://travis-ci.com/ShanaScogin/modeLLtest)
 An R Package which implements model comparison tests using cross-validated log-likelihood (CVLL) values. 
 
-# Test Overviews
-An R package which implements model comparison tests. `modeLLtest` includes functions for the cross-validated difference in means (CVDM) test and the cross-validated median fit (CVMF) test. Other tools include a function to output a vector of cross-validated log-likelihood (CVLL) values and a function to perform the CVDM test on an input of two CVLL vectors. The relevant papers including details can be found below:
+# Introduction
+`modeLLtest` is an R package which implements model comparison tests. This package includes functions for the cross-validated difference in means (CVDM) test and the cross-validated median fit (CVMF) test. The CVDM and CVMF tests assist researchers and students in selecting among models describing the same process. Selection among estimation methods describing the same process is a crucial methodological step within the social sciences. Other tools in `modeLLtest` include a function to output a vector of cross-validated log-likelihood (CVLL) values and a function to perform the CVDM test on an input of two CVLL vectors. The relevant papers including details can be found below:
 
 * Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers: Choosing between Conditional-Mean and Conditional-Median Methods. State Politics & Policy Quarterly, 11(4), 371-389.
 
@@ -104,7 +104,7 @@ This package includes two datasets from real-world analyses to facilitate exampl
 
 * Golder, S. N. (2010). Bargaining delays in the government formation process. Comparative Political Studies, 43(1), 3-32. <https://doi.org/10.1177/0010414009341714>
 
-# Examples with Replication Data
+## Examples with Replication Data
 For an example of the CVDM test utilizing real-world analysis, we can look at a study by Joshi and Mason (2008, Journal of Peace Research 45(6): 765-782). This study employs robust regression to analyze district-level election turnout among peasants in Nepal. Specifically, Joshi and Mason hypothesize that peasant dependence on landed elite for survival will result in higher voter turnout. Using their model of the 1999 parliamentary elections, we can see how the use of a robust regression is supported by the CVDM test. These data are available on the [Journal of Peace Research Replication Datasets website](https://www.prio.org/JPR/Datasets/) and have been included in the package for ease of replication. For full replication and discussion of the CVDM test, see Desmarais and Harden (2014, Quality and Quantity 48(4): 2155-2173).
 
 ```
@@ -132,7 +132,7 @@ model_1999 <- rlm(percent_regvote1999 ~ landless_gap +
 model_1999
 ```
 
-Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32). Golder employs the PLM method of estimating a Cox model to investigate Western European government formation duration. She hypothesizes that bargaining complexity leads to increasing delays in government formation as uncertainty increases. The CVMF test indicates that her choice of PLM is the better performing estimator (p < .05) compared to IRR. These data are available on the [Harvard Dataverse page](https://doi.org/10.7910/DVN/BUWZBA) and have been included in the package for ease of replication. For full replication and discussion of the CVMF test, see Desmarais and Harden (2012, Political Analysis 20(1): 113-135).
+Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32) to see an example of the CVMF test. Golder employs the PLM method of estimating a Cox model to investigate Western European government formation duration. She hypothesizes that bargaining complexity leads to increasing delays in government formation as uncertainty increases. The CVMF test indicates that her choice of PLM is the better performing estimator (p < .05) compared to IRR. These data are available on the [Harvard Dataverse page](https://doi.org/10.7910/DVN/BUWZBA) and have been included in the package for ease of replication. For full replication and discussion of the CVMF test, see Desmarais and Harden (2012, Political Analysis 20(1): 113-135).
 
 ```
 library(survival)
@@ -166,7 +166,7 @@ govtform_plm
 ```
 
 # What's Happening
-Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions to improve speed. Check back for details. 
+Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions - especially `cvmf()` - to improve speed.
 
 # Contact
 Please contact sscogin@nd.edu with questions or comments.

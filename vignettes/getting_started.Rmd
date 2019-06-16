@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-This vignette introduces you to the `modeLLtest` R package. The `modeLLtest` name points to the use of cross-validated log-likelihood (CVLL) values as a way to compare non-nested models. The tests include the cross-validated difference in means (CVDM) test (Harden and Desmarais 2011, Desmarais and Harden 2014) and the cross-validated median fit (CVMF) test (Desmarais 2012). These tests employ leave-one-out cross-validation, which is an out-of-sample method for computing model fit (Harden and Desmarais 2011; Desmarais and Harden 2012; Desmarais and Harden 2014). The relevant papers detailing these tests can be found below:
+`modeLLtest` is an R package which implements model comparison tests. This package includes functions for the cross-validated difference in means (CVDM) test and the cross-validated median fit (CVMF) test. The CVDM and CVMF tests assist researchers and students in selecting among models describing the same process. Selection among estimation methods describing the same process is a crucial methodological step within the social sciences. Other tools in `modeLLtest` include a function to output a vector of cross-validated log-likelihood (CVLL) values and a function to perform the CVDM test on an input of two CVLL vectors. The relevant papers including details can be found below:
 
 * Harden, J. J., & Desmarais, B. A. (2011). Linear models with outliers: Choosing between conditional-mean and conditional-median methods. State Politics & Policy Quarterly, 11(4), 371-389. <https://doi.org/10.1177/1532440011408929>
 
@@ -134,7 +134,7 @@ model_1999 <- rlm(percent_regvote1999 ~ landless_gap +
 model_1999
 ```
 
-Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32). Golder employs the PLM method of estimating a Cox model to investigate Western European government formation duration. She hypothesizes that bargaining complexity leads to increasing delays in government formation as uncertainty increases. The CVMF test indicates that her choice of PLM is the better performing estimator (p < .05) compared to IRR. These data are available on the [Harvard Dataverse page](https://doi.org/10.7910/DVN/BUWZBA) and have been included in the package for ease of replication. For full replication and discussion of the CVMF test, see Desmarais and Harden (2012, Political Analysis 20(1): 113-135).
+Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32) to see an example of the CVMF test. Golder employs the PLM method of estimating a Cox model to investigate Western European government formation duration. She hypothesizes that bargaining complexity leads to increasing delays in government formation as uncertainty increases. The CVMF test indicates that her choice of PLM is the better performing estimator (p < .05) compared to IRR. These data are available on the [Harvard Dataverse page](https://doi.org/10.7910/DVN/BUWZBA) and have been included in the package for ease of replication. For full replication and discussion of the CVMF test, see Desmarais and Harden (2012, Political Analysis 20(1): 113-135).
 
 ```
 library(survival)
@@ -168,4 +168,4 @@ govtform_plm
 ```
 
 ## Future Improvements
-Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions to improve speed.
+Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions  - especially `cvmf()` - to improve speed.
