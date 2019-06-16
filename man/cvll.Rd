@@ -46,6 +46,8 @@ from a method of estimating a formula.
 \details{
 This function extracts a vector of leave-one-out cross-validated
 log likelihoods (CVLLs) from a method of estimating a formula.
+Singular matrices during the leave-one-out cross-validation process
+are skipped.
 }
 \examples{
 \dontrun{

@@ -1,5 +1,7 @@
 #'This function implements the cross-validated difference in means (CVDM)
-#'test between two vectors of cross-validated log-likelihoods.
+#'test between two vectors of cross-validated log-likelihoods. A positive test
+#'statistic supports the method that produced the first vector and a negative
+#'test statistic supports the second.
 #'
 #'@title Cross-Validated Difference in Means (CVDM) Test with Vector Imputs
 #'@description Applies cross-validated log-likelihood to test between

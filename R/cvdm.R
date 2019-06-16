@@ -1,5 +1,11 @@
 #'This function implements the cross-validated difference in means (CVDM)
-#'test between two methods of estimating a formula.
+#'test between two methods of estimating a formula. The function takes
+#'a formula and two methods and computes a vector of cross-validated log-
+#'likelihoods (CVLLs) for each method using the leave-one-out method. These
+#'output test score is the cross-validated Johnson's t-test. A positive test
+#'statistic supports the first method and a negative test statistic supports
+#'the second. Singular matrices during the leave-one-out cross-validation process
+#'are skipped.
 #'
 #'@title Cross-Validated Difference in Means (CVDM) Test
 #'@description Applies cross-validated log-likelihood difference in means test to

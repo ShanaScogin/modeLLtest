@@ -31,7 +31,9 @@ Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
 }
 \details{
 This function implements the cross-validated difference in means (CVDM)
-test between two vectors of cross-validated log-likelihoods.
+test between two vectors of cross-validated log-likelihoods. A positive test
+statistic supports the method that produced the first vector and a negative
+test statistic supports the second.
 }
 \examples{
 \dontrun{

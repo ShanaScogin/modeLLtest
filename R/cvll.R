@@ -1,5 +1,7 @@
 #'This function extracts a vector of leave-one-out cross-validated
 #'log likelihoods (CVLLs) from a method of estimating a formula.
+#'Singular matrices during the leave-one-out cross-validation process
+#'are skipped.
 #'
 #'@title Cross-Validated Log Likelihood (CVLL)
 #'@description Extracts the leave-one-out cross-validated log-likelihoods

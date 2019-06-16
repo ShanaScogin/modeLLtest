@@ -132,7 +132,7 @@ model_1999 <- rlm(percent_regvote1999 ~ landless_gap +
 model_1999
 ```
 
-Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32) to see an example of the CVMF test. Golder employs the PLM method of estimating a Cox model to investigate Western European government formation duration. She hypothesizes that bargaining complexity leads to increasing delays in government formation as uncertainty increases. The CVMF test indicates that her choice of PLM is the better performing estimator (p < .05) compared to IRR. These data are available on the [Harvard Dataverse page](https://doi.org/10.7910/DVN/BUWZBA) and have been included in the package for ease of replication. For full replication and discussion of the CVMF test, see Desmarais and Harden (2012, Political Analysis 20(1): 113-135).
+Next, we can look at a study by Golder (2010, Comparative Political Studies 43(1): 3-32) to see an example of the CVMF test. Golder employs the PLM method of estimating a Cox model to investigate Western European government formation duration. She hypothesizes that bargaining complexity leads to increasing delays in government formation as uncertainty increases. The CVMF test indicates that her choice of PLM is the better performing estimator (p < .05) compared to IRR. These data are available on the [Harvard Dataverse page (https://doi.org/10.7910/DVN/BUWZBA)](https://doi.org/10.7910/DVN/BUWZBA) and have been included in the package for ease of replication. For full replication and discussion of the CVMF test, see Desmarais and Harden (2012, Political Analysis 20(1): 113-135).
 
 ```
 library(survival)
