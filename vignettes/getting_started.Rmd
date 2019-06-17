@@ -38,6 +38,8 @@ For more background information, see also the following:
 ## Basic Usage
 This package has four main functions: `cvdm()`, `cvmf()`, `cvll()`, and `cvlldiff()`. The function `cvdm()` deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs between two non-nested models. The function `cvll()` outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. The`cvlldiff()` function performs the bias-corrected Johnson's t-test on two vectors of cross-validated log-likelihoods.
 
+After loading the package, you can find the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. For the output, type `?cvdm_object`, `?cvll_object`, `?cvlldiff_object`, or `?cvmf_object` to view the documentation. If you encounter a bug or have comments or questions, please email me at sscogin@nd.edu.
+
 ## Examples
 Here are some examples of the functions in this package. First, we'll look at `cvdm()`, which applies cross-validated log-likelihood difference in means (CVDM) test to compare two methods of estimating a formula. The example compares ordinary least squares (OLS) estimation to median regression (MR).
 
