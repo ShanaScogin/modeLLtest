@@ -4,11 +4,11 @@ An R Package which implements model comparison tests using cross-validated log-l
 # Introduction
 `modeLLtest` is an R package which implements model comparison tests. This package includes functions for the cross-validated difference in means (CVDM) test and the cross-validated median fit (CVMF) test. The CVDM and CVMF tests assist researchers and students in selecting among models describing the same process. Selection among estimation methods describing the same process is a crucial methodological step within the social sciences. Other tools in `modeLLtest` include a function to output a vector of cross-validated log-likelihood (CVLL) values and a function to perform the CVDM test on an input of two CVLL vectors. The relevant papers including details can be found below:
 
-* Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers: Choosing between Conditional-Mean and Conditional-Median Methods. State Politics & Policy Quarterly, 11(4), 371-389.
+* Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers: Choosing between Conditional-Mean and Conditional-Median Methods. State Politics & Policy Quarterly, 11(4), 371-389. <https://doi.org/10.1177/1532440011408929>
 
-* Desmarais, B. A., & Harden, J. J. (2012). Comparing partial likelihood and robust estimation methods for the Cox regression model. Political Analysis, 20(1), 113-135.
+* Desmarais, B. A., & Harden, J. J. (2012). Comparing partial likelihood and robust estimation methods for the Cox regression model. Political Analysis, 20(1), 113-135. <https://doi.org/10.1093/pan/mpr042>
 
-* Desmarais, B. A., & Harden, J. J. (2014). An unbiased model comparison test using cross-validation. Quality & Quantity, 48(4), 2155-2173.
+* Desmarais, B. A., & Harden, J. J. (2014). An unbiased model comparison test using cross-validation. Quality & Quantity, 48(4), 2155-2173. <https://doi.org/10.1007/s11135-013-9884-7>
 
 # Installing The Package
 Currently the package can be downloaded with the devtools package in R from GitHub. To do this, install devtools by calling:
