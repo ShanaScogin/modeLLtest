@@ -29,6 +29,8 @@ Once you have installed the package, you can access it by calling:
 library(modeLLtest)
 ```
 
+Some users might experience a gfortran error when compiling the package. If this happens, you can follow the prompts to install a newer version of gfortran from the site https://cran.r-project.org/bin/macosx/tools/ to fix the issue. Please follow the prompts where appropriate and email me at sscogin@nd.edu if you run into any issues.
+
 After the package is loaded, check out the `?modeLLtest` to see a help file. You can also see the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. If you have issues or questions, please email me at sscogin@nd.edu.
 
 # Basic Usage
