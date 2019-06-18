@@ -28,13 +28,13 @@ Once you have installed the package, you can access it by calling:
 ```
 library(modeLLtest)
 ```
-
-Some users might experience a gfortran error when compiling the package. If this happens, you can follow the prompts to install a newer version of gfortran from the site https://cran.r-project.org/bin/macosx/tools/ to fix the issue. Please follow the prompts where appropriate and email me at sscogin@nd.edu if you run into any issues.
-
 After the package is loaded, check out the `?modeLLtest` to see a help file. You can also see the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. If you have issues or questions, please email me at sscogin@nd.edu.
 
+## Note on installation failure:
+Some users might experience Rcpp, RcppArmadillo and MacOS "-lgfortran" and "-lquadmath" errors. To fix these problems, consider installing: gfortran 6.1 from https://gcc.gnu.org/wiki/GFortranBinaries#MacOS clang4 R Binaries from https://github.com/coatless/r-macos-clang. Email me at sscogin@nd.edu if you run into any issues.
+
 # Basic Usage
-This package has four main functions: `cvdm()`, `cvll()`, `cvmf()`, and `cvlldiff()`. The function `cvdm()` deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs of two non-nested models. The function `cvll()` outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. Currently, these functions accommodate linear regression, median regression (from the package `quantreg`), and two methods of robust regression (from the package `MASS`). The`cvlldiff()` function performs the bias-corrected Johnson's t-test on two vectors of cross-validated log-likelihoods. Finally, the `cvmf()` function test between the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) methods of estimation for a given application of the Cox model. 
+This package has four main functions: `cvdm()`, `cvll()`, `cvmf()`, and `cvlldiff()`. The function `cvdm()` deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs of two non-nested models. The function `cvll()` outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. Currently, these functions accommodate linear regression, median regression (from the package `quantreg`), and two methods of robust regression (from the package `MASS`). The`cvlldiff()` function performs the bias-corrected Johnson's t-test on two vectors of cross-validated log-likelihoods. Finally, the `cvmf()` function test between the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) methods of estimation for a given application of the Cox model.
 
 After loading the package, you can find the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. For the output, type `?cvdm_object`, `?cvll_object`, `?cvlldiff_object`, or `?cvmf_object` to view the documentation. If you encounter a bug or have comments or questions, please email me at sscogin@nd.edu.
 
