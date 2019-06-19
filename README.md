@@ -30,7 +30,7 @@ library(modeLLtest)
 ```
 After the package is loaded, check out the `?modeLLtest` to see a help file. You can also see the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. If you have issues or questions, please email me at sscogin@nd.edu.
 
-## Note on installation failure:
+## Note on installation failure
 Some users might experience gfortran errors due to Rcpp, RcppArmadillo and MacOS. To fix this problem, consider installing gfortran 6.1 from  https://cran.r-project.org/bin/macosx/tools/. (Also check out [Yiqing Xu and Licheng Liu's note on in the gsynth package](https://github.com/xuyiqing/gsynth) for some helpful links.)
 
 # Basic Usage
