@@ -15,7 +15,7 @@ authors:
   orcid: 0000-0002-3031-8883
 date: "June 18, 2019"
 output: pdf_document
-bibliography: cvll.bib
+bibliography: ref.bib
 tags:
 - model comparison
 - model selection
@@ -44,7 +44,7 @@ When models are parametric and non-nested, the null hypothesis that two models f
 
 ####  Cox proportional hazards model
 
-The Cox model is a partial parametric model that does not make assumptions about the baseline hazard. The conventional partial likelihood maximization (PLM) and iteratively reweighted robust (IRR) estimation methods represent two alternatives for parameter estimation. Either could be optimal be optimal based on characteristics of the data. Plausible deviations from correct specification and operationalization, which can be caused by issues such as measurement error or omitted variables, can produce substantial bias when the Cox model is estimated by PLM. However, using the IRR estimator in the absence of these problems can result in a loss of efficiency. For this reason, Desmarais and Harden [-@desmarais_comparing_2012] developed a novel cross-validated median fit (CVMF) test for selecting between the two estimators.  The R package ``modeLLtest`` provides implementation of this test with original contributions which include options to specify methods other than Efron approximation (ex. Breslow approx.), specify the truncation or trimming level for the robust estimator, adjust fitting weights, and run the test on only a subset of data. 
+The Cox model is a partial parametric model that does not make assumptions about the baseline hazard. The conventional partial likelihood maximization (PLM) and iteratively reweighted robust (IRR) estimation methods represent two alternatives for parameter estimation. Either could be optimal based on characteristics of the data. Plausible deviations from correct specification and operationalization, which can be caused by issues such as measurement error or omitted variables, can produce substantial bias when the Cox model is estimated by PLM. However, using the IRR estimator in the absence of these problems can result in a loss of efficiency. For this reason, Desmarais and Harden [-@desmarais_comparing_2012] developed a novel cross-validated median fit (CVMF) test for selecting between the two estimators.  The R package ``modeLLtest`` provides implementation of this test with original contributions which include options to specify methods other than Efron approximation (e.g., Breslow approximation), specify the truncation or trimming level for the robust estimator, adjust fitting weights, and run the test on only a subset of data. 
 
 #### General tools
 
