@@ -7,7 +7,7 @@ Author: Shana Scogin <shanarscogin@gmail.com>, Sarah Petersen <sarahllpetersen@g
 Maintainer: Shana Scogin <shanarscogin@gmail.com>
 Description: An R Package which implements model comparison tests using cross-validated log-likelihood (CVLL) values.
 URL: https://github.com/ShanaScogin/modeLLtest
-License: GPL-3
+License: GPL-3 + file LICENSE
 NeedsCompilation: yes
 Imports:
     stats,

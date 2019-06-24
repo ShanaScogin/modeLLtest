@@ -10,7 +10,6 @@
 #'left of a ~ operator, and the independent variables on the right.
 #'@param data A data frame, list or environment (or object coercible by
 #'as.data.frame to a data frame) containing the variables in the model.
-#'@param model The name of a statistical model to estimate.
 #'@param method The name of a method to estimate the model. Currently takes
 #'Ordinary Least Squares ("OLS"), Median Regression ("MR"), Robust Linear
 #'Regression ("RLM") using M-estimation, Robust Linear Regression using
@@ -27,6 +26,7 @@
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
+#'@param ... Optional arguments, currently unsupported.
 #'@return An object of class \code{cvll} computed by the cross-validated log likelihood
 #'(CVLL). See \code{cvdm_object} for more details.
 #' @export

@@ -11,7 +11,7 @@ from the codebook at
  \item{countryname}{names of countries used in analysis}
  \item{country}{unique number identifying each country}
  \item{cabinet}{unique number identifying each country.
- Begins with country code, followed by cabinets 1 - \emph{n}}
+ Begins with country code, followed by cabinets 1 - n}
  \item{bargainingdays}{the number of days between either an election
  or the resignation of the previous government and the day on
  which the new government is officially inaugurated}
@@ -23,8 +23,7 @@ from the codebook at
  \item{nonpartisan}{dichotomous variable that equals 1 if the government
  is nonpartisan and 0 otherwise}
  \item{legislative_parties}{a fraction representing the number of parties that
- have wone legislative seats. See the \href{https://doi.org/10.7910/DVN/BUWZBA}{code book}
- for more details}
+ have wone legislative seats. See codebook for more detail}
  \item{inconclusive}{the number of inconclusive bargaining rounds prior to
  a new government successfully forming}
  \item{cabinetname}{cabinet name identified by surname
@@ -33,18 +32,13 @@ from the codebook at
  \item{singleparty_majority}{dichotomous variable that equals 1 if a single
  party controls a majority of the legislative seats, 0 otherwise}
  \item{polarization}{measures the level of ideological polarization in the party
- system. See the \href{https://doi.org/10.7910/DVN/BUWZBA}{code book} for more details}
+ system. See codebook for more detail}
  \item{continuation}{dichotomous variable that equals 1 if the outgoing
  government or formateur gets the first opportunity to form a new
- government, 0 otherwise. Data for this variable come from DvR (1998).
- Of the four countries in (this) dataset that are not in DvR
- (Greece, Portugal, Spain, and the United Kingdom), only the UK has this
- feature (Bogdanor 1995, The Monarchy and the Consitution, New York: Oxford
- University Press: 147-150).}
+ government, 0 otherwise. See codebook for more detail}
  \item{positive_parl}{dichotomous variable that equals 1 if a new government
  requires the explicit support of a legislative majority in order to take
- office, 0 otherwise (Bergman 1995, PhD Thesis, Dept of Pol Sci, Umea
- University, Sweden)}
+ office, 0 otherwise. See codebook for more detail}
  \item{post_legislative_parties}{interaction term made by multiplying the postelection
  variable with the legislative_parties variable}
  \item{post_polariz}{interaction term made by multiplying the postelection
@@ -60,7 +54,11 @@ data(govtform)
 }
 \description{
 Data from a study on Western European government formation
-duration. Data is at the country-level (N = 409).
+duration. Data is at the country-level (N = 409). Variable names are
+taken directly from original dataset. The data is publicly available
+and has been included here with the endorsement of the author. Please
+see the original codebook for a more detailed description of the
+variables.
 }
 \examples{
 data(govtform)

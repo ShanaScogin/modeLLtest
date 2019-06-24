@@ -35,6 +35,8 @@ used in the fit. All observations are included by default.}
 
 \item{na.action}{A missing-data filter function, applied to the model.frame,
 after any subset argument has been used.}
+
+\item{...}{Optional arguments, currently unsupported.}
 }
 \value{
 An object of class \code{cvdm} computed by the cross-validated log likelihood

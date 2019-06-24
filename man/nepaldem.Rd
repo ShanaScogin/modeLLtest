@@ -6,6 +6,7 @@
 \title{Data from Joshi and Mason (2008) on voter turnout in Nepal}
 \format{A data frame with 76 rows and 73 variables:
 \describe{
+ \item{sn}{a column of identifiers. This column is not a variable}
  \item{district}{names of the district in Nepal used in analysis}
  \item{householdsize}{average size of household in district}
  \item{total_holding}{total land holding}
@@ -125,7 +126,9 @@ data(nepaldem)
 Data from a study on the relationship bewteen land tenure and
 voter turnout in the three rounds of parliamentary elections
 in Nepal from the restoration of democracy in 1990 to 1999.
-Data is at the district-level (N = 75).
+Data is at the district-level (N = 75). Variable names are
+taken directly from original dataset. The data is publicly available
+and has been included here with the endorsement of the authors.
 }
 \examples{
 data(nepaldem)

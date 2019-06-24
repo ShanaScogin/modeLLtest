@@ -16,7 +16,7 @@ NULL
 
 #' @importFrom stats binom.test coef dnorm lm model.extract
 #' model.frame model.matrix model.response pchisq pnorm pt
-#' residuals sd lm.wfit
+#' residuals sd lm.wfit contr.helmert mad median
 NULL
 
 #' @importFrom quantreg rq.fit

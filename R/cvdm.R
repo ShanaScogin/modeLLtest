@@ -44,6 +44,7 @@
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
+#'@param ... Optional arguments, currently unsupported.
 #'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
 #'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
 #'A positive test statistic supports the first method and a negative test statistic supports
