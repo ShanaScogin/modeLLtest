@@ -1,11 +1,11 @@
 Package: modeLLtest
 Type: Package
-Title: Compare models with Cross Validated Log Likelihood (CVLL)
+Title: Compare Models with Cross-Validated Log-Likelihood
 Version: 1.0.0
-Date: 2018-05-20
+Date: 2018-06-25
 Author: Shana Scogin <shanarscogin@gmail.com>, Sarah Petersen <sarahllpetersen@gmail.com>, Jeff Harden <jeff.harden@nd.edu>, Bruce A. Desmarais <bdesmarais@psu.edu>
 Maintainer: Shana Scogin <shanarscogin@gmail.com>
-Description: An R Package which implements model comparison tests using cross-validated log-likelihood (CVLL) values.
+Description: This package includes functions for the cross-validated difference in means (CVDM) test by Desmarais and Harden (2014) <doi:10.1007/s11135-013-9884-7> (see also Harden and Desmarais 2011 <doi:10.1177/1532440011408929>) and the cross-validated median fit (CVMF) test by Desmarais and Harden (2012) <doi:10.1093/pan/mpr042>. These tests assist in selecting among model estimations.
 URL: https://github.com/ShanaScogin/modeLLtest
 License: GPL-3 + file LICENSE
 NeedsCompilation: yes
@@ -16,8 +16,7 @@ Imports:
     coxrobust,
     methods,
     MASS,
-    Rcpp,
-    RcppArmadillo
+    Rcpp
 Encoding: UTF-8
 LazyData: TRUE
 LazyLoad: TRUE
