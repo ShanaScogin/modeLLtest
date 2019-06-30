@@ -28,7 +28,7 @@ NULL
 #' @importFrom coxrobust coxr
 NULL
 
-#' @importFrom MASS lqs
+#' @importFrom MASS lqs rlm
 NULL
 
 #' @useDynLib modeLLtest

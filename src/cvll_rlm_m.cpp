@@ -11,14 +11,12 @@ arma::colvec vecrobustm(Rcpp::List a) {
   return a1;
 }
 
-// function to use rlm_m function in R code
-// original code from MASS package
-// R function has been added this to this package due to trouble pulling from MASS
-// future developments should look into putting this into rcpp
+// function to use rlm from MASS
+// future developments will put this into rcpp to decrease runtime
 Rcpp::List robustm(arma::dmat &x, arma::vec &y) {
-  Rcpp::Environment pkg = Rcpp::Environment::namespace_env("modeLLtest");
-  Rcpp::Function f = pkg["rlm_m"];
-  return f(x, y);
+  Rcpp::Environment pkg = Rcpp::Environment::namespace_env("MASS");
+  Rcpp::Function f = pkg["rlm"];
+  return f(x, y, Rcpp::Named("maxit") = 100); // default is 20 in MASS::rlm
 }
 
 // function to use gamma() function from base R
