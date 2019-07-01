@@ -29,7 +29,6 @@
 #'@param ... Optional arguments, currently unsupported.
 #'@return An object of class \code{cvll} computed by the cross-validated log likelihood
 #'(CVLL). See \code{cvdm_object} for more details.
-#' @export
 #'@examples
 #' \dontrun{
 #'   set.seed(123456)
