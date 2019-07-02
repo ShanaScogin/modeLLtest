@@ -84,7 +84,7 @@ object to identify the prefered estimation method.
 See also \code{\link{coxph}}, \code{\link{coxr}}, \code{\link{Surv}}
 }
 \examples{
-\dontrun{
+\donttest{
   set.seed(12345)
   x1 <- rnorm(100)
   x2 <- rnorm(100)

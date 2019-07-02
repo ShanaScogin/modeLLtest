@@ -60,7 +60,7 @@
 #'(CVMF) to test between the PLM and IRR methods of estimating the Cox model.
 #'See \code{cvmf_object} for more details.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   set.seed(12345)
 #'   x1 <- rnorm(100)
 #'   x2 <- rnorm(100)

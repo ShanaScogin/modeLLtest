@@ -50,7 +50,7 @@
 #'A positive test statistic supports the first method and a negative test statistic supports
 #'the second. See \code{cvdm_object} for more details.
 #'@examples
-#' \dontrun{
+#' \donttest{
 #'   set.seed(123456)
 #'   b0 <- .2 # True value for the intercept
 #'   b1 <- .5 # True value for the slope
