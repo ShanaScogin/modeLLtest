@@ -11,7 +11,13 @@ An R Package which implements model comparison tests using cross-validated log-l
 * Desmarais, B. A., & Harden, J. J. (2014). An unbiased model comparison test using cross-validation. Quality & Quantity, 48(4), 2155-2173. <https://doi.org/10.1007/s11135-013-9884-7>
 
 # Installing The Package
-Currently the package can be downloaded with the devtools package in R from GitHub. To do this, install devtools by calling:
+The easiest way to install `modeLLtest` is to use `install.packages()` and download it from CRAN.
+
+```
+install.packages("modeLLtest")
+```
+
+Installing from CRAN should avoid any compilation issues that can arise and is the quickest option. However, the newest version of the package can also be downloaded with the `devtools` package in R from GitHub. To do this, install devtools by calling:
 
 ```
 install.packages("devtools")
@@ -23,7 +29,7 @@ Now we can install from GitHub with the following line:
 devtools::install_github("ShanaScogin/modeLLtest")
 ```
 
-Once you have installed the package, you can access it by calling:
+Once you have installed the package from either CRAN or GitHub, you can access it by calling:
 
 ```
 library(modeLLtest)
