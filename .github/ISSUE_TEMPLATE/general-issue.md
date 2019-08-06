@@ -1,6 +1,6 @@
 ---
 name: General issue
-about: Describe this issue template's purpose here.
+about: Let us know what other issue you have
 title: ''
 labels: ''
 assignees: ''
