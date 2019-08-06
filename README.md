@@ -180,4 +180,4 @@ govtform_plm
 Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions - especially `cvmf()` - to improve speed.
 
 # Contact
-Please contact sscogin@nd.edu if you encounter any bugs or have questions or comments. 
+Please submit an issue if you encounter any bugs (Issues -> Bug report), have a feature request (Issues -> Feature request), or have other comments or requests (Issues -> General issue). If you have substantive questions about the model tests, visit the literature referenced above or email sscogin@nd.edu.

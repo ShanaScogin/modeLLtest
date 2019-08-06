@@ -9,6 +9,7 @@ Description: An implementation of the cross-validated difference in means (CVDM)
 URL: https://github.com/ShanaScogin/modeLLtest
 License: GPL-3
 NeedsCompilation: yes
+BugReports: https://github.com/ShanaScogin/BayesPostEst/issues
 Imports:
     stats,
     quantreg,
