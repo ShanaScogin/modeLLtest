@@ -58,7 +58,7 @@
 #'used in the fit. All observations are included by default.
 #'@return An object of class \code{cvmf} computed by the cross-validated median fit test
 #'(CVMF) to test between the PLM and IRR methods of estimating the Cox model.
-#'See \code{cvmf_object} for more details.
+#'See \code{\link{cvmf_object}} for more details.
 #' @examples
 #' \donttest{
 #'   set.seed(12345)

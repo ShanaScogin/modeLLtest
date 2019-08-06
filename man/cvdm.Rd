@@ -42,7 +42,7 @@ after any subset argument has been used.}
 An object of class \code{cvdm} computed by the cross-validated log likelihood
 difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
 A positive test statistic supports the first method and a negative test statistic supports
-the second. See \code{cvdm_object} for more details.
+the second. See \code{\link{cvdm_object}} for more details.
 }
 \description{
 Applies cross-validated log-likelihood difference in means test to
@@ -51,14 +51,20 @@ appropriate model.
 
 In choosing between OLS and MR, please cite:
 
-Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
+\itemize{
+\item Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
 Choosing between Conditional-Mean and Conditional-Median Methods.
 State Politics & Policy Quarterly, 11(4), 371-389.
+\href{https://doi.org/10.1177/1532440011408929}{https://doi.org/10.1177/1532440011408929}
+}
 
 For other applications of the CVDM test, please cite:
 
-Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
+\itemize{
+\item Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
+\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+}
 }
 \details{
 This function implements the cross-validated difference in means (CVDM)
@@ -81,5 +87,17 @@ are skipped.
   Y <- b0 + b1 * X + rnorm(n, 0, 1) # N(0, 1 error)
 
   obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
+}
+}
+\references{
+\itemize{
+\item Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
+Choosing between Conditional-Mean and Conditional-Median Methods.
+State Politics & Policy Quarterly, 11(4), 371-389.
+\href{https://doi.org/10.1177/1532440011408929}{https://doi.org/10.1177/1532440011408929}
+
+\item Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
+Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
+\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
 }
 }

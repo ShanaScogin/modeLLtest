@@ -37,7 +37,7 @@ after any subset argument has been used.}
 }
 \value{
 An object of class \code{cvll} computed by the cross-validated log likelihood
-(CVLL). See \code{cvdm_object} for more details.
+(CVLL). See \code{\link{cvdm_object}} for more details.
 }
 \description{
 Extracts the leave-one-out cross-validated log-likelihoods

@@ -4,7 +4,7 @@
 \title{Cross-Validated Median Fit (CVMF) Object}
 
 \description{
-This class of objects is returned by \code{cvmf} function to test between the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) method of estimation for a given application of the Cox model.
+This class of objects is returned by the \code{\link{cvmf}} function to test between the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) method of estimation for a given application of the Cox model.
 }
 
 \value{

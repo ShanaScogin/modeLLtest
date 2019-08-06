@@ -28,7 +28,7 @@
 #'after any subset argument has been used.
 #'@param ... Optional arguments, currently unsupported.
 #'@return An object of class \code{cvll} computed by the cross-validated log likelihood
-#'(CVLL). See \code{cvdm_object} for more details.
+#'(CVLL). See \code{\link{cvdm_object}} for more details.
 #'@examples
 #' \donttest{
 #'   set.seed(123456)

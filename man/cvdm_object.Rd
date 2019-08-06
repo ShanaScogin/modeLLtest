@@ -4,7 +4,7 @@
 \title{Cross-Validated Difference in Means (CVDM) Object}
 
 \description{
-This class of objects is returned by \code{cvdm} function to compare two methods of estimating a formula.
+This class of objects is returned by the \code{\link{cvdm}} function to compare two methods of estimating a formula.
 }
 
 \value{

@@ -14,14 +14,20 @@
 #'
 #'In choosing between OLS and MR, please cite:
 #'
-#'Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
+#'\itemize{
+#'\item Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
 #'Choosing between Conditional-Mean and Conditional-Median Methods.
 #'State Politics & Policy Quarterly, 11(4), 371-389.
+#'\href{https://doi.org/10.1177/1532440011408929}{https://doi.org/10.1177/1532440011408929}
+#'}
 #'
 #'For other applications of the CVDM test, please cite:
 #'
-#'Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
+#'\itemize{
+#'\item Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
+#'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+#'}
 #'@param formula A formula object, with the dependent variable on the
 #'left of a ~ operator, and the independent variables on the right.
 #'@param data A data frame, list or environment (or object coercible by
@@ -45,10 +51,20 @@
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
 #'@param ... Optional arguments, currently unsupported.
+#'@references \itemize{
+#'\item Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
+#'Choosing between Conditional-Mean and Conditional-Median Methods.
+#'State Politics & Policy Quarterly, 11(4), 371-389.
+#'\href{https://doi.org/10.1177/1532440011408929}{https://doi.org/10.1177/1532440011408929}
+#'
+#'\item Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
+#'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
+#'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+#'}
 #'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
 #'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
 #'A positive test statistic supports the first method and a negative test statistic supports
-#'the second. See \code{cvdm_object} for more details.
+#'the second. See \code{\link{cvdm_object}} for more details.
 #'@examples
 #' \donttest{
 #'   set.seed(123456)

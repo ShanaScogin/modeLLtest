@@ -4,7 +4,7 @@
 \title{Cross-Validated Difference in Means (CVDM) Object from General \code{cvlldiff} Function}
 
 \description{
-This class of objects is returned by \code{cvlldiff} function to compare vectors of cross-validated log-likelihood values.
+This class of objects is returned by the \code{\link{cvlldiff}} function to compare vectors of cross-validated log-likelihood values.
 }
 
 \value{

@@ -4,7 +4,7 @@
 \title{Cross-Validated Log-Likelihood (CVLL) Object}
 
 \description{
-This class of objects is returned by \code{cvll} function.
+This class of objects is returned by the \code{\link{cvll}} function.
 }
 
 \value{
