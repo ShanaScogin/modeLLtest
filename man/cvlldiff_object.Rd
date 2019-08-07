@@ -1,7 +1,7 @@
 \name{cvlldiff_object}
 \alias{cvlldiff_object}
 
-\title{Cross-Validated Difference in Means (CVDM) Object from General \code{cvlldiff} Function}
+\title{Cross-Validated Difference in Means (CVDM) Object from General \code{\link{cvlldiff}} Function}
 
 \description{
 This class of objects is returned by the \code{\link{cvlldiff}} function to compare vectors of cross-validated log-likelihood values.
@@ -20,7 +20,7 @@ The following components must be included in a legitimate \code{cvlldiff} object
 }
 
 \seealso{
-\code{cvlldiff}
+\code{\link{cvlldiff}}
 }
 
 \keyword{cvlldiff}

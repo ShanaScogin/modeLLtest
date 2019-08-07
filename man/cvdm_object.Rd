@@ -21,12 +21,12 @@ The following components must be included in a legitimate \code{cvdm} object.
 
 \item{df}{degrees of freedom.}
 
-The object also contain the following: \code{call}, \code{x}, and \code{y}. See \code{lm} documentation for more.
+The object also contain the following: \code{call}, \code{x}, and \code{y}. See \code{\link{lm}} documentation for more.
 
 }
 
 \seealso{
-\code{cvdm}
+\code{\link{cvdm}}
 }
 
 \keyword{cvdm}

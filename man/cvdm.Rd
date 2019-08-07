@@ -19,13 +19,14 @@ Ordinary Least Squares ("OLS"), Median Regression ("MR"), Robust Linear
 Regression ("RLM") using M-estimation, and Robust Linear Regression using
 MM-estimation ("RLM-MM"). The algorithm method used to compute the fit for the
 median regression is the modified version of the Barrodale and Roberts algorithm
-for l1-regression, which is the \code{qr} default by R package quantreg. See quantreg
-\code{qr} function documentation for more details. Fitting for the robust regressions
-is done by iterated re-weighted least squares (IWLS) and is taken from the
-MASS package \code{rlm} function. The MM-estimation is the M-estimation with Tukey's
-biweight initialized by a specific S-estimate. The M-estimation, which can be achieved
-in this package with the option "RLM", is the default for the MASS \code{rlm} function.
-See MASS package \code{rlm} documentation for details.}
+for l1-regression, which is the \code{\link[quantreg]{rq}} default by R package quantreg.
+See quantreg \code{\link[quantreg]{rq}} function documentation for more details.
+Fitting for the robust regressions is done by iterated re-weighted least squares
+(IWLS) and is taken from the MASS package \code{\link[MASS]{rlm}} function.
+The MM-estimation is the M-estimation with Tukey's biweight initialized by a specific
+S-estimate. The M-estimation, which can be achieved in this package with the
+option "RLM", is the default for the MASS \code{\link[MASS]{rlm}}
+function. See MASS package \code{\link[MASS]{rlm}} documentation for details.}
 
 \item{method2}{A method to estimate the model. Options
 are same as for method1.}

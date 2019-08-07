@@ -10,18 +10,19 @@
 #'left of a ~ operator, and the independent variables on the right.
 #'@param data A data frame, list or environment (or object coercible by
 #'as.data.frame to a data frame) containing the variables in the model.
-#'@param method The name of a method to estimate the model. Currently takes
+#'@param method A method to estimate the model. Currently takes
 #'Ordinary Least Squares ("OLS"), Median Regression ("MR"), Robust Linear
-#'Regression ("RLM") using M-estimation, Robust Linear Regression using
-#'MM-estimation ("RLM-MM"), partial likelihood maximization (PLM), and the
-#'iteratively reweighted robust (IRR) method of estimation. The algorithm method
-#'used to compute the fit for the median regression is the modified version of
-#'the Barrodale and Roberts algorithm for l1-regression, which is the default
-#'by R package quantreg. See quantreg qr function documentation for more deatils.
+#'Regression ("RLM") using M-estimation, and Robust Linear Regression using
+#'MM-estimation ("RLM-MM"). The algorithm method used to compute the fit for the
+#'median regression is the modified version of the Barrodale and Roberts algorithm
+#'for l1-regression, which is the \code{\link[quantreg]{rq}} default by R package quantreg.
+#'See quantreg \code{\link[quantreg]{rq}} function documentation for more details.
 #'Fitting for the robust regressions is done by iterated re-weighted least squares
-#'(IWLS) and is taken from the MASS package rlm function. The MM-estimation is
-#'the M-estimation with Tukey's biweight initialized by a specific S-estimate.
-#'See MASS package rlm documentation for details.
+#'(IWLS) and is taken from the MASS package \code{\link[MASS]{rlm}} function.
+#'The MM-estimation is the M-estimation with Tukey's biweight initialized by a specific
+#'S-estimate. The M-estimation, which can be achieved in this package with the
+#'option "RLM", is the default for the MASS \code{\link[MASS]{rlm}}
+#'function. See MASS package \code{\link[MASS]{rlm}} documentation for details.
 #'@param subset Expression indicating which subset of the rows of data should be
 #'used in the fit. All observations are included by default.
 #'@param na.action A missing-data filter function, applied to the model.frame,
@@ -29,6 +30,16 @@
 #'@param ... Optional arguments, currently unsupported.
 #'@return An object of class \code{cvll} computed by the cross-validated log likelihood
 #'(CVLL). See \code{\link{cvdm_object}} for more details.
+#'@references \itemize{
+#'\item Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
+#'Choosing between Conditional-Mean and Conditional-Median Methods.
+#'State Politics & Policy Quarterly, 11(4), 371-389.
+#'\href{https://doi.org/10.1177/1532440011408929}{https://doi.org/10.1177/1532440011408929}
+#'
+#'\item Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
+#'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
+#'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+#'}
 #'@examples
 #' \donttest{
 #'   set.seed(123456)

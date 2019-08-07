@@ -37,13 +37,14 @@
 #'Regression ("RLM") using M-estimation, and Robust Linear Regression using
 #'MM-estimation ("RLM-MM"). The algorithm method used to compute the fit for the
 #'median regression is the modified version of the Barrodale and Roberts algorithm
-#'for l1-regression, which is the \code{qr} default by R package quantreg. See quantreg
-#'\code{qr} function documentation for more details. Fitting for the robust regressions
-#'is done by iterated re-weighted least squares (IWLS) and is taken from the
-#'MASS package \code{rlm} function. The MM-estimation is the M-estimation with Tukey's
-#'biweight initialized by a specific S-estimate. The M-estimation, which can be achieved
-#'in this package with the option "RLM", is the default for the MASS \code{rlm} function.
-#'See MASS package \code{rlm} documentation for details.
+#'for l1-regression, which is the \code{\link[quantreg]{rq}} default by R package quantreg.
+#'See quantreg \code{\link[quantreg]{rq}} function documentation for more details.
+#'Fitting for the robust regressions is done by iterated re-weighted least squares
+#'(IWLS) and is taken from the MASS package \code{\link[MASS]{rlm}} function.
+#'The MM-estimation is the M-estimation with Tukey's biweight initialized by a specific
+#'S-estimate. The M-estimation, which can be achieved in this package with the
+#'option "RLM", is the default for the MASS \code{\link[MASS]{rlm}}
+#'function. See MASS package \code{\link[MASS]{rlm}} documentation for details.
 #'@param method2 A method to estimate the model. Options
 #'are same as for method1.
 #'@param subset Expression indicating which subset of the rows of data should be
@@ -51,6 +52,10 @@
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
 #'@param ... Optional arguments, currently unsupported.
+#'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
+#'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
+#'A positive test statistic supports the first method and a negative test statistic supports
+#'the second. See \code{\link{cvdm_object}} for more details.
 #'@references \itemize{
 #'\item Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
 #'Choosing between Conditional-Mean and Conditional-Median Methods.
@@ -61,10 +66,6 @@
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
 #'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
 #'}
-#'@return An object of class \code{cvdm} computed by the cross-validated log likelihood
-#'difference in means test (CVDM). The object is the Cross-Validated Johnson's t-test.
-#'A positive test statistic supports the first method and a negative test statistic supports
-#'the second. See \code{\link{cvdm_object}} for more details.
 #'@examples
 #' \donttest{
 #'   set.seed(123456)

@@ -11,7 +11,8 @@
 #'variance due to the loss of efficiency. The cvmf() function returns an
 #'object to identify the prefered estimation method.
 #'
-#'See also \code{\link{coxph}}, \code{\link{coxr}}, \code{\link{Surv}}
+#'See also \code{\link[survival]{coxph}}, \code{\link[coxrobust]{coxr}},
+#'\code{\link[survival]{Surv}}
 #'
 #'@title Cross-Validated Median Fit (CVMF) Test
 #'@description Applies cross-validated log-likelihood to test between
@@ -20,34 +21,36 @@
 #'For more, see: Desmarais, B. A., & Harden, J. J. (2012). Comparing partial
 #'likelihood and robust estimation methods for the Cox regression model.
 #'Political Analysis, 20(1), 113-135.
+#'\href{https://doi.org/10.1093/pan/mpr042}{https://doi.org/10.1093/pan/mpr042}
 #'@param formula A formula object, with the response on the left of a ~
 #'operator, and the terms on the right. The response must be a survival
-#'object as returned by the Surv() function from the survival package.
+#'object as returned by the \code{\link[survival]{Surv}} function from the survival package.
 #'@param data A data frame, list or environment (or object coercible by
 #'as.data.frame to a data frame) containing the variables in the model
 #'or in the subset and the weights argument.
 #'@param method A character string specifying the method for tie handling in coxph().
 #'If there are no tied death times all the methods are equivalent.
-#'Following the coxph() function in the survival package, the Efron
+#'Following the \code{\link[survival]{coxph}} function in the survival package, the Efron
 #'approximation is used as the default. The survival package justifies this
 #'due to the Efron method being is more accurate when dealing with tied death
 #'times, and is as efficient computationally than the common Breslow method.
 #'The "exact partial likelihood" is equivalent to a 'conditional logistic model,
 #'and is appropriate when the times are a small set of discrete values.
-#'This argument does not exist in the coxr() function in the coxrobust package.
-#'For coxr(), method is based on a smooth modification of the partial likelihood.
-#'See documentation from survival package for more on coxph() method and
-#'coxrobust package for coxr() method.
+#'This argument does not exist in the \code{\link[coxrobust]{coxr}} function in the
+#'coxrobust package. For \code{\link[coxrobust]{coxr}}, method is based on a smooth
+#'modification of the partial likelihood. See documentation from survival package
+#'for more on \code{\link[survival]{coxph}} method and coxrobust package for
+#'\code{\link[coxrobust]{coxr}} method.
 #'@param trunc A value that determines the trimming level for the robust
 #'estimator. The default is 0.95. Roughtly, quantile of the sample
-#'\eqn{T_i exp(\beta'Z_i)}. It is an argument in the coxr() function
+#'\eqn{T_i exp(\beta'Z_i)}. It is an argument in the \code{\link[coxrobust]{coxr}} function
 #'in the coxrobust package.
 #'@param na.action A missing-data filter function, applied to the model.frame,
 #'after any subset argument has been used.
-#'@param f.weight A type of weighting function for coxr() in the coxrobust package.
-#'The default is \code{quadratic}. See coxr() documentation for more.
-#'@param weights A vector of case weights for coxph() in the survival package.
-#'See coxph() documentation for more.
+#'@param f.weight A type of weighting function for \code{\link[coxrobust]{coxr}} in the coxrobust package.
+#'The default is \code{quadratic}. See \code{\link[coxrobust]{coxr}} documentation for more.
+#'@param weights A vector of case weights for \code{\link[survival]{coxph}} in the survival package.
+#'See \code{\link[survival]{coxph}} documentation for more.
 #'@param singular.ok Logical value indicating how to handle collinearity in the
 #'model matrix. If \code{TRUE}, the program will automatically skip over columns
 #'of the X matrix that are linear combinations of earlier columns. In this case
@@ -59,6 +62,11 @@
 #'@return An object of class \code{cvmf} computed by the cross-validated median fit test
 #'(CVMF) to test between the PLM and IRR methods of estimating the Cox model.
 #'See \code{\link{cvmf_object}} for more details.
+#'@references
+#'Desmarais, B. A., & Harden, J. J. (2012). Comparing partial
+#'likelihood and robust estimation methods for the Cox regression model.
+#'Political Analysis, 20(1), 113-135.
+#'\href{https://doi.org/10.1093/pan/mpr042}{https://doi.org/10.1093/pan/mpr042}
 #' @examples
 #' \donttest{
 #'   set.seed(12345)
