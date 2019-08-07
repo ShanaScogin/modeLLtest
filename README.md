@@ -86,7 +86,7 @@ obj_cvlldiff <- cvlldiff(obj_cvll_ols$cvll, obj_cvll_mr$cvll,
 obj_cvlldiff
 ```
 
-Finally, let's look at the `cvmf()` function. This function compares the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) methods of estimation for a given application of the Cox model.
+Finally, let's look at the `cvmf()` function. This function compares the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) methods of estimation for a given application of the Cox model. Note: This function currently runs slowly (approximately 3 seconds for one run). Future developments look to optimize this function.  
 
 ```
 library(modeLLtest)
