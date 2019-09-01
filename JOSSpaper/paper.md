@@ -52,7 +52,7 @@ In addition to providing the above tests, ``modeLLtest`` also contains tools for
 
 ## Functionality and use
 
-The R package ``modeLLtest`` is designed to be used by both researchers and students looking to compare models or create LOOCV log-likelihood estimates for a given model. The ease and speed of implementing selected tests are significantly improved through the use of C++ to obtain LOOCV log-likelihood estimates. The source code is on [GitHub](https://github.com/ShanaScogin/modeLLtest). The documentation can be found on [GitHub Pages](https://github.com/ShanaScogin/modeLLtest/blob/master/README.md). Functions can be tested using data from real-world analyses from Joshi and Mason [-@joshi_mason_2008] and Golder [-@golder_2010].
+The R package ``modeLLtest`` is designed to be used by both researchers and students looking to compare models or create LOOCV log-likelihood estimates for a given model. The ease and speed of implementing selected tests are significantly improved through the use of C++ to obtain LOOCV log-likelihood estimates. Functions can be tested using data from real-world analyses from Joshi and Mason [-@joshi_mason_2008] and Golder [-@golder_2010].
 
 ## Future work
 
