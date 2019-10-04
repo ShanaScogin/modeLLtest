@@ -1,7 +1,7 @@
 Package: modeLLtest
 Type: Package
 Title: Compare Models with Cross-Validated Log-Likelihood
-Version: 1.0.1
+Version: 1.0.2.9000
 Date: 2019-06-25
 Author: Shana Scogin <shanarscogin@gmail.com>, Sarah Petersen <sarahllpetersen@gmail.com>, Jeff Harden <jeff.harden@nd.edu>, Bruce A. Desmarais <bdesmarais@psu.edu>
 Maintainer: Shana Scogin <shanarscogin@gmail.com>
