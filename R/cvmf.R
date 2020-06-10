@@ -68,7 +68,6 @@
 #'Political Analysis, 20(1), 113-135.
 #'\href{https://doi.org/10.1093/pan/mpr042}{https://doi.org/10.1093/pan/mpr042}
 #' @examples
-#' \dontshow{.old_wd <- setwd(tempdir())}
 #' \donttest{
 #'   set.seed(12345)
 #'   x1 <- rnorm(100)
@@ -84,7 +83,6 @@
 #'
 #'   results <- cvmf(formula = form, data = dat)
 #'   }
-#' \dontshow{setwd(.old_wd)}
 #'@export
 
 cvmf <- function(formula, data,
