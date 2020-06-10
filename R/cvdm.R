@@ -67,6 +67,7 @@
 #'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
 #'}
 #'@examples
+#' \dontshow{.old_wd <- setwd(tempdir())}
 #' \donttest{
 #'   set.seed(123456)
 #'   b0 <- .2 # True value for the intercept
@@ -78,6 +79,7 @@
 #'
 #'   obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
 #' }
+#' \dontshow{setwd(.old_wd)}
 #'@export
 
 cvdm <- function(formula,
