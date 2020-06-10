@@ -118,6 +118,7 @@ library(MASS)
 library(modeLLtest)
 
 data(nepaldem)
+nepaldem <- nepaldem
 
 obj_cvdm_jm <- cvdm(percent_regvote1999 ~ landless_gap +
    below1pa_gap + sharecrop_gap + service_gap + fixmoney_gap +
@@ -144,6 +145,7 @@ library(coxrobust)
 library(modeLLtest)
 
 data(govtform)
+govtform <- govtform
 
 golder_surv <- Surv(govtform$bargainingdays)
 
