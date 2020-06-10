@@ -25,6 +25,7 @@
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
 #'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
 #'@examples
+#' \dontshow{.old_wd <- setwd(tempdir())}
 #' \donttest{
 #'   set.seed(123456)
 #'   b0 <- .2 # True value for the intercept
@@ -37,6 +38,7 @@
 #'   cvll_mr <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "MR")
 #'   obj_compare <- cvlldiff(cvll_ols$cvll, cvll_mr$cvll, cvll_ols$df)
 #' }
+#' \dontshow{setwd(.old_wd)}
 #'@export
 
 cvlldiff <- function(vector1,

@@ -2,7 +2,6 @@
 
 language: R
 warnings_are_errors: FALSE
-sudo: FALSE
 cache: packages
 
 os:
