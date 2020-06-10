@@ -180,4 +180,4 @@ govtform_plm
 Next steps for this package include adding more methods to the `cvdm()` and `cvll()` functions and optimizing functions - especially `cvmf()` - to improve speed.
 
 # Contact
-
+Please submit an [issue](https://github.com/ShanaScogin/modeLLtest/issues) if you encounter any bugs or problems with the package.
