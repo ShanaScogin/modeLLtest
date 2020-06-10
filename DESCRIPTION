@@ -15,7 +15,6 @@ Imports:
     quantreg,
     survival,
     coxrobust,
-    methods,
     MASS,
     Rcpp
 Encoding: UTF-8

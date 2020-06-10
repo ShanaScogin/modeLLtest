@@ -37,6 +37,7 @@ statistic supports the method that produced the first vector and a negative
 test statistic supports the second.
 }
 \examples{
+\dontshow{.old_wd <- setwd(tempdir())}
 \donttest{
   set.seed(123456)
   b0 <- .2 # True value for the intercept
@@ -49,6 +50,7 @@ test statistic supports the second.
   cvll_mr <- cvll(Y ~ X, data.frame(cbind(Y, X)), method = "MR")
   obj_compare <- cvlldiff(cvll_ols$cvll, cvll_mr$cvll, cvll_ols$df)
 }
+\dontshow{setwd(.old_wd)}
 }
 \references{
 Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
