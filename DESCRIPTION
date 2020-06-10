@@ -1,8 +1,8 @@
 Package: modeLLtest
 Type: Package
 Title: Compare Models with Cross-Validated Log-Likelihood
-Version: 1.0.2.9000
-Date: 2019-06-25
+Version: 1.0.2
+Date: 2020-06-10
 Author: Shana Scogin <shanarscogin@gmail.com>, Sarah Petersen <sarahllpetersen@gmail.com>, Jeff Harden <jeff.harden@nd.edu>, Bruce A. Desmarais <bdesmarais@psu.edu>
 Maintainer: Shana Scogin <shanarscogin@gmail.com>
 Description: An implementation of the cross-validated difference in means (CVDM) test by Desmarais and Harden (2014) <doi:10.1007/s11135-013-9884-7> (see also Harden and Desmarais, 2011 <doi:10.1177/1532440011408929>) and the cross-validated median fit (CVMF) test by Desmarais and Harden (2012) <doi:10.1093/pan/mpr042>. These tests use leave-one-out cross-validated log-likelihoods to assist in selecting among model estimations. You can also utilize data from Golder (2010) <doi:10.1177/0010414009341714> and Joshi & Mason (2008) <doi:10.1177/0022343308096155> that are included to facilitate examples from real-world analysis.
