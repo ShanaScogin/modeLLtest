@@ -87,6 +87,7 @@ See also \code{\link[survival]{coxph}}, \code{\link[coxrobust]{coxr}},
 \code{\link[survival]{Surv}}
 }
 \examples{
+\dontshow{.old_wd <- setwd(tempdir())}
 \donttest{
   set.seed(12345)
   x1 <- rnorm(100)
@@ -102,6 +103,7 @@ See also \code{\link[survival]{coxph}}, \code{\link[coxrobust]{coxr}},
 
   results <- cvmf(formula = form, data = dat)
   }
+\dontshow{setwd(.old_wd)}
 }
 \references{
 Desmarais, B. A., & Harden, J. J. (2012). Comparing partial

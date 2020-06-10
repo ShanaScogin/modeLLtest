@@ -78,6 +78,7 @@ the second. Singular matrices during the leave-one-out cross-validation process
 are skipped.
 }
 \examples{
+\dontshow{.old_wd <- setwd(tempdir())}
 \donttest{
   set.seed(123456)
   b0 <- .2 # True value for the intercept
@@ -89,6 +90,7 @@ are skipped.
 
   obj_cvdm <- cvdm(Y ~ X, data.frame(cbind(Y, X)), method1 = "OLS", method2 = "MR")
 }
+\dontshow{setwd(.old_wd)}
 }
 \references{
 \itemize{
