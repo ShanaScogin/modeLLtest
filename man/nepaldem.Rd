@@ -131,12 +131,13 @@ taken directly from original dataset. The data is publicly available
 and has been included here with the endorsement of the authors.
 }
 \examples{
-data(nepaldem)
+\dontshow{.old_wd <- setwd(tempdir())}
 \donttest{
 library(MASS)
 library(modeLLtest)
 
 # Models from Joshi and Mason (2008)
+data(nepaldem)
 model_1991 <- rlm(percent_regvote1991 ~ landless_gap +
    below1pa_gap + sharecrop_gap + service_gap + fixmoney_gap +
    fixprod_gap + per_without_instcredit + hdi_gap1 + ln_pop2001 +
@@ -168,6 +169,7 @@ obj_cvdm_jm <- cvdm(percent_regvote1999 ~ landless_gap +
 obj_cvdm_jm
 
 }
+\dontshow{setwd(.old_wd)}
 }
 \references{
 Joshi, M., & Mason, T. D. (2008). Between democracy and

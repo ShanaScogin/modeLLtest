@@ -61,14 +61,15 @@ see the original codebook for a more detailed description of the
 variables.
 }
 \examples{
-data(govtform)
+\dontshow{.old_wd <- setwd(tempdir())}
 \donttest{
 library(survival)
 library(coxrobust)
 library(modeLLtest)
 
 # Survival models with data from Golder (2010)
-golder_surv <- Surv(govform$bargainingdays)
+data(govtform)
+golder_surv <- Surv(govtform$bargainingdays)
 golder_x <- cbind(govtform$postelection, govtform$legislative_parties,
    govtform$polarization, govtform$positive_parl, govtform$post_legislative_parties,
    govtform$post_polariz, govtform$post_positive, govtform$continuation,
@@ -87,6 +88,7 @@ obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron",
 
 obj_cvmf_golder
 }
+\dontshow{setwd(.old_wd)}
 }
 \references{
 Golder, S. N. (2010). Bargaining delays in the government

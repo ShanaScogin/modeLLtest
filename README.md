@@ -123,7 +123,6 @@ library(MASS)
 library(modeLLtest)
 
 data(nepaldem)
-nepaldem <- nepaldem
 
 set.seed(978)
 
@@ -152,7 +151,6 @@ library(coxrobust)
 library(modeLLtest)
 
 data(govtform)
-govtform <- govtform
 
 golder_surv <- Surv(govtform$bargainingdays)
 
