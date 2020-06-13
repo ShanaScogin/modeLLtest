@@ -4,9 +4,17 @@
 \alias{cvmf}
 \title{Cross-Validated Median Fit (CVMF) Test}
 \usage{
-cvmf(formula, data, method = c("exact", "approximate", "efron",
-  "breslow"), trunc = 0.95, subset, na.action, f.weight = c("linear",
-  "quadratic", "exponential"), weights, singular.ok = TRUE)
+cvmf(
+  formula,
+  data,
+  method = c("exact", "approximate", "efron", "breslow"),
+  trunc = 0.95,
+  subset,
+  na.action,
+  f.weight = c("linear", "quadratic", "exponential"),
+  weights,
+  singular.ok = TRUE
+)
 }
 \arguments{
 \item{formula}{A formula object, with the response on the left of a ~

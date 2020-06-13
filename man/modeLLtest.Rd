@@ -3,19 +3,14 @@
 \docType{package}
 \name{modeLLtest}
 \alias{modeLLtest}
-\alias{modeLLtest-package}
-\title{modeLLtest}
+\title{modeLLtest Overview}
 \description{
-modeLLtest
+modeLLtest has three main functions to implement cross validated log likelihood
+tests. To use this package, decide which specification(s) of a model
+and distributions you wish compare. The function cvdm()
+compares the fits of one model specification between a median
+regression and ordinary least squares. The function cvmf() compares between
+the fits of one model specificiation between two estimations of a Cox model.
+The function cvll() extracts the leave-one-out cross-validated log-likelihoods
+from a method of estimating a formula.
 }
-\section{modeLLtest Cross Validated Log Likelihood test functions}{
-
-To use this package, decide which specification(s) of a model
-and distributions you wish compare. The functions in this package
-compare the fits of one model specification between a median
-regression and ordinary least squares (cvdm()), between the fits
-of one model specificiation between two estimationsof a Cox model
-(cvmf()), and between two model specification and one distribution
-(cvll()).
-}
-

@@ -4,8 +4,14 @@
 \alias{cvll}
 \title{Cross-Validated Log Likelihood (CVLL)}
 \usage{
-cvll(formula, data, method = c("OLS", "MR", "RLM", "RLM-MM"), subset,
-  na.action, ...)
+cvll(
+  formula,
+  data,
+  method = c("OLS", "MR", "RLM", "RLM-MM"),
+  subset,
+  na.action,
+  ...
+)
 }
 \arguments{
 \item{formula}{A formula object, with the dependent variable on the

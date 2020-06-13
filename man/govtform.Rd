@@ -4,7 +4,8 @@
 \name{govtform}
 \alias{govtform}
 \title{Data from Golder (2010) on government formation in Western Europe}
-\format{A data frame with 410 rows and 18 variables. The following are taken
+\format{
+A data frame with 410 rows and 18 variables. The following are taken
 from the codebook at
 \href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}.
 \describe{
@@ -45,7 +46,8 @@ from the codebook at
  variable with the polarization variable}
  \item{post_positive}{interaction term made by multiplying the postelection
  variable with the positive_parl variable}
-}}
+}
+}
 \source{
 \href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}
 }
@@ -61,15 +63,14 @@ see the original codebook for a more detailed description of the
 variables.
 }
 \examples{
-\dontshow{.old_wd <- setwd(tempdir())}
+data(govtform)
 \donttest{
 library(survival)
 library(coxrobust)
 library(modeLLtest)
 
 # Survival models with data from Golder (2010)
-data(govtform)
-golder_surv <- Surv(govtform$bargainingdays)
+golder_surv <- Surv(govform$bargainingdays)
 golder_x <- cbind(govtform$postelection, govtform$legislative_parties,
    govtform$polarization, govtform$positive_parl, govtform$post_legislative_parties,
    govtform$post_polariz, govtform$post_positive, govtform$continuation,
@@ -78,9 +79,9 @@ colnames(golder_x) <- c("govtform$postelection", "govtform$legislative_parties",
    "govtform$polarization", "govtform$positive_parl", "govtform$post_legislative_parties",
    "govtform$post_polariz", "govtform$post_positive", "govtform$continuation",
    "govtform$singleparty_majority")
-golder_cox <- coxph(golder_surv ~ golder_x, method = "efron",
+govtform.cox <- coxph(govtform.surv ~ govtform.x, method = "efron",
    data = govtform)
-golder_robust <- coxr(golder_surv ~ golder_x, data = govtform)
+govtform.robust <- coxr(govtform.surv ~ govtform.x, data = govtform)
 
 # Comparing PLM to IRR methods of estimating the survival model
 obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron",
@@ -88,7 +89,6 @@ obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron",
 
 obj_cvmf_golder
 }
-\dontshow{setwd(.old_wd)}
 }
 \references{
 Golder, S. N. (2010). Bargaining delays in the government
