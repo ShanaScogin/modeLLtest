@@ -8,7 +8,7 @@ os:
 - linux
 - osx
 
-r_check_args: "--no-build-vignettes --ignore-vignettes"
+
 
 
 
