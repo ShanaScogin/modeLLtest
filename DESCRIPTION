@@ -17,6 +17,8 @@ Imports:
     coxrobust,
     MASS,
     Rcpp
+Depends:
+    R (>= 3.2.3)
 Encoding: UTF-8
 LazyData: TRUE
 LazyLoad: TRUE
