@@ -9,13 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
 ## Introduction
 `modeLLtest` is an R package which implements model comparison tests. This package includes functions for the cross-validated difference in means (CVDM) test and the cross-validated median fit (CVMF) test. The CVDM and CVMF tests assist researchers and students in selecting among models describing the same process. Selection among estimation methods describing the same process is a crucial methodological step within the social sciences. Other tools in `modeLLtest` include a function to output a vector of cross-validated log-likelihood (CVLL) values and a function to perform the CVDM test on an input of two CVLL vectors. The relevant papers including details can be found below:
 

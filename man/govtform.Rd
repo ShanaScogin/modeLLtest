@@ -70,7 +70,7 @@ library(coxrobust)
 library(modeLLtest)
 
 # Survival models with data from Golder (2010)
-golder_surv <- Surv(govform$bargainingdays)
+golder_surv <- Surv(govtform$bargainingdays)
 golder_x <- cbind(govtform$postelection, govtform$legislative_parties,
    govtform$polarization, govtform$positive_parl, govtform$post_legislative_parties,
    govtform$post_polariz, govtform$post_positive, govtform$continuation,
