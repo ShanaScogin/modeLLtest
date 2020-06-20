@@ -133,8 +133,10 @@ taken directly from original dataset. The data is publicly available
 and has been included here with the endorsement of the authors.
 }
 \examples{
-data(nepaldem)
+\dontshow{.old_wd <- setwd(tempdir())}
 \donttest{
+data(nepaldem)
+
 library(MASS)
 library(modeLLtest)
 
@@ -170,6 +172,7 @@ obj_cvdm_jm <- cvdm(percent_regvote1999 ~ landless_gap +
 obj_cvdm_jm
 
 }
+\dontshow{setwd(.old_wd)}
 }
 \references{
 Joshi, M., & Mason, T. D. (2008). Between democracy and

@@ -63,8 +63,11 @@
 #' @source \href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}
 #'
 #' @examples
-#' data(govtform)
+#' \dontshow{.old_wd <- setwd(tempdir())}
 #' \donttest{
+#'
+#' data(govtform)
+#'
 #' library(survival)
 #' library(coxrobust)
 #' library(modeLLtest)
@@ -79,15 +82,17 @@
 #'    "govtform$polarization", "govtform$positive_parl", "govtform$post_legislative_parties",
 #'    "govtform$post_polariz", "govtform$post_positive", "govtform$continuation",
 #'    "govtform$singleparty_majority")
-#' govtform.cox <- coxph(govtform.surv ~ govtform.x, method = "efron",
+#' golder_cox <- coxph(golder_surv ~ golder_x, method = "efron",
 #'    data = govtform)
-#' govtform.robust <- coxr(govtform.surv ~ govtform.x, data = govtform)
+#' golder_robust <- coxr(golder_surv ~ golder_x, data = govtform)
 #'
 #' # Comparing PLM to IRR methods of estimating the survival model
 #' obj_cvmf_golder <- cvmf(golder_surv ~ golder_x, method = "efron",
 #'    data = govtform)
 #'
 #' obj_cvmf_golder
+#'
 #' }
+#' \dontshow{setwd(.old_wd)}
 "govtform"
 NULL

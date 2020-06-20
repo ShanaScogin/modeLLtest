@@ -134,8 +134,10 @@
 #' @source \href{https://www.prio.org/JPR/Datasets/}{Journal of Peace Research Replication Datasets}
 #'
 #' @examples
-#' data(nepaldem)
+#' \dontshow{.old_wd <- setwd(tempdir())}
 #' \donttest{
+#' data(nepaldem)
+#'
 #' library(MASS)
 #' library(modeLLtest)
 #'
@@ -171,5 +173,6 @@
 #' obj_cvdm_jm
 #'
 #' }
+#' \dontshow{setwd(.old_wd)}
 "nepaldem"
 NULL
