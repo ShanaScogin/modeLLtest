@@ -1,4 +1,6 @@
-# modeLLtest [![Build Status](https://travis-ci.com/ShanaScogin/modeLLtest.svg?branch=master)](https://travis-ci.com/ShanaScogin/modeLLtest) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/modeLLtest)](https://CRAN.R-project.org/package=modeLLtest) [![DOI](https://joss.theoj.org/papers/10.21105/joss.01542/status.svg)](https://doi.org/10.21105/joss.01542)
+# modeLLtest 
+
+[![R build status](https://github.com/ShanaScogin/BayesPostEst/workflows/R-CMD-check/badge.svg)](https://github.com/ShanaScogin/BayesPostEst/actions) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/modeLLtest)](https://CRAN.R-project.org/package=modeLLtest) [![DOI](https://joss.theoj.org/papers/10.21105/joss.01542/status.svg)](https://doi.org/10.21105/joss.01542)
 
 An R Package which implements model comparison tests using cross-validated log-likelihood (CVLL) values. 
 
