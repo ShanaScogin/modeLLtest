@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // cvll_mr
 Rcpp::List cvll_mr(arma::dmat& x, arma::vec& y, int n_row, int n_col);
 RcppExport SEXP _modeLLtest_cvll_mr(SEXP xSEXP, SEXP ySEXP, SEXP n_rowSEXP, SEXP n_colSEXP) {
