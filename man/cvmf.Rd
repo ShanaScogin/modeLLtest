@@ -40,7 +40,7 @@ for more on \code{\link[survival]{coxph}} method and coxrobust package for
 \code{\link[coxrobust]{coxr}} method.}
 
 \item{trunc}{A value that determines the trimming level for the robust
-estimator. The default is 0.95. Roughtly, quantile of the sample
+estimator. The default is 0.95. Roughly, quantile of the sample
 \eqn{T_i exp(\beta'Z_i)}. It is an argument in the \code{\link[coxrobust]{coxr}} function
 in the coxrobust package.}
 

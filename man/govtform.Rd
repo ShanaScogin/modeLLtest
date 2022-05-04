@@ -24,7 +24,7 @@ from the codebook at
  \item{nonpartisan}{dichotomous variable that equals 1 if the government
  is nonpartisan and 0 otherwise}
  \item{legislative_parties}{a fraction representing the number of parties that
- have wone legislative seats. See codebook for more detail}
+ have won legislative seats. See codebook for more detail}
  \item{inconclusive}{the number of inconclusive bargaining rounds prior to
  a new government successfully forming}
  \item{cabinetname}{cabinet name identified by surname

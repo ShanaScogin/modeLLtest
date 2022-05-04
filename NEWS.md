@@ -1,6 +1,7 @@
 # modeLLtest 1.0.4
 
 * Took out Travis and updated to gh-actions
+* Made minor edits, including removing onload citation and cleaning documentation
 
 # modeLLtest 1.0.3
 
