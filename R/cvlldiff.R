@@ -12,7 +12,7 @@
 #'
 #'Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
-#'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+#'\doi{10.1007/s11135-013-9884-7}
 #'@param vector1 A numeric vector of cross-validated log-likelihoods.
 #'@param vector2 A numeric vector of cross-validated log-likelihoods.
 #'@param df A value of the degrees of freedom in the models.
@@ -23,8 +23,7 @@
 #'@references
 #'Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
-#'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
-#'@examples
+#'\doi{10.1007/s11135-013-9884-7}
 #' \dontshow{.old_wd <- setwd(tempdir())}
 #' \donttest{
 #'   set.seed(123456)

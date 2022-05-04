@@ -18,7 +18,7 @@
 #'\item Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
 #'Choosing between Conditional-Mean and Conditional-Median Methods.
 #'State Politics & Policy Quarterly, 11(4), 371-389.
-#'\href{https://doi.org/10.1177/1532440011408929}{https://doi.org/10.1177/1532440011408929}
+#'\doi{10.1177/1532440011408929}
 #'}
 #'
 #'For other applications of the CVDM test, please cite:
@@ -26,7 +26,7 @@
 #'\itemize{
 #'\item Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
-#'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+#'\doi{10.1007/s11135-013-9884-7}
 #'}
 #'@param formula A formula object, with the dependent variable on the
 #'left of a ~ operator, and the independent variables on the right.
@@ -60,11 +60,11 @@
 #'\item Harden, J. J., & Desmarais, B. A. (2011). Linear Models with Outliers:
 #'Choosing between Conditional-Mean and Conditional-Median Methods.
 #'State Politics & Policy Quarterly, 11(4), 371-389.
-#'\href{https://doi.org/10.1177/1532440011408929}{https://doi.org/10.1177/1532440011408929}
+#'\doi{10.1177/1532440011408929}
 #'
 #'\item Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
-#'\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+#'\doi{10.1007/s11135-013-9884-7}
 #'}
 #'@examples
 #' \dontshow{.old_wd <- setwd(tempdir())}

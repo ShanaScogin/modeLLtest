@@ -58,9 +58,9 @@
 #'
 #' @references Golder, S. N. (2010). Bargaining delays in the government
 #' formation process. Comparative Political Studies, 43(1), 3-32.
-#' \href{https://doi.org/10.1177/0010414009341714}{https://doi.org/10.1177/0010414009341714}
+#' \doi{10.1177/0010414009341714}
 #'
-#' @source \href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}
+#' @source \doi{10.7910/DVN/BUWZBA}
 #'
 #' @examples
 #' \dontshow{.old_wd <- setwd(tempdir())}

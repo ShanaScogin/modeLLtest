@@ -129,7 +129,7 @@
 #' @references Joshi, M., & Mason, T. D. (2008). Between democracy and
 #' revolution: peasant support for insurgency versus democracy in Nepal.
 #' Journal of Peace Research, 45(6), 765-782.
-#' \href{https://doi.org/10.1177/0022343308096155}{https://doi.org/10.1177/0022343308096155}
+#' \doi{10.1177/0022343308096155}
 #'
 #' @source \href{https://www.prio.org/JPR/Datasets/}{Journal of Peace Research Replication Datasets}
 #'
