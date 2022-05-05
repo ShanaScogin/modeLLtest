@@ -7,7 +7,7 @@
 \format{
 A data frame with 410 rows and 18 variables. The following are taken
 from the codebook at
-\href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}.
+\doi{10.7910/DVN/BUWZBA}.
 \describe{
  \item{countryname}{names of countries used in analysis}
  \item{country}{unique number identifying each country}
@@ -49,7 +49,7 @@ from the codebook at
 }
 }
 \source{
-\href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}
+\doi{10.7910/DVN/BUWZBA}
 }
 \usage{
 data(govtform)
@@ -98,6 +98,6 @@ obj_cvmf_golder
 \references{
 Golder, S. N. (2010). Bargaining delays in the government
 formation process. Comparative Political Studies, 43(1), 3-32.
-\href{https://doi.org/10.1177/0010414009341714}{https://doi.org/10.1177/0010414009341714}
+\doi{10.1177/0010414009341714}
 }
 \keyword{datasets}

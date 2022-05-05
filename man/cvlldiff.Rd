@@ -28,7 +28,7 @@ Please cite:
 
 Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
-\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+\doi{10.1007/s11135-013-9884-7}
 }
 \details{
 This function implements the cross-validated difference in means (CVDM)
@@ -55,5 +55,5 @@ test statistic supports the second.
 \references{
 Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
-\href{https://doi.org/10.1007/s11135-013-9884-7}{https://doi.org/10.1007/s11135-013-9884-7}
+\doi{10.1007/s11135-013-9884-7}
 }

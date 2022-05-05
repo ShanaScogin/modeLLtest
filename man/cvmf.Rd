@@ -75,7 +75,7 @@ robust (IRR) method of estimation for a given application of the Cox model.
 For more, see: Desmarais, B. A., & Harden, J. J. (2012). Comparing partial
 likelihood and robust estimation methods for the Cox regression model.
 Political Analysis, 20(1), 113-135.
-\href{https://doi.org/10.1093/pan/mpr042}{https://doi.org/10.1093/pan/mpr042}
+\doi{10.1093/pan/mpr042}
 }
 \details{
 This function implements the cross-validated median fit (CVMF) test.
@@ -117,5 +117,5 @@ See also \code{\link[survival]{coxph}}, \code{\link[coxrobust]{coxr}},
 Desmarais, B. A., & Harden, J. J. (2012). Comparing partial
 likelihood and robust estimation methods for the Cox regression model.
 Political Analysis, 20(1), 113-135.
-\href{https://doi.org/10.1093/pan/mpr042}{https://doi.org/10.1093/pan/mpr042}
+\doi{10.1093/pan/mpr042}
 }

@@ -13,7 +13,7 @@
 #'
 #' @format A data frame with 410 rows and 18 variables. The following are taken
 #' from the codebook at
-#' \href{https://doi.org/10.7910/DVN/BUWZBA}{Dr. Sona N. Golder's Harvard Dataverse Page}.
+#' \doi{10.7910/DVN/BUWZBA}.
 #' \describe{
 #'  \item{countryname}{names of countries used in analysis}
 #'  \item{country}{unique number identifying each country}

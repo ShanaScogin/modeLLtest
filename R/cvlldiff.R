@@ -24,6 +24,7 @@
 #'Desmarais, B. A., & Harden, J. J. (2014). An Unbiased Model Comparison Test Using
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
 #'\doi{10.1007/s11135-013-9884-7}
+#' @examples
 #' \dontshow{.old_wd <- setwd(tempdir())}
 #' \donttest{
 #'   set.seed(123456)
