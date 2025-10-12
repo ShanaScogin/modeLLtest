@@ -1,9 +1,6 @@
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs
 
-## rhub check results
-There were no ERRORs, WARNINGs or NOTEs
-
 ## win-builder check results
 There were no ERRORs, WARNINGs or NOTEs
 

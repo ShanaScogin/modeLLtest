@@ -37,7 +37,7 @@ Once you have installed the package from either CRAN or GitHub, you can access i
 ```
 library(modeLLtest)
 ```
-After the package is loaded, check out the `?modeLLtest` to see a help file. You can also see the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. If you have issues or questions, please email me at sscogin@nd.edu.
+After the package is loaded, check out the `?modeLLtest` to see a help file. You can also see the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`.
 
 ## Note on installation failure
 Some users might experience gfortran errors due to Rcpp, RcppArmadillo, and MacOS. To fix this problem, consider installing gfortran 6.1 from  https://cran.r-project.org/bin/macosx/tools/. (Also check out [Yiqing Xu and Licheng Liu's note on this type of error in the gsynth package](https://github.com/xuyiqing/gsynth) for some helpful links.)
@@ -45,7 +45,7 @@ Some users might experience gfortran errors due to Rcpp, RcppArmadillo, and MacO
 # Basic Usage
 This package has four main functions: `cvdm()`, `cvll()`, `cvmf()`, and `cvlldiff()`. The function `cvdm()` deploys the CVDM test, which uses a bias-corrected Johnson's t-test to choose between the leave-one-out cross-validated log-likelihood outputs of two non-nested models. The function `cvll()` outputs a vector of leave-one-out cross-validated log-likelihoods for a given method. Currently, these functions accommodate linear regression, median regression (from the package `quantreg`), and two methods of robust regression (from the package `MASS`). The`cvlldiff()` function performs the bias-corrected Johnson's t-test on two vectors of cross-validated log-likelihoods. Finally, the `cvmf()` function test between the partial likelihood maximization (PLM) and the iteratively reweighted robust (IRR) methods of estimation for a given application of the Cox model.
 
-After loading the package, you can find the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. For the output, type `?cvdm_object`, `?cvll_object`, `?cvlldiff_object`, or `?cvmf_object` to view the documentation. If you encounter a bug or have comments or questions, please email me at sscogin@nd.edu.
+After loading the package, you can find the documentation for the functions with `?cvdm`, `?cvll`, `?cvlldiff`, or `?cvmf`. For the output, type `?cvdm_object`, `?cvll_object`, `?cvlldiff_object`, or `?cvmf_object` to view the documentation. If you encounter a bug or have comments or questions, please submit an issue or email the maintainer.
 
 ## Examples
 Here are some examples of the functions in this package. First, we'll look at `cvdm()`, which applies cross-validated log-likelihood difference in means (CVDM) test to compare two methods of estimating a formula. The example compares ordinary least squares (OLS) estimation to median regression (MR).
