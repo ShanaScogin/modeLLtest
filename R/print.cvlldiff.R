@@ -8,7 +8,7 @@ print.cvlldiff <- function(x, digits = max(3, getOption("digits") - 4), ...) {
   op <- options(digits = digits)
   on.exit(options(op))
 
-  if(class(x$p_value) != "character") {
+  if (!inherits(x$p_value, "character")) {
     cat("The estimation used to create ", x$best, " is supported with a p-value of ",
         x$p_value, sep = "", "\n")
 

@@ -28,6 +28,11 @@
 #'Cross-Validation. Quality & Quantity, 48(4), 2155-2173.
 #'\doi{10.1007/s11135-013-9884-7}
 #'}
+#'Note that Eqn. 6 of Desmarais & Harden, 2014 has a typo in the
+#'denominator. The code here correctly implements Johnson (1978)
+#'(\doi{10.1080/01621459.1978.10480051}), Eqn. 2.5; however, the fraction is
+#'flipped in the paper's equation.
+#'
 #'@param formula A formula object, with the dependent variable on the
 #'left of a ~ operator, and the independent variables on the right.
 #'@param data A data frame, list or environment (or object coercible by
