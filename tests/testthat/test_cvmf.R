@@ -102,3 +102,21 @@ test_that("Simple test with na.action and no nas", {
   expect_equal(coef, check_against)
 
 })
+
+# SRS NOTE Sept 2026: Adding this before optimizing cvmf
+# this is a new helper added with this enhancement
+test_that("cox_pll matches coxph partial log-likelihood", {
+
+  set.seed(3)
+  n <- 60
+  x <- rnorm(n)
+  time <- round(rexp(n, exp(0.5 * x)), 1) + 0.1 # rounded to create ties
+  status <- rbinom(n, 1, 0.75)
+  y <- survival::Surv(time, status)
+  eta <- 0.4 * x
+
+  for (m in c("efron", "breslow", "exact")) {
+    expect_equal(cox_pll(y, eta, m),
+                 survival::coxph(y ~ offset(eta), method = m)$loglik)
+  }
+})

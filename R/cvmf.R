@@ -217,18 +217,17 @@ cvmf <- function(formula, data,
     }
 
     # Compute the partial likelihoods
-    coxr_ll_full <- survival::coxph(y ~ offset(as.matrix(x) %*% cbind(resti$coefficients)),
-                                    method = method)$loglik
-    coxph_ll_full <- survival::coxph(y ~ offset(as.matrix(x_p) %*% cbind(coef_p)),
-                                     method = method)$loglik
-    coxr_ll <- survival::coxph(yi ~ offset(as.matrix(xi) %*% cbind(resti$coefficients)),
-                               method = method)$loglik
-    coxph_ll <- survival::coxph(yi ~ offset(as.matrix(xi_p) %*% cbind(coef_p)),
-                                method = method)$loglik
-    ### We're using coxph() here to get the partial likelihood
+    coxr_ll_full <- cox_pll(y, as.matrix(x) %*% cbind(resti$coefficients), method)
+    coxph_ll_full <- cox_pll(y, as.matrix(x_p) %*% cbind(coef_p), method)
+    coxr_ll <- cox_pll(yi, as.matrix(xi) %*% cbind(resti$coefficients), method)
+    coxph_ll <- cox_pll(yi, as.matrix(xi_p) %*% cbind(coef_p), method)
+    ### This code ^ was changed sept 2026 to optimize the code. previously
+    ### it followed Desmarais and Hardin's code and pulled from survival package
+    ### with this, it should run faster.
+    ### cox_pll() gives the partial log-likelihood at fixed coefficients,
+    ### the same value as coxph(y ~ offset(x %*% beta))$loglik
     ### See Desmarais and Hardin 2012 for more about the test
     ### and Verweij and Houwelingen 1993 for more about the measure
-    ### We're using offset() to force to beta - linear predictor
 
     # Store
     cvll_r[i] <- coxr_ll_full - coxr_ll
@@ -261,4 +260,48 @@ cvmf <- function(formula, data,
 
   obj
 
+}
+
+# Cox partial log-likelihood at a fixed linear predictor (eta = x %*% beta),
+# for right-censored data without strata. Gives the same value as
+# survival::coxph(y ~ offset(eta), method = method)$loglik, but without
+# the overhead of fitting a model. Handles ties with the Efron or Breslow
+# approximation; any other method falls back to coxph().
+cox_pll <- function(y, eta, method = "efron") {
+
+  eta <- as.numeric(eta)
+
+  if (!(method %in% c("efron", "breslow"))) {
+    return(survival::coxph(y ~ offset(eta), method = method)$loglik)
+  }
+
+  # Sort by time so each risk set is everything from a position onward
+  ord <- order(y[, 1])
+  time <- y[ord, 1]
+  status <- y[ord, 2]
+  eta <- eta[ord]
+  risk <- exp(eta)
+
+  # Sum of exp(eta) over the risk set at each distinct time
+  # (all observations with time >= t, including those censored at t)
+  risk_total <- rev(cumsum(rev(risk)))
+  group <- match(time, time)          # first position of each tied time
+  risk_set <- risk_total[group]
+
+  dead <- status == 1
+  if (!any(dead)) {
+    return(0)
+  }
+  g <- group[dead]
+  n_tied <- as.numeric(table(g)[as.character(g)])         # deaths at this time
+  risk_tied <- as.numeric(tapply(risk[dead], g, sum)[as.character(g)])
+  k <- stats::ave(seq_along(g), g, FUN = seq_along) - 1  # 0, 1, ... within ties
+
+  if (method == "breslow") {
+    denom <- risk_set[dead]
+  } else {
+    denom <- risk_set[dead] - (k / n_tied) * risk_tied
+  }
+
+  sum(eta[dead]) - sum(log(denom))
 }

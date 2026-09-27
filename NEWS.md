@@ -1,10 +1,10 @@
 # modeLLtest 1.0.6
 
+* `cvmf()` now computes the cross-validated partial log-likelihoods directly instead of refitting `coxph()` with an offset four times per observation. Results are unchanged (differences are at the level of floating-point rounding), and `cvmf()` runs about 1.5 times faster on small data sets.
 * Registered the S3 print methods for cvdm, cvll, cvlldiff, and cvmf objects in NAMESPACE, so printing a result now shows the formatted output instead of the raw list. No changes to computations or returned objects.
 * print.cvmf() now reports the robust estimator's extended Wald test (ewald.test from coxrobust::coxr()) on the "Extended Wald test" line; it previously showed the partial-likelihood Wald statistic.
 * Long calls now print on separate lines instead of being run together.
 * Added summary() methods for cvdm, cvll, cvlldiff, and cvmf objects, each with a matching print() method. They report the stored test results in more detail (e.g., the test statistic, degrees of freedom, and coefficient tables) and return them as a list for programmatic use.
-* TODO: ADD MORE ABOUT CVLL IF ADJUST IT FOR RUNTIME HERE
 
 # modeLLtest 1.0.5
 * Updated requirements for C++ (in makevars files) on request from CRAN
