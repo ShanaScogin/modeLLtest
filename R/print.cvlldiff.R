@@ -1,4 +1,4 @@
-
+#' @export
 print.cvlldiff <- function(x, digits = max(3, getOption("digits") - 4), ...) {
 
   if(!inherits(x, "cvlldiff")) {
@@ -14,7 +14,7 @@ print.cvlldiff <- function(x, digits = max(3, getOption("digits") - 4), ...) {
 
   } else {
     cat("The estimation used to create ", x$best, " is supported.\n",
-    "Please rerun function with degrees of freedom for a p-value.",
+        "Please rerun function with degrees of freedom for a p-value.",
         sep = "", "\n")
   }
 

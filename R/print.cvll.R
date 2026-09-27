@@ -1,4 +1,4 @@
-
+#' @export
 print.cvll <- function(x, digits = max(3, getOption("digits") - 4), ...) {
 
   if(!inherits(x, "cvll")) {
@@ -8,7 +8,7 @@ print.cvll <- function(x, digits = max(3, getOption("digits") - 4), ...) {
   op <- options(digits = digits)
   on.exit(options(op))
 
-  cat("\nCall:\n", deparse(x$call), "\n\n", sep = "")
+  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), "\n\n", sep = "")
 
   max <- max(x$cvll)
   min <- min(x$cvll)

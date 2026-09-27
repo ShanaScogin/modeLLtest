@@ -1,4 +1,4 @@
-
+#' @export
 print.cvmf <- function(x, digits = max(3, getOption("digits") - 4), ...) {
 
   if(!inherits(x, "cvmf")) {
@@ -8,7 +8,7 @@ print.cvmf <- function(x, digits = max(3, getOption("digits") - 4), ...) {
   op <- options(digits = digits)
   on.exit(options(op))
 
-  cat("\nCall:\n", deparse(x$call), "\n\n", sep = "")
+  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), "\n\n", sep = "")
 
   cat(x$best, " supported with a two-sided p-value of ",
       x$p_value, sep = "", "\n")
@@ -19,11 +19,11 @@ print.cvmf <- function(x, digits = max(3, getOption("digits") - 4), ...) {
       "\nProbability of success: ", x$cvmf$statistic / x$cvmf$parameter, "\n", sep = "")
 
   sd_plm <- sqrt(diag(matrix(c(unlist(x$plm$var)),
-                      ncol = length(x$coef),
-                      byrow = TRUE)))
+                             ncol = length(x$coef),
+                             byrow = TRUE)))
   sd_irr <- sqrt(diag(matrix(c(unlist(x$irr$var)),
-                      ncol = length(x$coef),
-                      byrow = TRUE)))
+                             ncol = length(x$coef),
+                             byrow = TRUE)))
   df <- sum(!is.na(x$irr_coefs[[1]]))
 
   tmp <- cbind(as.numeric(x$plm_coefs[[1]]), exp(as.numeric(x$plm_coefs[[1]])), sd_plm,
@@ -43,8 +43,8 @@ print.cvmf <- function(x, digits = max(3, getOption("digits") - 4), ...) {
 
   cat("\nRobust estimator\n")
   print(tmp)
-  cat("\nExtended Wald test = ", x$irr$wald.test, " on ", df, " df,", " p = ",
-      1 - pchisq(as.numeric(x$irr$wald.test), df), "\n", sep="")
+  cat("\nExtended Wald test = ", x$irr$ewald.test, " on ", df, " df,", " p = ",
+      1 - pchisq(as.numeric(x$irr$ewald.test), df), "\n", sep="")
 
   invisible(x)
 
